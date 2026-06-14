@@ -28,6 +28,7 @@ from skillopt.model import (
     configure_azure_openai,
     configure_claude_code_exec,
     configure_codex_exec,
+    get_token_summary,
     set_reasoning_effort,
     set_target_backend,
     set_target_deployment,
@@ -350,7 +351,7 @@ def main() -> None:
 
     # Load skill
     skill_path = os.path.abspath(args.skill)
-    with open(skill_path) as f:
+    with open(skill_path, encoding="utf-8") as f:
         skill_content = f.read()
     print(f"  [skill] {skill_path} ({len(skill_content)} chars)")
 
@@ -433,16 +434,33 @@ def main() -> None:
     print(f"  Results: hard={hard:.4f}  soft={soft:.4f}  (n={len(results)})")
     print(f"{'='*60}")
 
-    # Save summary
+    # Token / cost accounting (per-stage prompt/completion/total tokens)
+    token_summary = get_token_summary()
+    total = token_summary.get("_total", {})
+    n = len(results) or 1
     summary = {
         "skill": skill_path,
         "split": split,
         "n_items": len(results),
         "hard": hard,
         "soft": soft,
+        "tokens": token_summary,
+        "tokens_per_item": {
+            "prompt": total.get("prompt_tokens", 0) / n,
+            "completion": total.get("completion_tokens", 0) / n,
+            "total": total.get("total_tokens", 0) / n,
+        },
     }
-    with open(os.path.join(out_root, "eval_summary.json"), "w") as f:
+    with open(os.path.join(out_root, "eval_summary.json"), "w", encoding="utf-8") as f:
         json.dump(summary, f, indent=2, ensure_ascii=False)
+
+    if total:
+        print(
+            f"  Tokens: prompt={total.get('prompt_tokens', 0):,} "
+            f"completion={total.get('completion_tokens', 0):,} "
+            f"total={total.get('total_tokens', 0):,} "
+            f"(calls={total.get('calls', 0)})"
+        )
 
     print(f"  Saved to: {out_root}")
 

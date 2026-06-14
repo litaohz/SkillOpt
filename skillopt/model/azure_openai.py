@@ -115,6 +115,27 @@ _RESPONSES_API_MODELS = {
 }
 
 
+def _extra_responses_api_models() -> set[str]:
+    """Extra model prefixes that must use the Responses API.
+
+    Some OpenAI-compatible gateways (e.g. the GitHub Copilot proxy) expose
+    reasoning models such as ``gpt-5.5`` only via ``/responses`` and reject
+    ``/chat/completions``. Set ``OPENAI_RESPONSES_API_MODELS`` to a
+    comma-separated list of model name prefixes to route them through the
+    Responses API without code changes.
+    """
+    raw = os.environ.get("OPENAI_RESPONSES_API_MODELS", "")
+    return {m.strip().lower() for m in raw.split(",") if m.strip()}
+
+
+def _force_responses_api() -> bool:
+    """When ``OPENAI_FORCE_RESPONSES_API`` is truthy, route every call through
+    the Responses API regardless of model name."""
+    return str(os.environ.get("OPENAI_FORCE_RESPONSES_API", "")).strip().lower() in {
+        "1", "true", "yes", "on",
+    }
+
+
 # ── Token Tracker ─────────────────────────────────────────────────────────────
 
 class TokenTracker:
@@ -347,8 +368,11 @@ def get_target_client() -> AzureOpenAI | OpenAI:
 
 
 def _needs_responses_api(deployment: str) -> bool:
+    if _force_responses_api():
+        return True
     dep = deployment.lower()
-    return any(dep == m or dep.startswith(m + "-") for m in _RESPONSES_API_MODELS)
+    models = _RESPONSES_API_MODELS | _extra_responses_api_models()
+    return any(dep == m or dep.startswith(m + "-") for m in models)
 
 
 # ── Core chat function ────────────────────────────────────────────────────────
