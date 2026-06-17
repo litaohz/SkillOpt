@@ -37,6 +37,7 @@ configs/**/*.local.yaml
 .env
 .secrets/
 .codex_azure*/
+.claude/
 
 # Internal docs (not for open-source release)
 docs/ablation_plan.md
