@@ -149,19 +149,28 @@ def _build_user(
     max_tool_turns: int = 12,
     max_queries_per_turn: int = 4,
     oracle_context: str = "",
+    restrict_to_source_files: bool = True,
 ) -> str:
     normalized_search_mode = _normalize_search_mode(search_mode)
     parts = [f"## Question\n{item['question']}"]
     if oracle_context.strip():
         parts.append(f"## Oracle Parsed Pages\n{oracle_context.strip()}")
     if normalized_search_mode == _DEFAULT_SEARCH_MODE:
-        file_block = "\n".join(f"- {path}" for path in (candidate_files or [])[:20]) or "- none resolved"
-        if corpus_note.strip():
-            parts.append(f"## Document Corpus\n{corpus_note.strip()}")
-        parts.append(f"## Candidate Files\n{file_block}")
-    if item.get("source_docs"):
+        if restrict_to_source_files:
+            file_block = "\n".join(f"- {path}" for path in (candidate_files or [])[:20]) or "- none resolved"
+            if corpus_note.strip():
+                parts.append(f"## Document Corpus\n{corpus_note.strip()}")
+            parts.append(f"## Candidate Files\n{file_block}")
+        else:
+            corpus_hint = corpus_note.strip() or (
+                "The full OfficeQA document corpus is reachable through the glob/read/grep tools. "
+                "No candidate files or page hints are provided -- use glob to discover relevant document(s) "
+                "and read/grep to locate the answer yourself."
+            )
+            parts.append(f"## Document Corpus\n{corpus_hint}")
+    if item.get("source_docs") and restrict_to_source_files:
         parts.append("## Source Hints\n" + "\n".join(f"- {hint}" for hint in item["source_docs"]))
-    if normalized_search_mode != _DEFAULT_SEARCH_MODE and item.get("source_files"):
+    if normalized_search_mode != _DEFAULT_SEARCH_MODE and item.get("source_files") and restrict_to_source_files:
         parts.append("## File Hints\n" + "\n".join(f"- {hint}" for hint in item["source_files"]))
     if diagnostic_mode and diagnostic_instruction.strip():
         parts.append(f"## Training Readout\n{diagnostic_instruction.strip()}")
@@ -522,6 +531,8 @@ def process_one(
     search_max_num_results: int = 4,
     search_timeout_seconds: int = 20,
     use_local_tools: bool = True,
+    inject_oracle_pages: bool = True,
+    restrict_to_source_files: bool = True,
     data_dirs: list[str] | str | None = None,
     diagnostic_mode: bool = False,
     diagnostic_instruction: str = "",
@@ -536,25 +547,27 @@ def process_one(
     if normalized_search_mode == _DEFAULT_SEARCH_MODE:
         docs_roots = resolve_docs_roots(data_dirs)
         candidate_files = resolve_candidate_files(item.get("source_files", []), docs_roots)
-        oracle_context = build_oracle_parsed_pages_context(
-            item.get("source_files", []),
-            item.get("source_docs", []),
-            docs_roots,
-            evidence_note=(
-                "Treat it as primary document evidence and combine it with local document tool evidence when useful."
-                if use_local_tools
-                else "Treat it as primary document evidence for answering the question."
-            ),
-        )
+        if inject_oracle_pages:
+            oracle_context = build_oracle_parsed_pages_context(
+                item.get("source_files", []),
+                item.get("source_docs", []),
+                docs_roots,
+                evidence_note=(
+                    "Treat it as primary document evidence and combine it with local document tool evidence when useful."
+                    if use_local_tools
+                    else "Treat it as primary document evidence for answering the question."
+                ),
+            )
     elif normalized_search_mode == _CUSTOM_SEARCH_MODE:
         docs_roots = resolve_docs_roots(data_dirs)
         if item.get("source_files"):
             candidate_files = resolve_candidate_files(item.get("source_files", []), docs_roots)
-        oracle_context = build_oracle_parsed_pages_context(
-            item.get("source_files", []),
-            item.get("source_docs", []),
-            docs_roots,
-        )
+        if inject_oracle_pages:
+            oracle_context = build_oracle_parsed_pages_context(
+                item.get("source_files", []),
+                item.get("source_docs", []),
+                docs_roots,
+            )
     system = _build_system(
         skill_content,
         search_mode=normalized_search_mode,
@@ -571,13 +584,14 @@ def process_one(
         max_tool_turns=max_tool_turns,
         max_queries_per_turn=max_queries_per_turn,
         oracle_context=oracle_context,
+        restrict_to_source_files=restrict_to_source_files,
     )
     conversation: list[dict] = [{"role": "user", "content": user}]
     final_response = ""
     final_answer = ""
     fail_reason = ""
     last_response_metadata: dict = {}
-    allowed_files = [os.path.basename(path) for path in candidate_files]
+    allowed_files = [os.path.basename(path) for path in candidate_files] if restrict_to_source_files else []
     try:
         if normalized_search_mode == _CUSTOM_SEARCH_MODE:
             system, user, final_response, final_answer, conversation, fail_reason, last_response_metadata = _run_custom_search_process(
@@ -705,6 +719,7 @@ def process_one(
         "oracle_parsed_pages_included": bool(oracle_context),
         "oracle_parsed_pages_chars": len(oracle_context),
         "use_local_tools": bool(use_local_tools),
+        "restrict_to_source_files": bool(restrict_to_source_files),
         "hard": int(eval_result["em"]),
         "soft": eval_result["f1"],
         "fail_reason": fail_reason or ("" if eval_result["em"] else f"predicted '{eval_result['predicted_answer']}' but expected '{item.get('ground_truth', '')}'"),
@@ -731,6 +746,8 @@ def run_batch(
     search_max_num_results: int = 4,
     search_timeout_seconds: int = 20,
     use_local_tools: bool = True,
+    inject_oracle_pages: bool = True,
+    restrict_to_source_files: bool = True,
     data_dirs: list[str] | str | None = None,
     diagnostic_mode: bool = False,
     diagnostic_instruction: str = "",
@@ -775,6 +792,8 @@ def run_batch(
                 search_max_num_results=search_max_num_results,
                 search_timeout_seconds=search_timeout_seconds,
                 use_local_tools=use_local_tools,
+                inject_oracle_pages=inject_oracle_pages,
+                restrict_to_source_files=restrict_to_source_files,
                 data_dirs=data_dirs,
                 diagnostic_mode=diagnostic_mode,
                 diagnostic_instruction=diagnostic_instruction,

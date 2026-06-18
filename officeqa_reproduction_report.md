@@ -8,21 +8,22 @@
 
 ## RESUME HERE (next session)
 
-- **Branch:** `main` @ `c1ac570`. Working tree has **3 uncommitted changes** (see below) — NOT yet committed.
-- **Both eval runs are done and intact:** `outputs/eval_officeqa_gpt55_{noskill,best}/`.
+- **Branch:** `repro/officeqa-gpt55` (PR #2 on litaohz fork). First commit `7eade79` already pushed; the `w/o-search` ablation below adds 2 modified files (`adapter.py`, `rollout.py`) still to commit.
+- **Eval runs done and intact:** `outputs/eval_officeqa_gpt55_{noskill,best}/` plus the three `w/o-search` runs `outputs/eval_officeqa_gpt55_noskill_{nooracle,retrieval,retrieval_fullcorpus}/`.
 - **Proxy:** `http://localhost:4141/v1` (ghc), model `gpt-5.5` via **Responses API** (`OPENAI_RESPONSES_API_MODELS=gpt-5.5`).
 - **HF token:** in `~/.env` as `HF_TOKEN=` (gated dataset `databricks/officeqa`, terms already accepted).
+- **Full corpus now materialized:** `data/officeqa_docs_official/` holds all **697** parsed bulletins (was 285 sparse).
+
+**Key finding (w/o search):** even after stripping *all* leakage — oracle pages off, file/page hints off, full 697-doc haystack — gpt-5.5 no-skill still scores **EM 47.09**, far above the paper's ~33. The oracle/hints/corpus-size levers together only move EM ~7.5 pts (54.65 → 47.09). The dominant residual shortcut is **filename date-leakage** (`treasury_bulletin_YYYY_MM.txt` + dated questions): 42% of glob calls embed a 4-digit year, so the model jumps straight to the answer bulletin regardless of haystack size. Same model as the paper ⇒ the gap is *not* model capability; it is (a) filename leakage, (b) clean pre-parsed tables, (c) likely scorer/subset differences.
 
 **Open todos (priority order):**
-1. Decide how to handle the **oracle-page caveat** (see Caveat #1) — our baseline is much higher than the paper's because every item is fed the answer page. Options: (a) report as-is with the caveat, (b) re-run with oracle pages disabled to get a paper-comparable retrieval baseline.
+1. To truly force semantic retrieval and approach the paper's ~33, **obfuscate filenames** (hash/anonymize the bulletin stems so the date is no longer in the path) or route through the semantic `custom_search` / `azure_search` paths instead of local glob/grep.
 2. Optionally re-score with the **official `reward.py` numeric-tolerance** scorer (Caveat #2) instead of strict EM.
-3. Commit the 3 changes (likely via `commit-to-personal-repo` skill → litaohz fork).
-4. Optionally fetch the paper's exact OfficeQA table numbers (arXiv 2605.23904 full PDF) for a true side-by-side.
+3. Optionally fetch the paper's exact OfficeQA table numbers + protocol (does it give file hints? what scorer?) for a true side-by-side.
 
-**Uncommitted changes (working tree):**
-- `scripts/materialize_officeqa.py` (NEW) — pulls gated CSV + sparse parsed docs.
-- `skillopt/model/azure_openai.py` — gpt-5.5 Responses-API routing + tool_call pydantic fix (both required for this run).
-- `scripts/eval_only.py` — read skill file with `encoding="utf-8"` (Windows cp1252 crash fix).
+**New config switches (this session, both default `True` = legacy behavior):**
+- `env.inject_oracle_pages` — set `false` to stop injecting the oracle parsed answer page.
+- `env.restrict_to_source_files` — set `false` to drop Candidate-Files/Source/page hints **and** open the glob/read/grep tools to the whole corpus (forces self-retrieval).
 
 ---
 
@@ -37,6 +38,39 @@
 - 0 errors / 0 crashes in both runs. Empty predictions: no-skill 4, best 2.
 - **Efficiency finding:** no-skill grinds ~12.7 turns (near the 24 cap) and still loses on final formatting; best-skill converges in ~8.1 turns AND scores higher — the skill makes it *do less and get more right*. (tool-using items >2 turns: no-skill 170/172, best 57/172.)
 - Skill helps both difficulty bands ~equally (+16 easy, +15 hard).
+
+---
+
+## w/o search ablation — why our no-skill ≫ paper's ~33 (same gpt-5.5)
+
+Progressively removing every form of answer leakage from the **no-skill** baseline:
+
+| Run | File hint | Page hint | Oracle page | Corpus | EM | F1 |
+|---|:--:|:--:|:--:|--:|--:|--:|
+| `noskill_original` | ✅ | ✅ | ✅ | 285 | 0.5465 | 0.6163 |
+| `noskill_nooracle` | ✅ | ✅ | ❌ | 285 | 0.5291 | 0.5933 |
+| `noskill_retrieval` (sparse) | ❌ | ❌ | ❌ | 285 | 0.4884 | 0.5490 |
+| `noskill_retrieval_fullcorpus` | ❌ | ❌ | ❌ | **697** | **0.4709** | 0.5235 |
+
+**Reading it:**
+- Oracle page off: −1.74 pts. File/page hints off: −4.07 pts. Corpus 285→697: −1.75 pts. **Total leakage budget ≈ 7.5 pts.**
+- Even fully stripped (full corpus, zero hints), EM = **47.09 ≫ paper ~33**. Since the paper also uses gpt-5.5, **the gap is not model capability.**
+- **Corpus size barely matters** (−1.75 over 2.4× more docs) because retrieval is solved by **filename date-leakage**, not browsing: filenames are `treasury_bulletin_YYYY_MM.txt` and questions carry the date, so `glob *YYYY*` lands the bulletin directly. Measured: **42% (453/1071) of glob calls embed a 4-digit year.**
+- Residual gap to the paper is therefore attributable to: (a) filename date-leakage (the real retrieval shortcut), (b) the corpus being clean **pre-parsed tables** (`transformed/*.txt`, "recommended for RAG"), and (c) probable **scorer/subset/protocol** differences (Caveat #2).
+
+**To approach the paper's number:** anonymize bulletin filenames (remove the date from the path) or force the semantic `custom_search`/`azure_search` retrieval path — corpus size alone will not do it.
+
+Reproduce (PowerShell):
+```powershell
+$env:OPENAI_RESPONSES_API_MODELS="gpt-5.5"; $env:PYTHONIOENCODING="utf-8"
+python scripts/materialize_officeqa.py --full --skip-csv      # one-time: 697 bulletins
+python scripts/eval_only.py --config configs/officeqa/default.yaml `
+  --skill outputs/empty_skill.md --split valid_unseen --split_dir data/officeqa_split `
+  --cfg-options env.workers=12 env.inject_oracle_pages=false env.restrict_to_source_files=false `
+  --azure_openai_endpoint http://localhost:4141/v1 --azure_openai_api_key dummy `
+  --azure_openai_auth_mode openai_compatible --target_model gpt-5.5 `
+  --out_root outputs/eval_officeqa_gpt55_noskill_retrieval_fullcorpus
+```
 
 ---
 
