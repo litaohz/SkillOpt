@@ -565,6 +565,42 @@ def _chat_tool_to_responses_tool(tool: dict[str, Any]) -> dict[str, Any]:
     return tool
 
 
+def _chat_content_to_responses_parts(content: Any, *, role: str) -> Any:
+    """Convert chat-style message content (str or list of parts) to Responses input.
+
+    Handles multimodal content: a list of ``{"type": "text"|"image_url", ...}``
+    parts (as built by vision envs like DocVQA) is mapped to the Responses
+    ``input_text`` / ``input_image`` parts so images survive the Responses path
+    instead of being stringified into a Python repr (which silently drops them).
+    """
+    if isinstance(content, str):
+        return content
+    if not isinstance(content, list):
+        return str(content) if content is not None else ""
+    text_type = "input_text" if role in {"user", "developer"} else "output_text"
+    parts: list[dict[str, Any]] = []
+    for part in content:
+        if not isinstance(part, dict):
+            parts.append({"type": text_type, "text": str(part)})
+            continue
+        part_type = part.get("type")
+        if part_type == "text":
+            parts.append({"type": text_type, "text": str(part.get("text", ""))})
+        elif part_type == "image_url":
+            image_url = part.get("image_url")
+            url = image_url.get("url") if isinstance(image_url, dict) else str(image_url or "")
+            image_part: dict[str, Any] = {"type": "input_image", "image_url": url}
+            detail = image_url.get("detail") if isinstance(image_url, dict) else None
+            if detail:
+                image_part["detail"] = detail
+            parts.append(image_part)
+        elif part_type in {"input_text", "output_text", "input_image"}:
+            parts.append(part)
+        else:
+            parts.append({"type": text_type, "text": str(part)})
+    return parts
+
+
 def _messages_to_responses_input(messages: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], str]:
     """Convert chat-style messages, including tool results, to Responses input."""
     instructions: list[str] = []
@@ -574,7 +610,7 @@ def _messages_to_responses_input(messages: list[dict[str, Any]]) -> tuple[list[d
         content = message.get("content") or ""
         if role == "system":
             if content:
-                instructions.append(str(content))
+                instructions.append(content if isinstance(content, str) else str(content))
             continue
         if role == "tool":
             input_items.append({
@@ -585,7 +621,10 @@ def _messages_to_responses_input(messages: list[dict[str, Any]]) -> tuple[list[d
             continue
         if role == "assistant":
             if content:
-                input_items.append({"role": "assistant", "content": str(content)})
+                input_items.append({
+                    "role": "assistant",
+                    "content": _chat_content_to_responses_parts(content, role="assistant"),
+                })
             for tool_call in message.get("tool_calls") or []:
                 if isinstance(tool_call, dict):
                     function = tool_call.get("function", {}) or {}
@@ -605,7 +644,10 @@ def _messages_to_responses_input(messages: list[dict[str, Any]]) -> tuple[list[d
                 })
             continue
         if role in {"user", "developer"}:
-            input_items.append({"role": "user", "content": str(content)})
+            input_items.append({
+                "role": "user",
+                "content": _chat_content_to_responses_parts(content, role="user"),
+            })
     return input_items, "\n\n".join(instructions)
 
 
