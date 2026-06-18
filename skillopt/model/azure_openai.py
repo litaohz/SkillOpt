@@ -13,6 +13,10 @@ import time
 from types import SimpleNamespace
 from typing import Any
 from openai import AzureOpenAI, OpenAI
+from openai.types.chat.chat_completion_message_tool_call import (
+    ChatCompletionMessageToolCall,
+    Function as _ToolCallFunction,
+)
 
 # Sentinel value used as the api_version when the "openai_compatible"
 # auth_mode is selected. Real Azure deployments never use this string,
@@ -113,6 +117,27 @@ _RESPONSES_API_MODELS = {
     "gpt-5.3-codex", "gpt-5.1-codex", "gpt-5.2-codex",
     "gpt-5-codex", "codex-mini", "gpt-5.4-pro",
 }
+
+
+def _extra_responses_api_models() -> set[str]:
+    """Extra model prefixes that must use the Responses API.
+
+    Some OpenAI-compatible gateways (e.g. the GitHub Copilot proxy) expose
+    reasoning models such as ``gpt-5.5`` only via ``/responses`` and reject
+    ``/chat/completions``. Set ``OPENAI_RESPONSES_API_MODELS`` to a
+    comma-separated list of model name prefixes to route them through the
+    Responses API without code changes.
+    """
+    raw = os.environ.get("OPENAI_RESPONSES_API_MODELS", "")
+    return {m.strip().lower() for m in raw.split(",") if m.strip()}
+
+
+def _force_responses_api() -> bool:
+    """When ``OPENAI_FORCE_RESPONSES_API`` is truthy, route every call through
+    the Responses API regardless of model name."""
+    return str(os.environ.get("OPENAI_FORCE_RESPONSES_API", "")).strip().lower() in {
+        "1", "true", "yes", "on",
+    }
 
 
 # ── Token Tracker ─────────────────────────────────────────────────────────────
@@ -347,8 +372,11 @@ def get_target_client() -> AzureOpenAI | OpenAI:
 
 
 def _needs_responses_api(deployment: str) -> bool:
+    if _force_responses_api():
+        return True
     dep = deployment.lower()
-    return any(dep == m or dep.startswith(m + "-") for m in _RESPONSES_API_MODELS)
+    models = _RESPONSES_API_MODELS | _extra_responses_api_models()
+    return any(dep == m or dep.startswith(m + "-") for m in models)
 
 
 # ── Core chat function ────────────────────────────────────────────────────────
@@ -559,12 +587,21 @@ def _messages_to_responses_input(messages: list[dict[str, Any]]) -> tuple[list[d
             if content:
                 input_items.append({"role": "assistant", "content": str(content)})
             for tool_call in message.get("tool_calls") or []:
-                function = tool_call.get("function", {}) or {}
+                if isinstance(tool_call, dict):
+                    function = tool_call.get("function", {}) or {}
+                    call_id = tool_call.get("id", "")
+                    name = function.get("name", "") if isinstance(function, dict) else getattr(function, "name", "")
+                    arguments = function.get("arguments", "{}") if isinstance(function, dict) else getattr(function, "arguments", "{}")
+                else:
+                    function = getattr(tool_call, "function", None)
+                    call_id = getattr(tool_call, "id", "")
+                    name = getattr(function, "name", "")
+                    arguments = getattr(function, "arguments", "{}")
                 input_items.append({
                     "type": "function_call",
-                    "call_id": str(tool_call.get("id", "")),
-                    "name": str(function.get("name", "")),
-                    "arguments": str(function.get("arguments", "{}") or "{}"),
+                    "call_id": str(call_id or ""),
+                    "name": str(name or ""),
+                    "arguments": str(arguments or "{}"),
                 })
             continue
         if role in {"user", "developer"}:
@@ -573,26 +610,34 @@ def _messages_to_responses_input(messages: list[dict[str, Any]]) -> tuple[list[d
 
 
 def _responses_to_chat_message(resp: Any) -> tuple[Any, str]:
-    """Convert Responses output into the subset of Chat message API we use."""
+    """Convert Responses output into the subset of Chat message API we use.
+
+    Tool calls are returned as the same pydantic ``ChatCompletionMessageToolCall``
+    objects the Chat Completions path yields, so downstream consumers can call
+    ``.model_dump()`` / ``.function.name`` / ``.id`` uniformly regardless of
+    which API served the request.
+    """
     text = getattr(resp, "output_text", None) or ""
-    tool_calls: list[dict[str, Any]] = []
+    tool_calls: list[Any] = []
     for item in getattr(resp, "output", None) or []:
         item_type = getattr(item, "type", "")
         if item_type == "function_call":
-            tool_calls.append({
-                "id": getattr(item, "call_id", "") or getattr(item, "id", ""),
-                "type": "function",
-                "function": {
-                    "name": getattr(item, "name", ""),
-                    "arguments": getattr(item, "arguments", "") or "{}",
-                },
-            })
+            tool_calls.append(
+                ChatCompletionMessageToolCall(
+                    id=getattr(item, "call_id", "") or getattr(item, "id", "") or "",
+                    type="function",
+                    function=_ToolCallFunction(
+                        name=getattr(item, "name", "") or "",
+                        arguments=getattr(item, "arguments", "") or "{}",
+                    ),
+                )
+            )
         elif item_type == "message" and not text:
             content_parts = getattr(item, "content", []) or []
             for part in content_parts:
                 if getattr(part, "type", "") == "output_text":
                     text += getattr(part, "text", "") or ""
-    return SimpleNamespace(content=text, tool_calls=tool_calls), text
+    return SimpleNamespace(content=text, tool_calls=tool_calls or None), text
 
 
 # ── Public API ────────────────────────────────────────────────────────────────

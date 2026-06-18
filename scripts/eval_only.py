@@ -350,7 +350,7 @@ def main() -> None:
 
     # Load skill
     skill_path = os.path.abspath(args.skill)
-    with open(skill_path) as f:
+    with open(skill_path, encoding="utf-8") as f:
         skill_content = f.read()
     print(f"  [skill] {skill_path} ({len(skill_content)} chars)")
 
