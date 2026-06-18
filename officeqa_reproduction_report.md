@@ -43,14 +43,16 @@
 
 ## w/o search ablation — why our no-skill ≫ paper's ~33 (same gpt-5.5)
 
-Progressively removing every form of answer leakage from the **no-skill** baseline:
+Progressively removing every form of answer leakage from the **no-skill** baseline. **All rows are evaluated on the same 172 test items** (upstream split `train 50 / val 24 / test 172`); the `Corpus docs` column is the size of the *document haystack* the model may retrieve over (number of Treasury Bulletin files), **not** the number of questions:
 
-| Run | File hint | Page hint | Oracle page | Corpus | EM | F1 |
-|---|:--:|:--:|:--:|--:|--:|--:|
-| `noskill_original` | ✅ | ✅ | ✅ | 285 | 0.5465 | 0.6163 |
-| `noskill_nooracle` | ✅ | ✅ | ❌ | 285 | 0.5291 | 0.5933 |
-| `noskill_retrieval` (sparse) | ❌ | ❌ | ❌ | 285 | 0.4884 | 0.5490 |
-| `noskill_retrieval_fullcorpus` | ❌ | ❌ | ❌ | **697** | **0.4709** | 0.5235 |
+| Run | File hint | Page hint | Oracle page | Corpus docs | Test items | EM | F1 |
+|---|:--:|:--:|:--:|--:|--:|--:|--:|
+| `noskill_original` | ✅ | ✅ | ✅ | 285 | 172 | 0.5465 | 0.6163 |
+| `noskill_nooracle` | ✅ | ✅ | ❌ | 285 | 172 | 0.5291 | 0.5933 |
+| `noskill_retrieval` (sparse) | ❌ | ❌ | ❌ | 285 | 172 | 0.4884 | 0.5490 |
+| `noskill_retrieval_fullcorpus` | ❌ | ❌ | ❌ | **697** | 172 | **0.4709** | 0.5235 |
+
+> **Corpus docs vs test items:** `172` = questions answered (the upstream test split, unchanged across all rows). `285` = only the bulletins referenced by the 246 train+val+test items (sparse `materialize`). `697` = the full `databricks/officeqa` bulletin set (`materialize --full`). Growing the haystack 285→697 tests whether retrieval gets harder — it barely does (see below).
 
 **Reading it:**
 - Oracle page off: −1.74 pts. File/page hints off: −4.07 pts. Corpus 285→697: −1.75 pts. **Total leakage budget ≈ 7.5 pts.**
@@ -59,6 +61,8 @@ Progressively removing every form of answer leakage from the **no-skill** baseli
 - Residual gap to the paper is therefore attributable to: (a) filename date-leakage (the real retrieval shortcut), (b) the corpus being clean **pre-parsed tables** (`transformed/*.txt`, "recommended for RAG"), and (c) probable **scorer/subset/protocol** differences (Caveat #2).
 
 **To approach the paper's number:** anonymize bulletin filenames (remove the date from the path) or force the semantic `custom_search`/`azure_search` retrieval path — corpus size alone will not do it.
+
+**Split provenance (confirmed with authors' question "did you use our split?"):** yes. `data/officeqa_id_split/{train,val,test}/items.json` are the upstream git-tracked manifests (commit `181d71b "Release data split manifests"`, on `origin/main`); the manifest records `source_repo: databricks/officeqa`, `source_revision: 8ecbf18…`, `counts: 50/24/172`. `materialize_officeqa.py` only joins the CSV question/answer onto these IDs by `uid` — no re-split. Generated counts match exactly (50/24/**172 test**) and the eval log confirms `test=172`. So the split is identical; the residual gap is in the eval protocol, not the split.
 
 Reproduce (PowerShell):
 ```powershell
