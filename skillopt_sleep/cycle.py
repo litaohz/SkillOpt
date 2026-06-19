@@ -10,18 +10,18 @@ CI use. With backend="anthropic" it spends the user's budget for real lift.
 from __future__ import annotations
 
 import os
-import time
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
 
 from skillopt_sleep.backend import get_backend
 from skillopt_sleep.config import SleepConfig, load_config
-from skillopt_sleep.consolidate import consolidate
-from skillopt_sleep.harvest import harvest
+from skillopt_sleep.dream import dream_consolidate
+from skillopt_sleep.harvest_sources import harvest_for_config
 from skillopt_sleep.memory import ensure_skill_scaffold
 from skillopt_sleep.mine import mine
+from skillopt_sleep.staging import adopt as adopt_staging
+from skillopt_sleep.staging import write_staging
 from skillopt_sleep.state import SleepState, _now_iso
-from skillopt_sleep.staging import write_staging, adopt as adopt_staging
 from skillopt_sleep.types import SessionDigest, SleepReport, TaskRecord
 
 
@@ -117,10 +117,8 @@ def run_sleep_cycle(
         n_sessions = 0
     else:
         since = state.last_harvest_for(project)
-        digests = harvest(
-            cfg.transcripts_dir,
-            scope=cfg.get("projects", "invoked"),
-            invoked_project=cfg.get("invoked_project", ""),
+        digests = harvest_for_config(
+            cfg,
             since_iso=since,
             limit=cfg.get("max_tasks_per_night", 40) * 3,
         )
@@ -151,7 +149,7 @@ def run_sleep_cycle(
     if not skill:
         skill = ensure_skill_scaffold(
             "", name=cfg.get("managed_skill_name", "skillopt-sleep-learned"),
-            description="Preferences and procedures learned from past Claude Code sessions.",
+            description="Preferences and procedures learned from past local agent sessions.",
         )
 
     report = SleepReport(
@@ -169,9 +167,21 @@ def run_sleep_cycle(
         staging_dir = ""
         return CycleOutcome(report, staging_dir, False, [])
 
-    # ── 3+4. replay + consolidate (gate) ─────────────────────────────────
-    result = consolidate(
+    # ── 3+4. replay + consolidate (gate), with opt-in dream + recall ──────
+    # recall pulls similar past tasks from the persisted archive; dream_rollouts
+    # / dream_factor enrich the training signal. With the defaults (recall_k=0,
+    # dream_rollouts=1, dream_factor=0) this is exactly the prior single-shot
+    # consolidate — behavior is unchanged unless the user opts in.
+    recall_k = int(cfg.get("recall_k", 0) or 0)
+    history_tasks = []
+    if recall_k > 0:
+        history_tasks = [TaskRecord.from_dict(d) for d in state.task_archive()]
+    result = dream_consolidate(
         backend, tasks, skill, memory,
+        history_tasks=history_tasks,
+        recall_k=recall_k,
+        dream_rollouts=int(cfg.get("dream_rollouts", 1) or 1),
+        dream_factor=int(cfg.get("dream_factor", 0) or 0),
         edit_budget=cfg.get("edit_budget", 4),
         gate_metric=cfg.get("gate_metric", "mixed"),
         gate_mixed_weight=cfg.get("gate_mixed_weight", 0.5),
@@ -180,6 +190,8 @@ def run_sleep_cycle(
         evolve_memory=cfg.get("evolve_memory", True),
         night=night,
     )
+    # archive tonight's real (non-dream) tasks so future nights can recall them
+    state.add_to_archive([t.to_dict() for t in tasks if t.origin != "dream"])
 
     report.n_replayed = len(tasks)
     report.baseline_score = result.baseline_score

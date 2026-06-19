@@ -27,7 +27,7 @@ harvest ~/.claude transcripts → mine recurring tasks → replay offline
    → consolidate (reflect → bounded edit → GATE) → stage proposal → (you) adopt
 ```
 
-Nothing live is modified until **you** run `/sleep adopt` (the Dreams "review,
+Nothing live is modified until **you** run `/skillopt-sleep adopt` (the Dreams "review,
 then adopt or discard" contract). Every adopt backs up the prior file first.
 
 ## Install
@@ -44,7 +44,7 @@ cd SkillOpt
 /plugin install skillopt-sleep@skillopt-sleep
 
 # 3) verify
-/sleep status
+/skillopt-sleep status
 ```
 
 The plugin's bundled runner (`scripts/sleep.sh`) auto-selects a Python ≥ 3.10
@@ -56,10 +56,10 @@ they shell out to the CLIs you already have.
 
 ```bash
 # from inside any project you use with Claude Code:
-/sleep dry-run     # safe preview: what it would learn, no changes staged
-/sleep run         # full cycle: stages a reviewed proposal (still no live edits)
-/sleep status      # see history + the latest staged proposal
-/sleep adopt       # apply the staged proposal to CLAUDE.md / SKILL.md (with backup)
+/skillopt-sleep dry-run     # safe preview: what it would learn, no changes staged
+/skillopt-sleep run         # full cycle: stages a reviewed proposal (still no live edits)
+/skillopt-sleep status      # see history + the latest staged proposal
+/skillopt-sleep adopt       # apply the staged proposal to CLAUDE.md / SKILL.md (with backup)
 ```
 
 Or call the engine directly (Python ≥ 3.10):
@@ -92,7 +92,7 @@ Both took a brief-writer with no risks section / no confidence level and, within
 into the protected `LEARNED` block, nothing else touched. The Codex 2-night
 trace even shows the optimizer **diagnosing its own residual failure** and
 adding a meta-rule to fix it. Full writeup + reproduction:
-[`docs/sleep/real_api_results.md`](../docs/sleep/real_api_results.md).
+[the SkillOpt-Sleep guide section](https://microsoft.github.io/SkillOpt/docs/guideline.html#sleep).
 
 Reproduce:
 
@@ -115,7 +115,7 @@ python -m skillopt_sleep.experiments.run_experiment --persona programmer  --asse
 
 Each prints the held-out score rising from baseline toward 1.0 as the gate
 accepts the general rules your tasks need, and confirms the gate **rejects** an
-injected harmful edit. Recorded output: [`docs/sleep/experiment_results.md`](../docs/sleep/experiment_results.md).
+injected harmful edit. Recorded output: [the SkillOpt-Sleep guide section](https://microsoft.github.io/SkillOpt/docs/guideline.html#sleep).
 
 ## Schedule it nightly
 

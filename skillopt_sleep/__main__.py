@@ -9,7 +9,8 @@
 Common flags:
     --project PATH      project to evolve (default: cwd)
     --scope all|invoked harvest scope (default: invoked)
-    --backend mock|anthropic
+    --backend mock|claude|codex
+    --source claude|codex|auto
     --model NAME
     --lookback-hours N
     --auto-adopt
@@ -25,10 +26,11 @@ from typing import Any, Dict
 
 from skillopt_sleep.config import load_config
 from skillopt_sleep.cycle import run_sleep_cycle
-from skillopt_sleep.harvest import harvest
+from skillopt_sleep.harvest_sources import harvest_for_config
 from skillopt_sleep.mine import mine
+from skillopt_sleep.staging import adopt as adopt_staging
+from skillopt_sleep.staging import latest_staging
 from skillopt_sleep.state import SleepState
-from skillopt_sleep.staging import latest_staging, adopt as adopt_staging
 
 
 def _add_common(p: argparse.ArgumentParser) -> None:
@@ -38,6 +40,9 @@ def _add_common(p: argparse.ArgumentParser) -> None:
     p.add_argument("--model", default="")
     p.add_argument("--codex-path", default="", help="path to the real @openai/codex binary")
     p.add_argument("--claude-home", default="", help="override ~/.claude (also isolates state)")
+    p.add_argument("--codex-home", default="", help="override ~/.codex for archived session harvest")
+    p.add_argument("--source", default="", choices=["", "claude", "codex", "auto"],
+                   help="session transcript source")
     p.add_argument("--lookback-hours", type=int, default=0)
     p.add_argument("--edit-budget", type=int, default=0)
     p.add_argument("--auto-adopt", action="store_true")
@@ -59,6 +64,10 @@ def _cfg_from_args(args) -> Any:
         overrides["codex_path"] = os.path.abspath(args.codex_path)
     if getattr(args, "claude_home", ""):
         overrides["claude_home"] = os.path.abspath(args.claude_home)
+    if getattr(args, "codex_home", ""):
+        overrides["codex_home"] = os.path.abspath(args.codex_home)
+    if getattr(args, "source", ""):
+        overrides["transcript_source"] = args.source
     if getattr(args, "lookback_hours", 0):
         overrides["lookback_hours"] = args.lookback_hours
     if getattr(args, "edit_budget", 0):
@@ -143,12 +152,7 @@ def cmd_adopt(args) -> int:
 
 def cmd_harvest(args) -> int:
     cfg = _cfg_from_args(args)
-    digests = harvest(
-        cfg.transcripts_dir,
-        scope=cfg.get("projects", "invoked"),
-        invoked_project=cfg.get("invoked_project", ""),
-        limit=cfg.get("max_tasks_per_night", 40) * 3,
-    )
+    digests = harvest_for_config(cfg, limit=cfg.get("max_tasks_per_night", 40) * 3)
     tasks = mine(digests, max_tasks=cfg.get("max_tasks_per_night", 40),
                  holdout_fraction=cfg.get("holdout_fraction", 0.34), seed=cfg.get("seed", 42))
     if args.json:
@@ -161,6 +165,31 @@ def cmd_harvest(args) -> int:
         for t in tasks:
             print(f"  [{t.split}/{t.outcome}] {t.intent[:90]}")
     return 0
+
+
+def cmd_schedule(args) -> int:
+    from skillopt_sleep.scheduler import schedule, list_scheduled
+    cfg = _cfg_from_args(args)
+    project = cfg.get("invoked_project") or os.getcwd()
+    ok, msg = schedule(project, backend=cfg.get("backend", "mock"),
+                       hour=args.hour, minute=args.minute,
+                       extra=("--auto-adopt" if getattr(args, "auto_adopt", False) else ""))
+    print("[sleep] " + msg)
+    cur = list_scheduled()
+    if cur:
+        print("[sleep] currently scheduled:")
+        for ln in cur:
+            print("   " + ln[:140])
+    return 0 if ok else 1
+
+
+def cmd_unschedule(args) -> int:
+    from skillopt_sleep.scheduler import unschedule
+    cfg = _cfg_from_args(args)
+    project = cfg.get("invoked_project") or os.getcwd()
+    ok, msg = unschedule(project, all_projects=getattr(args, "all", False))
+    print("[sleep] " + msg)
+    return 0 if ok else 1
 
 
 def main(argv=None) -> int:
@@ -178,6 +207,13 @@ def main(argv=None) -> int:
     p_adopt.add_argument("--staging", default="", help="specific staging dir")
     p_harvest = sub.add_parser("harvest", help="debug: show mined tasks")
     _add_common(p_harvest)
+    p_sched = sub.add_parser("schedule", help="install a nightly cron entry for this project")
+    _add_common(p_sched)
+    p_sched.add_argument("--hour", type=int, default=3)
+    p_sched.add_argument("--minute", type=int, default=17)
+    p_unsched = sub.add_parser("unschedule", help="remove the nightly cron entry")
+    _add_common(p_unsched)
+    p_unsched.add_argument("--all", action="store_true", help="remove all managed entries")
 
     args = parser.parse_args(argv)
     if args.cmd == "run":
@@ -190,6 +226,10 @@ def main(argv=None) -> int:
         return cmd_adopt(args)
     if args.cmd == "harvest":
         return cmd_harvest(args)
+    if args.cmd == "schedule":
+        return cmd_schedule(args)
+    if args.cmd == "unschedule":
+        return cmd_unschedule(args)
     parser.print_help()
     return 2
 

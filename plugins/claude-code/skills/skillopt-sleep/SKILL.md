@@ -41,7 +41,7 @@ Trigger when the user wants any of:
 
 ## How to drive it
 
-Prefer the `/sleep` command. Under the hood it calls the bundled runner:
+Prefer the `/skillopt-sleep` command. Under the hood it calls the bundled runner:
 
 ```bash
 "${CLAUDE_PLUGIN_ROOT}/scripts/sleep.sh" status                       # what's happened
@@ -74,6 +74,6 @@ python -m skillopt_sleep.experiments.run_experiment --persona researcher --asser
 python -m skillopt_sleep.experiments.run_experiment --persona programmer  --assert-improves
 ```
 
-See `docs/sleep/experiment_results.md` for recorded output and
+See the SkillOpt-Sleep guide section for recorded output and
 `docs/superpowers/specs/2026-06-07-skillopt-sleep-claude-code-plugin-design.md`
 for the full design.

@@ -1,93 +1,147 @@
-#!/usr/bin/env python3
-"""Materialize the SearchQA split_dir from the released ID manifest.
+"""Materialize runnable SearchQA splits from the released ID manifest."""
 
-Reads the ID-only manifests under ``data/searchqa_id_split/{train,val,test}/items.json``,
-matches each ``id`` against the ``key`` field of the HuggingFace dataset
-``lucadiliello/searchqa`` (streaming over all HF splits), and writes runnable
-items into ``data/searchqa_split/{train,val,test}/<split>.json`` with the fields
-consumed by the SearchQA environment: ``id``, ``question``, ``context``,
-``answers``.
-
-Usage:
-    python scripts/materialize_searchqa.py
-"""
 from __future__ import annotations
 
-import ast
+import argparse
 import json
-import os
+from collections.abc import Iterable, Mapping
 from pathlib import Path
 
-from datasets import load_dataset
-
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-ID_SPLIT = PROJECT_ROOT / "data" / "searchqa_id_split"
-OUT_SPLIT = PROJECT_ROOT / "data" / "searchqa_split"
-HF_DATASET = "lucadiliello/searchqa"
-HF_SPLITS = ["train", "validation", "test"]
+SPLITS = ("train", "val", "test")
+REQUIRED_FIELDS = ("question", "context", "answers")
 
 
-def _load_ids(split: str) -> list[str]:
-    with open(ID_SPLIT / split / "items.json") as f:
-        return [str(it["id"]) for it in json.load(f)]
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--manifest-dir",
+        type=Path,
+        default=PROJECT_ROOT / "data" / "searchqa_id_split",
+        help="Directory containing train/val/test ID manifests.",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=PROJECT_ROOT / "data" / "searchqa_split",
+        help="Directory to write runnable train/val/test splits.",
+    )
+    parser.add_argument(
+        "--dataset",
+        default="lucadiliello/searchqa",
+        help="Hugging Face dataset repository to load.",
+    )
+    return parser.parse_args()
 
 
-def _coerce_answers(raw) -> list[str]:
-    if isinstance(raw, list):
-        return [str(a) for a in raw]
-    if isinstance(raw, str):
-        try:
-            parsed = ast.literal_eval(raw)
-            if isinstance(parsed, list):
-                return [str(a) for a in parsed]
-        except (ValueError, SyntaxError):
-            pass
-        return [raw]
-    return []
+def load_manifest_ids(manifest_dir: Path) -> dict[str, list[str]]:
+    split_ids = {}
+    for split in SPLITS:
+        path = manifest_dir / split / "items.json"
+        with path.open(encoding="utf-8") as file:
+            items = json.load(file)
+        split_ids[split] = [str(item["id"]) for item in items]
+    return split_ids
+
+
+def _iter_dataset_rows(dataset: Mapping[str, Iterable[dict]]) -> Iterable[dict]:
+    for source_split in dataset.values():
+        yield from source_split
+
+
+def _normalize_row(row: dict) -> dict:
+    try:
+        key = str(row["key"])
+    except KeyError as exc:
+        raise ValueError("SearchQA source row is missing required field: key") from exc
+
+    missing = [field for field in REQUIRED_FIELDS if field not in row]
+    if missing:
+        raise ValueError(f"SearchQA source row {key!r} is missing required fields: {', '.join(missing)}")
+
+    return {
+        "id": key,
+        "question": row["question"],
+        "context": row["context"],
+        "answers": row["answers"],
+    }
+
+
+def materialize_searchqa_splits(
+    manifest_dir: Path,
+    output_dir: Path,
+    dataset: Mapping[str, Iterable[dict]],
+    *,
+    dataset_name: str,
+) -> dict[str, int]:
+    """Write runnable SearchQA train/val/test splits from a source dataset."""
+    manifest_dir = manifest_dir.resolve()
+    output_dir = output_dir.resolve()
+    split_ids = load_manifest_ids(manifest_dir)
+    wanted_ids = {item_id for ids in split_ids.values() for item_id in ids}
+
+    selected: dict[str, dict] = {}
+    duplicate_ids: set[str] = set()
+    for row in _iter_dataset_rows(dataset):
+        key = str(row.get("key", ""))
+        if key not in wanted_ids:
+            continue
+        if key in selected:
+            duplicate_ids.add(key)
+            continue
+        selected[key] = _normalize_row(row)
+
+    if duplicate_ids:
+        preview = ", ".join(sorted(duplicate_ids)[:5])
+        raise ValueError(f"SearchQA source dataset contains duplicate manifest IDs. First IDs: {preview}")
+
+    missing = sorted(wanted_ids - selected.keys())
+    if missing:
+        preview = ", ".join(missing[:5])
+        raise RuntimeError(f"SearchQA source dataset is missing {len(missing)} manifest IDs. First IDs: {preview}")
+
+    counts = {}
+    for split, ids in split_ids.items():
+        items = [selected[item_id] for item_id in ids]
+        split_dir = output_dir / split
+        split_dir.mkdir(parents=True, exist_ok=True)
+        with (split_dir / "items.json").open("w", encoding="utf-8") as file:
+            json.dump(items, file, ensure_ascii=False, indent=2)
+        counts[split] = len(items)
+
+    manifest = {
+        "source_manifest_dir": str(manifest_dir),
+        "source_dataset": dataset_name,
+        "counts": counts,
+        "item_fields": ["id", *REQUIRED_FIELDS],
+    }
+    with (output_dir / "split_manifest.json").open("w", encoding="utf-8") as file:
+        json.dump(manifest, file, ensure_ascii=False, indent=2)
+
+    return counts
 
 
 def main() -> None:
-    wanted: dict[str, str] = {}  # key -> split name
-    ids_by_split: dict[str, list[str]] = {}
-    for split in ["train", "val", "test"]:
-        ids = _load_ids(split)
-        ids_by_split[split] = ids
-        for k in ids:
-            wanted[k] = split
-    print(f"Need {len(wanted)} unique ids across train/val/test")
+    args = parse_args()
+    try:
+        from datasets import load_dataset
+    except ImportError as exc:
+        raise SystemExit(
+            "Missing dependency 'datasets'. Install it with:\n"
+            "  python -m pip install 'skillopt[searchqa]'\n"
+            "or:\n"
+            "  python -m pip install datasets"
+        ) from exc
 
-    found: dict[str, dict] = {}
-    remaining = set(wanted)
-    for hf_split in HF_SPLITS:
-        if not remaining:
-            break
-        print(f"Streaming HF split '{hf_split}' (remaining={len(remaining)}) ...")
-        ds = load_dataset(HF_DATASET, split=hf_split, streaming=True)
-        for row in ds:
-            key = str(row["key"])
-            if key in remaining:
-                found[key] = {
-                    "id": key,
-                    "question": row.get("question", ""),
-                    "context": row.get("context", ""),
-                    "answers": _coerce_answers(row.get("answers", [])),
-                }
-                remaining.discard(key)
-                if not remaining:
-                    break
-    print(f"Matched {len(found)}/{len(wanted)} ids (missing={len(remaining)})")
-
-    for split in ["train", "val", "test"]:
-        out_dir = OUT_SPLIT / split
-        out_dir.mkdir(parents=True, exist_ok=True)
-        items = [found[k] for k in ids_by_split[split] if k in found]
-        out_path = out_dir / f"{split}.json"
-        with open(out_path, "w", encoding="utf-8") as f:
-            json.dump(items, f, ensure_ascii=False)
-        print(f"  wrote {len(items):>5} items -> {out_path.relative_to(PROJECT_ROOT)}")
-
-    if remaining:
-        print(f"WARNING: {len(remaining)} ids unmatched: {list(remaining)[:5]} ...")
+    print(f"Loading {args.dataset}...")
+    dataset = load_dataset(args.dataset)
+    counts = materialize_searchqa_splits(
+        args.manifest_dir,
+        args.output_dir,
+        dataset,
+        dataset_name=args.dataset,
+    )
+    print(f"Wrote SearchQA splits to {args.output_dir.resolve()}: {counts}")
 
 
 if __name__ == "__main__":
