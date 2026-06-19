@@ -30,7 +30,7 @@ OfficeQA scored EM 0.0; the model is not reciting answers.)
 | Benchmark | Status | No-skill | Best-skill | Paper vanilla | Paper best | Notes |
 |---|---|--:|--:|--:|--:|---|
 | **OfficeQA** | done; PR #2 | EM 54.65 | EM 70.35 | ~33 | — | clean-vanilla (bare prompt) = **EM 28.49**, ~paper |
-| **DocVQA** | no-skill done | ANLS 0.918 | (todo) | 78.8 | 91.2 | our vanilla ≈ paper best; template inflation + saturation |
+| **DocVQA** | clean done | ANLS 0.918→**0.860** | **0.965** | 78.8 | 91.2 | clean Δ **+10.5** ≈ paper +12.4 |
 | **SearchQA** | done; reproduced | EM 78.57 | EM 85.29 | 76.9 | 86.5 | Δ +6.7 (paper +9.6); no-skill near ceiling |
 | **SpreadsheetBench** | done; reproduced | 37.14 | 75.36 | 41.8 | 80.7 | **Δ +38.2 ≈ paper +38.9** — procedural gain holds |
 
@@ -79,8 +79,10 @@ Split confirmed identical to upstream (`data/officeqa_id_split/`, commit `181d71
 - No-skill **ANLS 0.9178** (binary@0.5 0.8235), n=374 — verified correct against an
   independent ANLS reference (374/374 exact match), so the scorer is fine.
 - Our vanilla ≈ paper's **best-skill** (91.2), while paper vanilla is 78.8 — same model.
-- Template A/B above shows ~5 ANLS pts come from the hardcoded 4 Rules; remainder is
-  model strength + benchmark saturation (DocVQA val is near-ceiling for frontier VLMs).
+- **Clean (bare-prompt) full 374:** no-skill **0.8600**, best-skill (`ckpt/docvqa/gpt5.5_skill.md`)
+  **0.9654**, clean Δ **+10.54** ≈ paper +12.4. So the templated no-skill 0.918 hid
+  **~5.8 ANLS pts** of skill; with a bare prompt the no-skill (86.0) and the skill delta
+  both track the paper (vanilla 78.8 / best 91.2 / Δ +12.4). Direction + magnitude reproduce.
 
 ---
 
@@ -134,13 +136,40 @@ no-skill 13 (4.6%), thermal-throttle at both ends, does not affect the Δ compar
 - Author confirmed the paper also uses **gpt-5.5**. → strengthens the case that the gap
   is evaluation protocol (template + leakage), not model capability.
 
+### Draft feedback to send
+
+> Thanks for confirming the split and the model — that let us isolate the cause. We think
+> the **`no-skill` baselines are inflated by the always-on system-prompt template**, which
+> hardcodes guidance that duplicates the skill being learned. Concretely, on the same
+> upstream split with gpt-5.5:
+>
+> | Benchmark | Templated no-skill | Bare-prompt no-skill | Paper vanilla |
+> |---|--:|--:|--:|
+> | OfficeQA (EM, 172) | 54.65 | **28.49** | ~33 |
+> | DocVQA (ANLS, 374) | 0.918 | **0.860** | 0.788 |
+>
+> Stripping the template Rules (which paraphrase `skills/initial.md` nearly verbatim —
+> e.g. "narrow to the most relevant file before reading", "extract the exact operands
+> before arithmetic") drops OfficeQA no-skill by **25.9 EM** and DocVQA by **5.8 ANLS**,
+> and the bare-prompt numbers land right around your paper's vanilla rows. With the bare
+> prompt the **skill deltas reproduce cleanly** (DocVQA +10.5 ANLS vs paper +12.4;
+> SpreadsheetBench +38.2 vs +38.9; SearchQA +6.7 vs +9.6).
+>
+> Two suggestions for a leakage-free baseline: (1) move the procedural Rules out of the
+> always-on template and into the skill document only, so `no-skill` is a truly bare
+> prompt; (2) for OfficeQA, the bulletin **filenames encode the date**
+> (`treasury_bulletin_YYYY_MM.txt`) and questions carry the date, so `glob *YYYY*` locates
+> the answer file directly (42% of glob calls embed a 4-digit year) — anonymizing
+> filenames would force genuine retrieval. We separately **ruled out** model memorization
+> (closed-book OfficeQA = EM 0.0), so this is purely an eval-protocol issue, not a model effect.
+
 ---
 
 ## Open todos
 
 - [x] ~~Verify parametric memory~~ — **ruled out** (closed-book OfficeQA EM 0.0).
 - [x] ~~Clean OfficeQA vanilla, full test~~ — **done: EM 28.49** (vs 54.65 templated).
-- [ ] Clean DocVQA vanilla, full 374 test (bare prompt) for an apples-to-paper number.
-- [ ] DocVQA best-skill run for the real skill delta.
+- [x] ~~Clean DocVQA vanilla, full 374~~ — **done: no-skill 0.860, best 0.965, Δ +10.5**.
+- [x] ~~DocVQA best-skill run~~ — done (clean Δ +10.5 ≈ paper +12.4).
 - [ ] Draft author feedback: recommend a leakage-free no-skill baseline (bare prompt,
       anonymized filenames, no benchmark naming) — note OfficeQA bare-prompt EM 28.49 ≈ paper ~33.
