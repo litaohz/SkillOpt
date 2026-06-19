@@ -25,6 +25,32 @@ OfficeQA scored EM 0.0; the model is not reciting answers.)
 
 ---
 
+## 结论（中文，可直接转给作者）
+
+我们在同一份上游 split、同样用 gpt-5.5 复现 SkillOpt，结论如下：
+
+**1. 方法本身成立。** 用「裸 prompt」做 baseline 时，4 个 benchmark 的 skill 增益都和论文吻合：
+- SpreadsheetBench：Δ **+38.2**（论文 +38.9）
+- DocVQA：Δ **+10.5**（论文 +12.4）
+- SearchQA：Δ **+6.7**（论文 +9.6）
+
+**2. 但 repo 的「no-skill」baseline 不是真 vanilla，被系统 prompt 模板抬高了。** `prompts/rollout_system.md` 永远加载，里面硬编码的若干条 Rules 几乎逐字复制了 `skills/initial.md`（即待学习的 skill）。把这些 Rules 去掉后（其它完全不变）：
+
+| Benchmark | 模板 no-skill | 裸 prompt no-skill | 论文 vanilla |
+|---|--:|--:|--:|
+| OfficeQA (EM, 172) | 54.65 | **28.49** | ~33 |
+| DocVQA (ANLS, 374) | 0.918 | **0.860** | 0.788 |
+
+裸 prompt 下，no-skill 直接落回论文 vanilla 附近。模板贡献：OfficeQA **+25.9 EM**、DocVQA **+5.8 ANLS**。
+
+**3. OfficeQA 还有第二层：文件名日期泄漏。** 公报文件名是 `treasury_bulletin_YYYY_MM.txt`，问题里带日期，模型直接 `glob *YYYY*` 就能定位答案文件（42% 的 glob 调用带 4 位年份）。扩大语料 285→697 几乎不影响分数，说明检索是「免费」的。
+
+**4. 已排除模型记忆。** 闭卷测试（无文档/无工具/无基准命名）OfficeQA EM = 0，说明 gpt-5.5 没有背答案，纯粹是评测口径问题。
+
+**给作者的两点建议：**(a) 把这些 procedural Rules 从永远加载的模板移到 skill 文档里，让 no-skill 真正裸跑；(b) OfficeQA 匿名化文件名（去掉路径里的日期），强制真实检索。
+
+---
+
 ## Benchmark status
 
 | Benchmark | Status | No-skill | Best-skill | Paper vanilla | Paper best | Notes |
