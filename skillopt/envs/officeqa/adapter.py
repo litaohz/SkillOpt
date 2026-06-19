@@ -35,6 +35,8 @@ class OfficeQAAdapter(EnvAdapter):
         search_max_num_results: int = 4,
         search_timeout_seconds: int = 20,
         use_local_tools: bool = True,
+        inject_oracle_pages: bool = True,
+        restrict_to_source_files: bool = True,
         data_dirs: list[str] | str | None = None,
         docs_dirs: list[str] | str | None = None,    ) -> None:
         self.workers = workers
@@ -52,6 +54,8 @@ class OfficeQAAdapter(EnvAdapter):
         self.search_max_num_results = int(search_max_num_results)
         self.search_timeout_seconds = int(search_timeout_seconds)
         self.use_local_tools = bool(use_local_tools)
+        self.inject_oracle_pages = bool(inject_oracle_pages)
+        self.restrict_to_source_files = bool(restrict_to_source_files)
         self.data_dirs = data_dirs if data_dirs is not None else docs_dirs
         self.dataloader = OfficeQADataLoader(
             split_dir=split_dir,
@@ -99,6 +103,8 @@ class OfficeQAAdapter(EnvAdapter):
             search_max_num_results=self.search_max_num_results,
             search_timeout_seconds=self.search_timeout_seconds,
             use_local_tools=self.use_local_tools,
+            inject_oracle_pages=self.inject_oracle_pages,
+            restrict_to_source_files=self.restrict_to_source_files,
             data_dirs=self.data_dirs,
             diagnostic_mode=kwargs.get("diagnostic_mode", False),
             diagnostic_instruction=kwargs.get("diagnostic_instruction", ""),

@@ -13,6 +13,10 @@ import time
 from types import SimpleNamespace
 from typing import Any
 from openai import AzureOpenAI, OpenAI
+from openai.types.chat.chat_completion_message_tool_call import (
+    ChatCompletionMessageToolCall,
+    Function as _ToolCallFunction,
+)
 
 # Sentinel value used as the api_version when the "openai_compatible"
 # auth_mode is selected. Real Azure deployments never use this string,
@@ -561,6 +565,42 @@ def _chat_tool_to_responses_tool(tool: dict[str, Any]) -> dict[str, Any]:
     return tool
 
 
+def _chat_content_to_responses_parts(content: Any, *, role: str) -> Any:
+    """Convert chat-style message content (str or list of parts) to Responses input.
+
+    Handles multimodal content: a list of ``{"type": "text"|"image_url", ...}``
+    parts (as built by vision envs like DocVQA) is mapped to the Responses
+    ``input_text`` / ``input_image`` parts so images survive the Responses path
+    instead of being stringified into a Python repr (which silently drops them).
+    """
+    if isinstance(content, str):
+        return content
+    if not isinstance(content, list):
+        return str(content) if content is not None else ""
+    text_type = "input_text" if role in {"user", "developer"} else "output_text"
+    parts: list[dict[str, Any]] = []
+    for part in content:
+        if not isinstance(part, dict):
+            parts.append({"type": text_type, "text": str(part)})
+            continue
+        part_type = part.get("type")
+        if part_type == "text":
+            parts.append({"type": text_type, "text": str(part.get("text", ""))})
+        elif part_type == "image_url":
+            image_url = part.get("image_url")
+            url = image_url.get("url") if isinstance(image_url, dict) else str(image_url or "")
+            image_part: dict[str, Any] = {"type": "input_image", "image_url": url}
+            detail = image_url.get("detail") if isinstance(image_url, dict) else None
+            if detail:
+                image_part["detail"] = detail
+            parts.append(image_part)
+        elif part_type in {"input_text", "output_text", "input_image"}:
+            parts.append(part)
+        else:
+            parts.append({"type": text_type, "text": str(part)})
+    return parts
+
+
 def _messages_to_responses_input(messages: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], str]:
     """Convert chat-style messages, including tool results, to Responses input."""
     instructions: list[str] = []
@@ -570,7 +610,7 @@ def _messages_to_responses_input(messages: list[dict[str, Any]]) -> tuple[list[d
         content = message.get("content") or ""
         if role == "system":
             if content:
-                instructions.append(str(content))
+                instructions.append(content if isinstance(content, str) else str(content))
             continue
         if role == "tool":
             input_items.append({
@@ -581,42 +621,65 @@ def _messages_to_responses_input(messages: list[dict[str, Any]]) -> tuple[list[d
             continue
         if role == "assistant":
             if content:
-                input_items.append({"role": "assistant", "content": str(content)})
+                input_items.append({
+                    "role": "assistant",
+                    "content": _chat_content_to_responses_parts(content, role="assistant"),
+                })
             for tool_call in message.get("tool_calls") or []:
-                function = tool_call.get("function", {}) or {}
+                if isinstance(tool_call, dict):
+                    function = tool_call.get("function", {}) or {}
+                    call_id = tool_call.get("id", "")
+                    name = function.get("name", "") if isinstance(function, dict) else getattr(function, "name", "")
+                    arguments = function.get("arguments", "{}") if isinstance(function, dict) else getattr(function, "arguments", "{}")
+                else:
+                    function = getattr(tool_call, "function", None)
+                    call_id = getattr(tool_call, "id", "")
+                    name = getattr(function, "name", "")
+                    arguments = getattr(function, "arguments", "{}")
                 input_items.append({
                     "type": "function_call",
-                    "call_id": str(tool_call.get("id", "")),
-                    "name": str(function.get("name", "")),
-                    "arguments": str(function.get("arguments", "{}") or "{}"),
+                    "call_id": str(call_id or ""),
+                    "name": str(name or ""),
+                    "arguments": str(arguments or "{}"),
                 })
             continue
         if role in {"user", "developer"}:
-            input_items.append({"role": "user", "content": str(content)})
+            input_items.append({
+                "role": "user",
+                "content": _chat_content_to_responses_parts(content, role="user"),
+            })
     return input_items, "\n\n".join(instructions)
 
 
 def _responses_to_chat_message(resp: Any) -> tuple[Any, str]:
-    """Convert Responses output into the subset of Chat message API we use."""
+    """Convert Responses output into the subset of Chat message API we use.
+
+    Tool calls are returned as the same pydantic ``ChatCompletionMessageToolCall``
+    objects the Chat Completions path yields, so downstream consumers can call
+    ``.model_dump()`` / ``.function.name`` / ``.id`` uniformly regardless of
+    which API served the request.
+    """
     text = getattr(resp, "output_text", None) or ""
-    tool_calls: list[dict[str, Any]] = []
+    tool_calls: list[Any] = []
     for item in getattr(resp, "output", None) or []:
         item_type = getattr(item, "type", "")
         if item_type == "function_call":
-            tool_calls.append({
-                "id": getattr(item, "call_id", "") or getattr(item, "id", ""),
-                "type": "function",
-                "function": {
-                    "name": getattr(item, "name", ""),
-                    "arguments": getattr(item, "arguments", "") or "{}",
-                },
-            })
+            tool_calls.append(
+                ChatCompletionMessageToolCall(
+                    id=getattr(item, "call_id", "") or getattr(item, "id", "") or "",
+                    type="function",
+                    function=_ToolCallFunction(
+                        name=getattr(item, "name", "") or "",
+                        arguments=getattr(item, "arguments", "") or "{}",
+                    ),
+                )
+            )
         elif item_type == "message" and not text:
             content_parts = getattr(item, "content", []) or []
             for part in content_parts:
                 if getattr(part, "type", "") == "output_text":
                     text += getattr(part, "text", "") or ""
-    return SimpleNamespace(content=text, tool_calls=tool_calls), text
+    return SimpleNamespace(content=text, tool_calls=tool_calls or None), text
 
 
 # ── Public API ────────────────────────────────────────────────────────────────
