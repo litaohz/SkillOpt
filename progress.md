@@ -209,6 +209,44 @@ python scripts/eval_only.py --config configs/alfworld/default.yaml \
 
 ---
 
+## 3.7 Token / Call 成本汇总（全量 eval，gpt-5.5）
+
+> **口径说明**：这里的 **call = LLM API 调用次数**（不是 function/tool call）。我们的 eval 大多走
+> `chat_target` 直接对话（SearchQA / LiveMath / ALFWorld 无真实工具调用）；只有 OfficeQA /
+> SpreadsheetBench 用 codex backend 时才有真实工具（glob/bash/python）。
+> Responses API 的 `completion_tokens` **已含 reasoning_tokens**，无低估。
+> ⚠️ `eval_summary.json` 的 token 是**进程级累加**，**分多次 resume 的 run 只会记录最后一次进程**，
+> 会严重低估——下表的 LiveMath 数字来自**专门一次性重跑**（`*_tok` 目录，0 timeout）才准确。
+
+| Benchmark / 配置 | n | calls | prompt tok | completion tok | total tok | total/题 |
+|---|--:|--:|--:|--:|--:|--:|
+| SearchQA / best（n=30 cost 探针） | 30 | 30 | 92,710 | 2,510 | 95,220 | 3,174 |
+| SearchQA / best（全量，见注） | 1400 | ~1400 | — | — | **≈4.44M** | ~3,170 |
+| SpreadsheetBench / no-skill | 280 | 281 | 220,167 | 697,396 | 917,563 | 3,277 |
+| SpreadsheetBench / best | 280 | 360 | 1,404,471 | 862,055 | 2,266,526 | 8,095 |
+| LiveMath / no-skill | 124 | 124 | 102,503 | 594,806 | 697,309 | 5,624 |
+| LiveMath / no-skill(bare) | 124 | 124 | 100,395 | 589,821 | 690,216 | 5,566 |
+| LiveMath / best | 124 | 124 | 188,352 | 666,926 | 855,278 | 6,897 |
+| ALFWorld / no-skill | 134 | 2315 | 1,151,557 | 555,982 | 1,707,539 | 12,743 |
+| ALFWorld / best | 134 | 1742 | 5,706,305 | 348,552 | 6,054,857 | 45,186 |
+| DocVQA（no-skill/best） | 374 | — | — | — | — | 早期 run，summary 无 token 字段 |
+| OfficeQA（no-skill/best） | 172 | — | — | — | — | 早期 run，summary 无 token 字段 |
+
+**几个观察：**
+- **skill 让 prompt 涨、但行为更高效。** SpreadsheetBench best prompt 6.4×（1.40M vs 0.22M）；
+  ALFWorld best prompt 5×（5.71M vs 1.15M，42.6K/题 vs 8.6K/题）。
+- **ALFWorld 例外地 call 数反降**：best 1742 calls < no-skill 2315 calls（−25%），且 completion
+  token 更少——因为 skill 让 agent 更早 `done`，少撞 50 步上限（失败 episode 才烧满 call 数）。
+  这是唯一 multi-turn 长程 bench，calls/题 ≈ 13（best）vs 17（no-skill）。
+- **LiveMath 几乎全在 completion 侧**（85% 是推理 token，每题 1 call、~5–6K completion），
+  说明它是"重推理、轻 prompt"，加 skill 主要小幅抬 prompt（+86K），对 completion 影响不大。
+- **SearchQA 最省**（~3.2K/题，97% 在 prompt，reasoning 极短）。
+- 代理 usage 不返回美元定价，只能给 token。
+
+> 待补：DocVQA / OfficeQA 若要 token，需用现版 `eval_only.py`（带 token 统计）各重跑一次。
+
+---
+
 ## 4. 已知 limitations / 未做事项
 
 - **此前复现的 bench 都不是 long-horizon**：SearchQA 单轮 RC；SpreadsheetBench 名义 max_turns=30 实测平均 1–3 turn。这些 skill 在做"程序性记忆 cheatsheet"。**ALFWorld 是唯一真正 long-horizon 的 bench（多步规划、平均数十步），已复现成功（见 §3.6，Δ +11.2 ≈ 论文 +11.9）**——但只能在 WSL 跑（jericho/textworld 不支持原生 Windows）。SWEBench 仓库**没有**（`eval_only.py` 的 ENV_REGISTRY 用 try/except 静默吞 ImportError，看 import 列表会被误导）。
