@@ -220,8 +220,8 @@ python scripts/eval_only.py --config configs/alfworld/default.yaml \
 
 | Benchmark / 配置 | n | calls | prompt tok | completion tok | total tok | total/题 |
 |---|--:|--:|--:|--:|--:|--:|
-| SearchQA / best（n=30 cost 探针） | 30 | 30 | 92,710 | 2,510 | 95,220 | 3,174 |
-| SearchQA / best（全量，见注） | 1400 | ~1400 | — | — | **≈4.44M** | ~3,170 |
+| SearchQA / no-skill（全量） | 1400 | 1400 | 1,548,399 | 130,872 | 1,679,271 | 1,199 |
+| SearchQA / best（全量） | 1400 | 1400 | 4,321,799 | 148,444 | 4,470,243 | 3,193 |
 | SpreadsheetBench / no-skill | 280 | 281 | 220,167 | 697,396 | 917,563 | 3,277 |
 | SpreadsheetBench / best | 280 | 360 | 1,404,471 | 862,055 | 2,266,526 | 8,095 |
 | LiveMath / no-skill | 124 | 124 | 102,503 | 594,806 | 697,309 | 5,624 |
@@ -229,21 +229,65 @@ python scripts/eval_only.py --config configs/alfworld/default.yaml \
 | LiveMath / best | 124 | 124 | 188,352 | 666,926 | 855,278 | 6,897 |
 | ALFWorld / no-skill | 134 | 2315 | 1,151,557 | 555,982 | 1,707,539 | 12,743 |
 | ALFWorld / best | 134 | 1742 | 5,706,305 | 348,552 | 6,054,857 | 45,186 |
-| DocVQA（no-skill/best） | 374 | — | — | — | — | 早期 run，summary 无 token 字段 |
-| OfficeQA（no-skill/best） | 172 | — | — | — | — | 早期 run，summary 无 token 字段 |
+| DocVQA / no-skill | 374 | 374 | 1,707,237 | 27,318 | 1,734,555 | 4,638 |
+| DocVQA / best | 374 | 374 | 1,855,341 | 34,533 | 1,889,874 | 5,053 |
+| OfficeQA / no-skill | 172 | 867 | 7,604,181 | 646,570 | 8,250,751 | 47,970 |
+| OfficeQA / best | 172 | 538 | 5,214,383 | 545,376 | 5,759,759 | 33,487 |
 
 **几个观察：**
 - **skill 让 prompt 涨、但行为更高效。** SpreadsheetBench best prompt 6.4×（1.40M vs 0.22M）；
-  ALFWorld best prompt 5×（5.71M vs 1.15M，42.6K/题 vs 8.6K/题）。
-- **ALFWorld 例外地 call 数反降**：best 1742 calls < no-skill 2315 calls（−25%），且 completion
-  token 更少——因为 skill 让 agent 更早 `done`，少撞 50 步上限（失败 episode 才烧满 call 数）。
-  这是唯一 multi-turn 长程 bench，calls/题 ≈ 13（best）vs 17（no-skill）。
-- **LiveMath 几乎全在 completion 侧**（85% 是推理 token，每题 1 call、~5–6K completion），
-  说明它是"重推理、轻 prompt"，加 skill 主要小幅抬 prompt（+86K），对 completion 影响不大。
-- **SearchQA 最省**（~3.2K/题，97% 在 prompt，reasoning 极短）。
+  ALFWorld best prompt 5×（5.71M vs 1.15M，42.6K/题 vs 8.6K/题）；SearchQA best prompt 2.8×（4.32M vs 1.55M）。
+- **⚠️ "省 token" 要分清三个量。** 加 skill 后 prompt 几乎总是涨（skill 进 prompt），但 call 和
+  completion 在 multi-turn 任务上会降，于是 **total 的走向取决于谁占主导**：
+  - **ALFWorld**：best call −25%（1742 vs 2315）、completion −37%（349K vs 556K），**但 skill 太长
+    （45K/题），prompt 涨 5× 压倒一切 → total 反而更高（6.05M > 1.71M）。**
+  - **OfficeQA**：best call −38%（538 vs 867），省下的轮次够多，**prompt 也降 → total 净省
+    （5.76M < 8.25M，−30%）。** 这才是 total 真省的案例。
+  - 单轮任务（DocVQA/LiveMath/SearchQA）每题恒 1 call，best 的 total 一律略涨（纯粹 skill 进 prompt）。
+- **DocVQA 几乎全在 prompt 侧（图像）**：prompt 1.71M~1.86M 但 completion 仅 27K~35K（每题~73 completion
+  token），因为是单轮 VQA、答案极短。token/题 ~4.6K–5K，加 skill 仅 +0.4K。
+- **OfficeQA 最贵**（no-skill 48K/题、best 33K/题）：多轮读文档 + 检索，prompt 累积最高。
+- **LiveMath 几乎全在 completion 侧**（85% 是推理 token，每题 1 call、~5–6K completion）。
+- **SearchQA 单题最省**（no-skill 1.2K/题、best 3.2K/题，reasoning 极短），但题量大（1400）所以全量 total 仍 1.68M→4.47M。
 - 代理 usage 不返回美元定价，只能给 token。
 
-> 待补：DocVQA / OfficeQA 若要 token，需用现版 `eval_only.py`（带 token 统计）各重跑一次。
+### SearchQA best 为何这么贵 —— 根因 + 优化方向
+
+**实测分解**（best vs no-skill，全量 1400）：
+- skill 文件 `ckpt/searchqa/gpt5.5_skill.md` = **9746 字符（≈2.6K token）**。
+- system prompt：best **10290 字符** vs no-skill **532 字符**；user prompt 两边相同（3683，检索文档+问题）。
+- **prompt 增量 2.77M，÷1400 = 每题 +1981 token ≈ skill 本身的 token 量。**
+
+→ **根因：SearchQA 是单轮，9746 字符的静态 cheatsheet 每题完整重发一遍，与题目难度无关。**
+单轮没有"工具轮次"可省（对比 OfficeQA 多轮：skill 省下的绕路 token > skill 增的 prompt → total 净降）。
+
+**优化方向**（按 ROI 排序）：
+1. **Prompt prefix caching（根本解）**：skill 1400 题一字不变，是天然的可缓存前缀。若 proxy/模型支持
+   prefix cache，这 2.6K token 只算一次、后续命中近乎免费。单轮+静态 skill 场景的标准解法。
+2. **Skill 压缩**：9746 字符里有大量重叠规则（反复讲"保留精确表面形式/答案类型/关系方向"）。
+   见 §3.8 压缩实验：压到 3605 字符（−63%），全量 A/B 验证 token↓38% 但 EM 掉 1.8（保留 71% 增益）。
+
+---
+
+## 3.8 实验：SearchQA skill 压缩的 token/精度权衡
+
+> 动机：§3.7 发现 SearchQA best 贵在 9746 字符静态 skill 每题全量重发。手工压缩到 3605 字符
+> （去重叠规则，保留核心启发式），全量 1400 A/B。压缩版在 `outputs/searchqa_skill_compressed.md`，
+> **未覆盖 ckpt**。
+
+| 配置 | skill 字符 | EM | ANLS/F1(soft) | total token | token/题 | Δ EM vs no-skill |
+|---|--:|--:|--:|--:|--:|--:|
+| no-skill | 0 | 0.7907 | 0.8919 | 1,679,271 | 1,199 | — |
+| best（原版 ckpt） | 9746 | 0.8536 | 0.9179 | 4,470,243 | 3,193 | +6.29 |
+| best（压缩 −63%） | 3605 | 0.8357 | 0.9095 | 2,789,667 | 1,993 | +4.50 |
+
+**结论：**
+- 压缩 skill 63% → **token 省 37.6%（4.47M→2.79M）**，但 **EM 掉 1.79 分**（0.854→0.836），
+  仍 **保留 71% 的增益**（+4.5 / +6.3）。
+- 说明：(a) skill 确有冗余——省近 4 成 token 只掉不到 2 分；(b) 但**不是无损**——被砍掉的具体规则
+  （表面形式保留、关系方向陷阱的细化举例）真在贡献边际分数。
+- **这是一个清晰的 token/精度 Pareto 点**，不是免费午餐。最优解可能是 **prefix caching**（保留全
+  skill、token 近乎免费）而非有损压缩。压缩适合"无缓存 + 成本敏感"场景。
 
 ---
 
