@@ -251,6 +251,44 @@ python scripts/eval_only.py --config configs/alfworld/default.yaml \
 - **SearchQA 单题最省**（no-skill 1.2K/题、best 3.2K/题，reasoning 极短），但题量大（1400）所以全量 total 仍 1.68M→4.47M。
 - 代理 usage 不返回美元定价，只能给 token。
 
+### SearchQA best 为何这么贵 —— 根因 + 优化方向
+
+**实测分解**（best vs no-skill，全量 1400）：
+- skill 文件 `ckpt/searchqa/gpt5.5_skill.md` = **9746 字符（≈2.6K token）**。
+- system prompt：best **10290 字符** vs no-skill **532 字符**；user prompt 两边相同（3683，检索文档+问题）。
+- **prompt 增量 2.77M，÷1400 = 每题 +1981 token ≈ skill 本身的 token 量。**
+
+→ **根因：SearchQA 是单轮，9746 字符的静态 cheatsheet 每题完整重发一遍，与题目难度无关。**
+单轮没有"工具轮次"可省（对比 OfficeQA 多轮：skill 省下的绕路 token > skill 增的 prompt → total 净降）。
+
+**优化方向**（按 ROI 排序）：
+1. **Prompt prefix caching（根本解）**：skill 1400 题一字不变，是天然的可缓存前缀。若 proxy/模型支持
+   prefix cache，这 2.6K token 只算一次、后续命中近乎免费。单轮+静态 skill 场景的标准解法。
+2. **Skill 压缩**：9746 字符里有大量重叠规则（反复讲"保留精确表面形式/答案类型/关系方向"）。
+   见 §3.8 压缩实验：压到 3605 字符（−63%），全量 A/B 验证 token↓38% 但 EM 掉 1.8（保留 71% 增益）。
+
+---
+
+## 3.8 实验：SearchQA skill 压缩的 token/精度权衡
+
+> 动机：§3.7 发现 SearchQA best 贵在 9746 字符静态 skill 每题全量重发。手工压缩到 3605 字符
+> （去重叠规则，保留核心启发式），全量 1400 A/B。压缩版在 `outputs/searchqa_skill_compressed.md`，
+> **未覆盖 ckpt**。
+
+| 配置 | skill 字符 | EM | ANLS/F1(soft) | total token | token/题 | Δ EM vs no-skill |
+|---|--:|--:|--:|--:|--:|--:|
+| no-skill | 0 | 0.7907 | 0.8919 | 1,679,271 | 1,199 | — |
+| best（原版 ckpt） | 9746 | 0.8536 | 0.9179 | 4,470,243 | 3,193 | +6.29 |
+| best（压缩 −63%） | 3605 | 0.8357 | 0.9095 | 2,789,667 | 1,993 | +4.50 |
+
+**结论：**
+- 压缩 skill 63% → **token 省 37.6%（4.47M→2.79M）**，但 **EM 掉 1.79 分**（0.854→0.836），
+  仍 **保留 71% 的增益**（+4.5 / +6.3）。
+- 说明：(a) skill 确有冗余——省近 4 成 token 只掉不到 2 分；(b) 但**不是无损**——被砍掉的具体规则
+  （表面形式保留、关系方向陷阱的细化举例）真在贡献边际分数。
+- **这是一个清晰的 token/精度 Pareto 点**，不是免费午餐。最优解可能是 **prefix caching**（保留全
+  skill、token 近乎免费）而非有损压缩。压缩适合"无缓存 + 成本敏感"场景。
+
 ---
 
 ## 4. 已知 limitations / 未做事项
