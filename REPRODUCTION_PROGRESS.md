@@ -60,6 +60,7 @@ OfficeQA scored EM 0.0; the model is not reciting answers.)
 | **SearchQA** | done; reproduced | EM 78.57 | EM 85.29 | 76.9 | 86.5 | Δ +6.7 (paper +9.6); no-skill near ceiling |
 | **SpreadsheetBench** | done; reproduced | 37.14 | 75.36 | 41.8 | 80.7 | **Δ +38.2 ≈ paper +38.9** — procedural gain holds |
 | **LiveMath** | done; reproduced | EM 47.58 | EM 62.10 | 37.6 | 66.9 | bare no-skill **44.35** (template −3.2, *not* OfficeQA-style); Δ +14.5~17.8 (paper +29.3) — SearchQA pattern |
+| **ALFWorld** | done; reproduced (WSL) | SR 80.60 | SR 91.79 | 83.6 | 95.5 | **Δ +11.2 ≈ paper +11.9** — long-horizon procedural gain holds; needs WSL (jericho/textworld) |
 
 **Clean-vanilla confirms the template inflation.** Re-running OfficeQA no-skill on the
 full 172 test with a **bare prompt** (template Rules stripped, everything else identical)

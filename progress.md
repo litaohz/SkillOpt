@@ -142,9 +142,76 @@ python scripts/eval_only.py --config configs/livemathematicianbench/default.yaml
 
 ---
 
+## 3.6 ALFWorld 复现结果 ✅（gpt-5.5，全量 134 test，**WSL 路线**）
+
+> 长程具身文本任务（ALFRED/TextWorld）。max_steps=50，eval split = valid_unseen（OOD）。
+> data/alfworld_split = 39/18/134。
+
+| 配置 | Success Rate | 论文 SR |
+|---|---|---|
+| No skill（`outputs/empty_skill.md`） | **0.8060** (108/134) | 83.6 |
+| Best skill（`ckpt/alfworld/gpt5.5_skill.md`） | **0.9179** (123/134) | 95.5 |
+| **Δ (skill effect)** | **+11.19** | +38.9→ **+11.9** |
+
+**Δ +11.2 ≈ 论文 +11.9（差 −0.7），几乎完美复现。** 绝对值两侧都低 ~3-4（同款 proxy-gpt-5.5
+偏移，和 SearchQA/SpreadsheetBench/LiveMath 一致方向）。SkillOpt 在**长程 procedural 任务**上的
+强增益端到端成立——这是迄今唯一真正 long-horizon（平均多步、需规划）的 bench，skill 让 episode
+更快收敛、更少撞 50 步上限。
+
+- token/calls：best 6.05M token / 1742 calls vs no-skill 1.71M / 2315 calls。
+  **skill 把 prompt 涨 ~5×（42.6K/题 vs 8.6K/题），但 calls 反而少 25%**——因为 skill 让 agent
+  少走弯路、更早 done（失败 episode 才会跑满 50 步、吃满 call 数）。completion token best 反而更少。
+
+### ⚠️ 关键：ALFWorld 在原生 Windows 跑不了，必须用 WSL
+- eval 走 `AlfredTWEnv`（TextWorld），依赖链 `alfworld → textworld → jericho`。
+- **jericho 在原生 Windows 编译失败**（setup 调 make/gcc，报 `WinError 2`）。TextWorld/Jericho
+  官方仅支持 Linux/macOS。这正是之前「alfworld 未跑」的根因。
+- **解法 = WSL Ubuntu 22.04**：jericho/textworld/alfworld 全部正常编译安装。
+
+### WSL 环境搭建（一次性）
+```bash
+# 1. 工具链
+sudo apt-get install -y build-essential python3-pip python3-venv python3-dev
+# 2. venv + 依赖
+python3 -m venv ~/skillopt-venv && source ~/skillopt-venv/bin/activate
+cd /mnt/c/Users/taoli1/SkillOpt
+pip install -e . datasets alfworld omegaconf gymnasium
+# 3. 下载游戏数据（~320MB：json_2.1.1 + tw-pddl + logic + detector）
+export ALFWORLD_DATA=$HOME/.cache/alfworld
+yes | alfworld-download
+# 4. 把相对 gamefile 展开成绝对路径 → data/alfworld_split/
+python scripts/materialize_alfworld.py
+```
+
+### 代理跨 WSL 边界
+- WSL2 内 `localhost:4141` **访问不到** Windows 主机代理；要用默认网关 IP：
+  `http://$(ip route | grep default | awk '{print $3}'):4141/v1`（本次 = `172.23.144.1:4141`，
+  每次 WSL 重启可能变）。
+
+### ALFWorld 可复现命令（WSL 内）
+```bash
+source ~/skillopt-venv/bin/activate
+export ALFWORLD_DATA=$HOME/.cache/alfworld
+export OPENAI_RESPONSES_API_MODELS=gpt-5.5
+export PYTHONIOENCODING=utf-8
+export ALFWORLD_WORKER_START_METHOD=spawn
+python scripts/eval_only.py --config configs/alfworld/default.yaml \
+  --skill ckpt/alfworld/gpt5.5_skill.md --split valid_unseen --split_dir data/alfworld_split \
+  --cfg-options env.workers=8 \
+  --azure_openai_endpoint http://172.23.144.1:4141/v1 \
+  --azure_openai_api_key dummy --azure_openai_auth_mode openai_compatible \
+  --target_model gpt-5.5 --out_root outputs/eval_alfworld_gpt55_best
+# no-skill 基线：--skill outputs/empty_skill.md
+```
+- 注意：rollout 按 env.workers 分组锁步推进，**每组全部结束才写 conversation.json**，
+  results.jsonl 要等 134 个全跑完才落（无增量 resume）。全量约 1.5~2h（失败 episode 跑满 50 步主导耗时）。
+- 新增 `scripts/materialize_alfworld.py`：把 path-split 的相对 gamefile 与 $ALFWORLD_DATA 拼成绝对路径。
+
+---
+
 ## 4. 已知 limitations / 未做事项
 
-- **复现的 bench 都不是 long-horizon**：SearchQA 单轮 RC；SpreadsheetBench 名义 max_turns=30 实测平均 1–3 turn。skill 在做"程序性记忆 cheatsheet"，没在做"长程规划脑"。仓库里 long-horizon 候选只有 alfworld（simulator，未跑）。SWEBench 仓库**没有**（`eval_only.py` 的 ENV_REGISTRY 用 try/except 静默吞 ImportError，看 import 列表会被误导）。
+- **此前复现的 bench 都不是 long-horizon**：SearchQA 单轮 RC；SpreadsheetBench 名义 max_turns=30 实测平均 1–3 turn。这些 skill 在做"程序性记忆 cheatsheet"。**ALFWorld 是唯一真正 long-horizon 的 bench（多步规划、平均数十步），已复现成功（见 §3.6，Δ +11.2 ≈ 论文 +11.9）**——但只能在 WSL 跑（jericho/textworld 不支持原生 Windows）。SWEBench 仓库**没有**（`eval_only.py` 的 ENV_REGISTRY 用 try/except 静默吞 ImportError，看 import 列表会被误导）。
 - 实际可跑 env：`alfworld / docvqa / livemathematicianbench / officeqa / searchqa / spreadsheetbench`。
 - 训练侧（`train.py` reflect/update loop）未跑过，本次只复现 **eval-only**。
 
