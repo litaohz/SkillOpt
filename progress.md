@@ -220,8 +220,8 @@ python scripts/eval_only.py --config configs/alfworld/default.yaml \
 
 | Benchmark / 配置 | n | calls | prompt tok | completion tok | total tok | total/题 |
 |---|--:|--:|--:|--:|--:|--:|
-| SearchQA / best（n=30 cost 探针） | 30 | 30 | 92,710 | 2,510 | 95,220 | 3,174 |
-| SearchQA / best（全量，见注） | 1400 | ~1400 | — | — | **≈4.44M** | ~3,170 |
+| SearchQA / no-skill（全量） | 1400 | 1400 | 1,548,399 | 130,872 | 1,679,271 | 1,199 |
+| SearchQA / best（全量） | 1400 | 1400 | 4,321,799 | 148,444 | 4,470,243 | 3,193 |
 | SpreadsheetBench / no-skill | 280 | 281 | 220,167 | 697,396 | 917,563 | 3,277 |
 | SpreadsheetBench / best | 280 | 360 | 1,404,471 | 862,055 | 2,266,526 | 8,095 |
 | LiveMath / no-skill | 124 | 124 | 102,503 | 594,806 | 697,309 | 5,624 |
@@ -236,18 +236,19 @@ python scripts/eval_only.py --config configs/alfworld/default.yaml \
 
 **几个观察：**
 - **skill 让 prompt 涨、但行为更高效。** SpreadsheetBench best prompt 6.4×（1.40M vs 0.22M）；
-  ALFWorld best prompt 5×（5.71M vs 1.15M，42.6K/题 vs 8.6K/题）。
-- **多轮工具/长程任务，skill 反而省 call 和 token。** 这是个一致规律：
-  - ALFWorld best 1742 calls < no-skill 2315（−25%），completion token 也更少。
-  - **OfficeQA best 538 calls / 5.76M tok < no-skill 867 calls / 8.25M tok（call −38%、token −30%）。**
-  原因相同：skill 让 agent 更早 done / 更快定位答案，少烧工具轮次（失败才会撑满 turn 上限）。
-  → 注意：单轮任务（DocVQA/LiveMath）每题恒为 1 call，best 比 no-skill 略涨（skill 进 prompt）；
-  只有 **multi-turn** 任务才出现 best 省 call 的现象。
+  ALFWorld best prompt 5×（5.71M vs 1.15M，42.6K/题 vs 8.6K/题）；SearchQA best prompt 2.8×（4.32M vs 1.55M）。
+- **⚠️ "省 token" 要分清三个量。** 加 skill 后 prompt 几乎总是涨（skill 进 prompt），但 call 和
+  completion 在 multi-turn 任务上会降，于是 **total 的走向取决于谁占主导**：
+  - **ALFWorld**：best call −25%（1742 vs 2315）、completion −37%（349K vs 556K），**但 skill 太长
+    （45K/题），prompt 涨 5× 压倒一切 → total 反而更高（6.05M > 1.71M）。**
+  - **OfficeQA**：best call −38%（538 vs 867），省下的轮次够多，**prompt 也降 → total 净省
+    （5.76M < 8.25M，−30%）。** 这才是 total 真省的案例。
+  - 单轮任务（DocVQA/LiveMath/SearchQA）每题恒 1 call，best 的 total 一律略涨（纯粹 skill 进 prompt）。
 - **DocVQA 几乎全在 prompt 侧（图像）**：prompt 1.71M~1.86M 但 completion 仅 27K~35K（每题~73 completion
   token），因为是单轮 VQA、答案极短。token/题 ~4.6K–5K，加 skill 仅 +0.4K。
 - **OfficeQA 最贵**（no-skill 48K/题、best 33K/题）：多轮读文档 + 检索，prompt 累积最高。
 - **LiveMath 几乎全在 completion 侧**（85% 是推理 token，每题 1 call、~5–6K completion）。
-- **SearchQA 最省**（~3.2K/题，97% 在 prompt，reasoning 极短）。
+- **SearchQA 单题最省**（no-skill 1.2K/题、best 3.2K/题，reasoning 极短），但题量大（1400）所以全量 total 仍 1.68M→4.47M。
 - 代理 usage 不返回美元定价，只能给 token。
 
 ---
