@@ -95,6 +95,53 @@ python scripts/eval_only.py --config configs/spreadsheetbench/default.yaml `
 
 ---
 
+## 3.5 LiveMathematicianBench 复现结果 ✅（gpt-5.5，全量 124 test）
+
+> 数学定理 MCQ（单选），max_turns=1，data/livemathematicianbench_split = 35/18/124。
+
+| 配置 | EM | 论文 EM |
+|---|---|---|
+| No skill（模板，`outputs/empty_skill.md`） | 0.4758 (59/124) | 37.6 |
+| No skill（**裸 prompt**，删模板提示行） | **0.4435 (55/124)** | 37.6 |
+| Best skill（`ckpt/livemath/gpt5.5_skill.md`） | 0.621 (77/124) | 66.9 |
+| Δ (skill, 模板基线) | **+14.5** | +29.3 |
+| Δ (skill, 裸基线) | **+17.8** | +29.3 |
+
+**关键结论：LiveMath 是 SearchQA 模式，不是 OfficeQA 模式。**
+- 用户假设「和 OfficeQA 一样，模板把 baseline 抬高了」→ **基本不成立**。LiveMath 的
+  `rollout_system.md` 只有一行可疑提示（"Reason carefully about quantifiers, hypotheses,
+  extremal wording, exact equality conditions"，确实是 skill 的压缩版）。把这行删掉做裸 prompt
+  A/B：no-skill 只从 **0.476 → 0.444（−3.2，在噪声内）**，远没有 OfficeQA 的 +25.9 那种污染。
+- 但「我们 no-skill 高于论文 vanilla」**确实成立**：裸 prompt 44.4 仍 > 论文 37.6（+6.8）。
+  这是和 SearchQA / SpreadsheetBench 同款的 **proxy-gpt-5.5 零样本更强**偏移（best 62.1 vs
+  论文 66.9 = −4.8，绝对值两侧都低 ~5）。
+- 所以 LiveMath 复现了**方向**（skill 大幅有效，+14.5~+17.8），但 Δ 被压缩约一半，
+  因为我们的 no-skill 起点本就更高 —— 不是模板污染，是模型快照差异。
+
+### LiveMath 代码修复（本次新增，bug fix，保留）
+- `skillopt/envs/livemathematicianbench/rollout.py`：
+  - **Windows 文件名 bug**：item id 形如 `202511:4` 含 `:`，`makedirs` 在 Windows 全部失败 →
+    之前整批 EM=0。改为 `re.sub(r'[<>:"/\\|?*]', "_", item_id)` 生成安全目录名。
+  - **cp1252 崩溃**：`results.jsonl` / `conversation.json` 的 `open()` 补 `encoding="utf-8"`
+    （skill/题目含 `⊂` 等 Unicode 数学符号，写盘 charmap 崩溃，同 SpreadsheetBench 款）。
+
+### LiveMath 可复现命令
+```powershell
+$env:OPENAI_RESPONSES_API_MODELS="gpt-5.5"
+$env:PYTHONIOENCODING="utf-8"
+python scripts/eval_only.py --config configs/livemathematicianbench/default.yaml `
+  --skill ckpt/livemath/gpt5.5_skill.md `
+  --split valid_unseen --split_dir data/livemathematicianbench_split `
+  --cfg-options env.exec_timeout=1200 `
+  --azure_openai_endpoint http://localhost:4141/v1 `
+  --azure_openai_api_key dummy --azure_openai_auth_mode openai_compatible `
+  --target_model gpt-5.5 --workers 10 --out_root outputs/<name>
+# no-skill 基线：--skill outputs/empty_skill.md
+# 注意：长推理题尾段慢，workers 调小 + exec_timeout 调大（1200~1800）避免被当 timeout=错
+```
+
+---
+
 ## 4. 已知 limitations / 未做事项
 
 - **复现的 bench 都不是 long-horizon**：SearchQA 单轮 RC；SpreadsheetBench 名义 max_turns=30 实测平均 1–3 turn。skill 在做"程序性记忆 cheatsheet"，没在做"长程规划脑"。仓库里 long-horizon 候选只有 alfworld（simulator，未跑）。SWEBench 仓库**没有**（`eval_only.py` 的 ENV_REGISTRY 用 try/except 静默吞 ImportError，看 import 列表会被误导）。

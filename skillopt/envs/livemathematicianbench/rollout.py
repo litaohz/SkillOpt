@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import time
 from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 
@@ -141,7 +142,8 @@ def process_one(
     }
 
     try:
-        pred_dir = os.path.join(out_root, "predictions", item_id)
+        safe_item_id = re.sub(r'[<>:"/\\|?*]', "_", item_id)
+        pred_dir = os.path.join(out_root, "predictions", safe_item_id)
         os.makedirs(pred_dir, exist_ok=True)
         llm_timeout = int(exec_timeout) if exec_timeout and int(exec_timeout) > 0 else None
 
@@ -200,7 +202,7 @@ def process_one(
                 f"Exact Match: {eval_result['em']}"
             )
             conversation.append({"role": "system", "content": eval_detail})
-            with open(os.path.join(pred_dir, "conversation.json"), "w") as f:
+            with open(os.path.join(pred_dir, "conversation.json"), "w", encoding="utf-8") as f:
                 json.dump(conversation, f, ensure_ascii=False, indent=2)
             return result
 
@@ -278,7 +280,7 @@ def process_one(
         )
         conversation.append({"role": "system", "content": eval_detail})
 
-        with open(os.path.join(pred_dir, "conversation.json"), "w") as f:
+        with open(os.path.join(pred_dir, "conversation.json"), "w", encoding="utf-8") as f:
             json.dump(conversation, f, ensure_ascii=False, indent=2)
 
     except Exception as e:  # noqa: BLE001
@@ -315,7 +317,7 @@ def run_batch(
     done_ids: set[str] = set()
     existing: list[dict] = []
     if os.path.exists(results_path):
-        with open(results_path) as f:
+        with open(results_path, encoding="utf-8") as f:
             for line in f:
                 try:
                     r = json.loads(line)
@@ -378,7 +380,7 @@ def run_batch(
         res["fail_reason"] = f"error: {type(exc).__name__}: {exc}"
         return res
 
-    with open(results_path, "a") as outf:
+    with open(results_path, "a", encoding="utf-8") as outf:
         ex = ThreadPoolExecutor(max_workers=workers)
         try:
             futs = {

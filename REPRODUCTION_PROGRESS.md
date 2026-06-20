@@ -59,6 +59,7 @@ OfficeQA scored EM 0.0; the model is not reciting answers.)
 | **DocVQA** | clean done | ANLS 0.918→**0.860** | **0.965** | 78.8 | 91.2 | clean Δ **+10.5** ≈ paper +12.4 |
 | **SearchQA** | done; reproduced | EM 78.57 | EM 85.29 | 76.9 | 86.5 | Δ +6.7 (paper +9.6); no-skill near ceiling |
 | **SpreadsheetBench** | done; reproduced | 37.14 | 75.36 | 41.8 | 80.7 | **Δ +38.2 ≈ paper +38.9** — procedural gain holds |
+| **LiveMath** | done; reproduced | EM 47.58 | EM 62.10 | 37.6 | 66.9 | bare no-skill **44.35** (template −3.2, *not* OfficeQA-style); Δ +14.5~17.8 (paper +29.3) — SearchQA pattern |
 
 **Clean-vanilla confirms the template inflation.** Re-running OfficeQA no-skill on the
 full 172 test with a **bare prompt** (template Rules stripped, everything else identical)
