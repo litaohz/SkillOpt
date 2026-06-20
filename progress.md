@@ -229,21 +229,26 @@ python scripts/eval_only.py --config configs/alfworld/default.yaml \
 | LiveMath / best | 124 | 124 | 188,352 | 666,926 | 855,278 | 6,897 |
 | ALFWorld / no-skill | 134 | 2315 | 1,151,557 | 555,982 | 1,707,539 | 12,743 |
 | ALFWorld / best | 134 | 1742 | 5,706,305 | 348,552 | 6,054,857 | 45,186 |
-| DocVQA（no-skill/best） | 374 | — | — | — | — | 早期 run，summary 无 token 字段 |
-| OfficeQA（no-skill/best） | 172 | — | — | — | — | 早期 run，summary 无 token 字段 |
+| DocVQA / no-skill | 374 | 374 | 1,707,237 | 27,318 | 1,734,555 | 4,638 |
+| DocVQA / best | 374 | 374 | 1,855,341 | 34,533 | 1,889,874 | 5,053 |
+| OfficeQA / no-skill | 172 | 867 | 7,604,181 | 646,570 | 8,250,751 | 47,970 |
+| OfficeQA / best | 172 | 538 | 5,214,383 | 545,376 | 5,759,759 | 33,487 |
 
 **几个观察：**
 - **skill 让 prompt 涨、但行为更高效。** SpreadsheetBench best prompt 6.4×（1.40M vs 0.22M）；
   ALFWorld best prompt 5×（5.71M vs 1.15M，42.6K/题 vs 8.6K/题）。
-- **ALFWorld 例外地 call 数反降**：best 1742 calls < no-skill 2315 calls（−25%），且 completion
-  token 更少——因为 skill 让 agent 更早 `done`，少撞 50 步上限（失败 episode 才烧满 call 数）。
-  这是唯一 multi-turn 长程 bench，calls/题 ≈ 13（best）vs 17（no-skill）。
-- **LiveMath 几乎全在 completion 侧**（85% 是推理 token，每题 1 call、~5–6K completion），
-  说明它是"重推理、轻 prompt"，加 skill 主要小幅抬 prompt（+86K），对 completion 影响不大。
+- **多轮工具/长程任务，skill 反而省 call 和 token。** 这是个一致规律：
+  - ALFWorld best 1742 calls < no-skill 2315（−25%），completion token 也更少。
+  - **OfficeQA best 538 calls / 5.76M tok < no-skill 867 calls / 8.25M tok（call −38%、token −30%）。**
+  原因相同：skill 让 agent 更早 done / 更快定位答案，少烧工具轮次（失败才会撑满 turn 上限）。
+  → 注意：单轮任务（DocVQA/LiveMath）每题恒为 1 call，best 比 no-skill 略涨（skill 进 prompt）；
+  只有 **multi-turn** 任务才出现 best 省 call 的现象。
+- **DocVQA 几乎全在 prompt 侧（图像）**：prompt 1.71M~1.86M 但 completion 仅 27K~35K（每题~73 completion
+  token），因为是单轮 VQA、答案极短。token/题 ~4.6K–5K，加 skill 仅 +0.4K。
+- **OfficeQA 最贵**（no-skill 48K/题、best 33K/题）：多轮读文档 + 检索，prompt 累积最高。
+- **LiveMath 几乎全在 completion 侧**（85% 是推理 token，每题 1 call、~5–6K completion）。
 - **SearchQA 最省**（~3.2K/题，97% 在 prompt，reasoning 极短）。
 - 代理 usage 不返回美元定价，只能给 token。
-
-> 待补：DocVQA / OfficeQA 若要 token，需用现版 `eval_only.py`（带 token 统计）各重跑一次。
 
 ---
 
