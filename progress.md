@@ -291,6 +291,44 @@ python scripts/eval_only.py --config configs/alfworld/default.yaml \
 
 ---
 
+## 3.9 实验：A3 query-conditioned skill retrieval（IB 框架，**负结论**）
+
+> 动机：把"按 query 选 skill 片段"形式化为 information bottleneck，希望同 token 下 EM 更高。
+> Z = f(S, X) 是检索出的 section 子集；目标 min I(Z;S|X) − β·I(Z;Y|X)。
+> 注：full skill 增益 = I(S;Y|X) 是 ceiling（对 f 是常数，从 argmin 消去）。IB 曲线 ≡ 信息平面上的
+> (压缩, 相关) **Pareto 前沿**，扫 β 即扫前沿；β = 前沿斜率。
+
+**前提探针（embedding，200 题）**：69% 的题只有 1 个 section "突出"，top-2 覆盖 → skill token 省 60%。
+看似稀疏、支持检索。**但全量评测推翻了这个乐观判断。**
+
+**全量 1400 A/B（同口径 harness，gpt-5.5）—— SearchQA 信息平面：**
+
+| 方案 (Z) | EM | total token | 评价 |
+|---|--:|--:|---|
+| none（Z=∅，β→0） | 0.7907 | 1.68M | 下界 |
+| **随机选 2/5 section** | **0.8314** | 2.81M | **控制组** |
+| embedding 选 2（q+ctx） | 0.8250 | 2.79M | 内点 |
+| hybrid bm25+emb 选 2（q-only） | 0.8257 | 3.04M | 内点（更差） |
+| **静态压缩 3605 字符** | **0.8357** | 2.79M | **Pareto 上的擂台** |
+| full（Z=S，β→∞） | 0.8536 | 4.47M | ceiling = I(S;Y\|X) |
+
+**核心负结论：所有 query-conditioned 检索都被静态压缩支配，且 ≈ 随机选 section。**
+- **随机(0.831) ≈ embedding(0.825) ≈ hybrid(0.826)**——"选哪些 section"几乎不影响 EM；
+  起作用的是"塞了约 2 个 section 的量"本身，而非选对了哪两个。
+- 检索器的 `section_keep_counts` 暴露原因：`Clue Interpretation`/`Common Clue Traps` 几乎每题都被选
+  （>1000/1400），所谓"稀疏"被 k=2 下限抹平——**SearchQA 的 skill 信息是弥漫式、近各向同性的**，
+  不是按 section 稀疏分布。用 IB 语言：这条任务的 **IB 曲线中段几乎是平的**，压缩率决定一切、选择策略不决定。
+- **推论**：(1) 在这类"弥漫式 skill"任务上 query-conditioned retrieval 理论上就赢不了静态压缩；
+  (2) 想真正逼近 ceiling 需换**更细粒度**（rule-level 而非 section-level），或干脆用 prefix caching 保 full。
+- 代码：`skillopt/utils/skill_retrieval.py`（SkillRetriever / HybridSkillRetriever，含自带 BM25，
+  零新依赖）；实验脚本在 session files/`a3_searchqa_ab.py` + `a3_probe.py`。
+
+**这是一个有价值的负结论**：它给出了"何时该用 SkillOpt-style retrieval"的判据——**只有当 skill 信息
+按 query 稀疏可分时才值得检索**；弥漫式 skill（如 SearchQA QA cheatsheet）应直接压缩或缓存。下一个
+该测的是**信息分布更稀疏的任务**（如 SpreadsheetBench：不同操作类型用不同 skill 段，疑似真稀疏）。
+
+---
+
 ## 4. 已知 limitations / 未做事项
 
 - **此前复现的 bench 都不是 long-horizon**：SearchQA 单轮 RC；SpreadsheetBench 名义 max_turns=30 实测平均 1–3 turn。这些 skill 在做"程序性记忆 cheatsheet"。**ALFWorld 是唯一真正 long-horizon 的 bench（多步规划、平均数十步），已复现成功（见 §3.6，Δ +11.2 ≈ 论文 +11.9）**——但只能在 WSL 跑（jericho/textworld 不支持原生 Windows）。SWEBench 仓库**没有**（`eval_only.py` 的 ENV_REGISTRY 用 try/except 静默吞 ImportError，看 import 列表会被误导）。
