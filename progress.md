@@ -329,6 +329,54 @@ python scripts/eval_only.py --config configs/alfworld/default.yaml \
 
 ---
 
+## 3.10 实验：A3 在 SpreadsheetBench 上验证（**判据收紧：per-query 稀疏 vs 全局稀疏**）
+
+> SpreadsheetBench 是多轮 codex 工具任务，skill 在 episode 开头注入一次，query = instruction。
+> 实现：rollout 加一个 **env 门控的 per-task section 选择 hook**（`SKILLOPT_SKILL_SELECT_MAP`，默认
+> 关闭、零行为变更），所有 policy 离线预计算成 `{task_id: [section_idx]}` 映射，无运行时 embedding API。
+> skill 7 节，其中 Matching(5013ch) + Robustness(4359ch) 占 71% 体量。
+
+**全量 280 test A/B（k=2，gpt-5.5）：**
+
+| policy (Z) | EM | total token | 说明 |
+|---|--:|--:|---|
+| full（7 节） | 0.7536 | 2,266,526 | 基线 |
+| **compress_k2（固定保 2 大节，query-无关）** | **0.7571** | 1,680,508 | **最高，省 26% token** |
+| embed_k2（按 instruction 相关性选 2 节） | 0.7429 | 1,724,446 | ≈ compress |
+| random_k2（随机选 2 节） | **0.5500** | 1,430,443 | **崩塌** |
+
+**核心结论（n=280，SE≈2.6pt）：**
+- **random(0.55) ≪ 其它(0.74–0.76)**：选择**确实重要**——和 SearchQA 的 random≈embed 截然不同。
+- **但 compress ≈ embed ≈ full（0.74–0.76，全在噪声内）**：**query-conditioned 检索并不优于固定压缩。**
+- **机制：SpreadsheetBench 是"全局稀疏"而非"per-query 稀疏"。** 存在一个**固定的**重要子集
+  （Matching+Robustness，几乎每题都需要）：random 失败因常漏掉它；embed 成功因常选中它；compress
+  成功因**永远**选它。所以"按 query 自适应"没有增量价值——正确策略就是"永远保同样 2 节"= 压缩。
+  （embed keep 分布：Robustness 204 / Matching 141 / Output 124 / Library 63… 偶尔用 Output 换掉
+  Matching，正是 embed 略低于 compress 的原因。）
+- **彩蛋：compress(0.757) 略高于 full(0.754)** —— 砍掉 5 个次要节**去噪提分**，还省 26% token。
+
+## A3 总结论（跨 SearchQA + SpreadsheetBench）
+
+**query-conditioned skill retrieval 在两个 benchmark 上都不优于静态压缩，但机制不同**——random 控制组揭示了真相：
+
+| | SearchQA（弥漫） | SpreadsheetBench（全局稀疏） |
+|---|---|---|
+| random vs embed | random ≈ embed（**选择无关**） | random ≪ embed（**选择重要**） |
+| embed vs compress | embed ≈ compress | embed ≈ compress |
+| 解释 | 各节信息近似等价，只有"量"重要 | 有固定重要子集，但**不随 query 变** |
+
+**收紧后的判据：检索只在"重要 skill 子集**因 query 而变**（per-query 稀疏）"时才可能赢压缩。**
+- 全局等价（SearchQA）→ 压缩=随机=检索。
+- 全局稀疏但固定（SpreadsheetBench）→ 固定压缩已捕获该子集，检索无增量。
+- 两个 benchmark 都不是 per-query 稀疏，所以 A3 都不成立。**但两次都得到"静态压缩可省 26–38% token
+  且 EM 持平甚至更高"的实用结论**（SpreadsheetBench compress 甚至 > full）。
+
+代码：rollout hook（`skillopt/envs/spreadsheetbench/rollout.py` 的 `_maybe_select_skill`，默认关闭）；
+离线脚本 session files/`a3_ss_make_maps.py`。**下一步候选**：找真正 per-query 稀疏的任务——如
+多领域混合 QA（每题属不同领域、各领域规则互斥），或把 skill 切到 **rule-level** 细粒度再检索。
+
+---
+
 ## 4. 已知 limitations / 未做事项
 
 - **此前复现的 bench 都不是 long-horizon**：SearchQA 单轮 RC；SpreadsheetBench 名义 max_turns=30 实测平均 1–3 turn。这些 skill 在做"程序性记忆 cheatsheet"。**ALFWorld 是唯一真正 long-horizon 的 bench（多步规划、平均数十步），已复现成功（见 §3.6，Δ +11.2 ≈ 论文 +11.9）**——但只能在 WSL 跑（jericho/textworld 不支持原生 Windows）。SWEBench 仓库**没有**（`eval_only.py` 的 ENV_REGISTRY 用 try/except 静默吞 ImportError，看 import 列表会被误导）。
