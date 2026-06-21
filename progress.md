@@ -355,6 +355,30 @@ python scripts/eval_only.py --config configs/alfworld/default.yaml \
   Matching，正是 embed 略低于 compress 的原因。）
 - **彩蛋：compress(0.757) 略高于 full(0.754)** —— 砍掉 5 个次要节**去噪提分**，还省 26% token。
 
+### 拆开 size vs popularity confound（k=3 决定性对照）
+
+compress 用"体积最大的 2 节"选，但**体积只是 popularity 的代理**——k=2 时 size-based 和
+popularity-based（用 **train split** 的 embedding 命中频率，无 test 泄漏）**选出完全相同的
+{Matching, Robustness}**，所以 compress 的成功**确实可解释为 popularity（命中最高频两节）**。
+
+k=3 时两者**分歧**，第 3 节：size 选 Library Selection(1806ch，train 命中 38)，popularity 选
+Output Requirements(212ch，train 命中 48)。全量对照：
+
+| 方法 | k | 第 3 节 | EM | token |
+|---|--|---|--:|--:|
+| compress(size) | 2 | — | **0.757** | 1.68M |
+| compress(size) | 3 | +Library(大) | 0.750 | 1.58M |
+| popularity(freq) | 3 | +Output(小) | 0.711 | 1.79M |
+| full | 7 | — | 0.754 | 2.27M |
+
+**结论(精确化用户的 popularity 洞察)：**
+- **k=2 时 size≡popularity**，都命中固定核心子集 {Matching, Robustness}——这就是 compress 成功、
+  random(0.55)失败的真正原因：**关键是有没有覆盖到这个核心子集**，random 常漏掉它。
+- **k=3 分歧时 size(0.750) > popularity(0.711)**：对生成代码的任务，"信息含量"（≈大节含更多实操
+  规则）比"检索频率"更能预测有用性。但二者都 ≈ full，差异在噪声边缘。
+- **最干净的表述**：存在一个**固定的高价值核心子集**，命中它即可；popularity 和 size 在 k=2 都正好
+  命中，这才是 compress 成功的本质。**不是 per-query 自适应，而是一个 query-无关的全局先验。**
+
 ## A3 总结论（跨 SearchQA + SpreadsheetBench）
 
 **query-conditioned skill retrieval 在两个 benchmark 上都不优于静态压缩，但机制不同**——random 控制组揭示了真相：
