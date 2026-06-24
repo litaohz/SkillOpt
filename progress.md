@@ -99,11 +99,16 @@ python scripts/eval_only.py --config configs/spreadsheetbench/default.yaml `
 
 > 多轮工具 agent（读公报文档 + 离线检索，max_tool_turns=24）。EM 评测。
 
-| 配置 | EM | 论文 vanilla |
+| 配置 | EM (复现) | 论文 (gpt-5.5) |
 |---|--:|--:|
-| No skill（模板，`outputs/empty_skill.md`） | **0.5465** (94/172) | ~33 |
-| No skill（**裸 prompt**，删模板 Rules） | **0.2849** (49/172) | ~33 |
-| Best skill（`ckpt/officeqa/gpt5.5_skill.md`） | **0.7035** (121/172) | — |
+| No skill（模板，`outputs/empty_skill.md`） | **0.5465** (94/172) | 33.1 (no skill) |
+| No skill（**裸 prompt**，删模板 Rules） | **0.2849** (49/172) | 33.1 (no skill) |
+| Best skill（`ckpt/officeqa/gpt5.5_skill.md`） | **0.7035** (121/172) | **72.1 (SkillOpt)** |
+
+> 论文 Table 1 OfficeQA 列：No skill 33.1 / Human 66.9 / LLM 51.7 / Trace2Skill 65.7 /
+> TextGrad 42.0 / GEPA 63.9 / **SkillOpt 72.1**（Δ +39.0）。我们的 best-skill 70.35 ≈ 论文 SkillOpt 72.1
+> （差 −1.75，proxy-gpt-5.5 同款偏移）；但**我们的 no-skill 54.65 远高于论文 33.1**，正是被模板 Rules 抬高
+> （裸 prompt 28.49 才落回论文 vanilla）。
 
 **OfficeQA 是"模板污染"最严重的 benchmark（详见 REPRODUCTION_PROGRESS.md）：**
 - `prompts/rollout_system.md` 永远加载 6 条 Rules，几乎逐字复制 `skills/initial.md`（待学习的 skill）。
