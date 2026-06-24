@@ -95,6 +95,75 @@ python scripts/eval_only.py --config configs/spreadsheetbench/default.yaml `
 
 ---
 
+## 3.3 OfficeQA 复现结果 ✅（gpt-5.5，全量 172 test）
+
+> 多轮工具 agent（读公报文档 + 离线检索，max_tool_turns=24）。EM 评测。
+
+| 配置 | EM | 论文 vanilla |
+|---|--:|--:|
+| No skill（模板，`outputs/empty_skill.md`） | **0.5465** (94/172) | ~33 |
+| No skill（**裸 prompt**，删模板 Rules） | **0.2849** (49/172) | ~33 |
+| Best skill（`ckpt/officeqa/gpt5.5_skill.md`） | **0.7035** (121/172) | — |
+
+**OfficeQA 是"模板污染"最严重的 benchmark（详见 REPRODUCTION_PROGRESS.md）：**
+- `prompts/rollout_system.md` 永远加载 6 条 Rules，几乎逐字复制 `skills/initial.md`（待学习的 skill）。
+  把这些 Rules 去掉做裸 prompt → no-skill 从 **54.65 暴跌到 28.49（−25.9 EM）**，落回论文 vanilla ~33 附近。
+- **第二层泄漏：文件名日期。** 公报命名 `treasury_bulletin_YYYY_MM.txt`，问题带日期，`glob *YYYY*`
+  直接定位答案文件（42% 的 glob 调用带 4 位年份）。扩大语料 285→697 几乎不影响分数。
+- **已排除模型记忆**：闭卷测试（无文档/无工具/无基准命名）EM=0，纯评测口径问题。
+- token 重测（带统计）：no-skill 0.5174 / best 0.7267（temperature=1 噪声，见 §3.7 成本表，
+  multi-turn agent，best 反而省 call/token）。
+
+### OfficeQA 可复现命令
+```powershell
+$env:OPENAI_RESPONSES_API_MODELS="gpt-5.5"
+$env:PYTHONIOENCODING="utf-8"
+python scripts/materialize_officeqa.py        # 一次性：materialize split + 文档语料
+python scripts/eval_only.py --config configs/officeqa/default.yaml `
+  --skill ckpt/officeqa/gpt5.5_skill.md `
+  --split valid_unseen --split_dir data/officeqa_split `
+  --azure_openai_endpoint http://localhost:4141/v1 `
+  --azure_openai_api_key dummy --azure_openai_auth_mode openai_compatible `
+  --target_model gpt-5.5 --workers 8 --out_root outputs/<name>
+# no-skill 基线：--skill outputs/empty_skill.md
+```
+
+---
+
+## 3.4 DocVQA 复现结果 ✅（gpt-5.5，全量 374 test）
+
+> 单轮多模态 VQA（文档图像 + 问题），ANLS（soft）为主指标。
+
+| 配置 | ANLS(soft) | binary@0.5(hard) | 论文 |
+|---|--:|--:|--:|
+| No skill（模板） | **0.9178** | 0.8235 | 78.8 |
+| No skill（**裸 prompt**） | **0.8600** | 0.7246 | 78.8 |
+| Best skill（`ckpt/docvqa/gpt5.5_skill.md`，裸） | **0.9654** | 0.9171 | 91.2 |
+| Δ (skill, 裸) | **+10.5** | — | +12.4 |
+
+**结论：方向 + 量级复现。**
+- 模板 no-skill 0.918 ≈ 论文 best-skill(91.2)，被模板抬高；裸 prompt no-skill 落回 0.860（隐藏了
+  ~5.8 ANLS 的模板贡献）。裸 prompt 下 skill 增益 **+10.5 ≈ 论文 +12.4**。
+- ANLS scorer 已对独立参考实现验证（374/374 完全一致）。
+- token 重测：no-skill ANLS 0.9025 / best 0.9663（见 §3.7，单轮，prompt 几乎全是图像，completion 极小）。
+
+### DocVQA 可复现命令
+```powershell
+$env:OPENAI_RESPONSES_API_MODELS="gpt-5.5"
+$env:PYTHONIOENCODING="utf-8"
+python scripts/materialize_docvqa.py          # 一次性：split CSV + 页面图像
+python scripts/eval_only.py --config configs/docvqa/default.yaml `
+  --skill ckpt/docvqa/gpt5.5_skill.md `
+  --split valid_unseen --split_dir data/docvqa/splits `
+  --azure_openai_endpoint http://localhost:4141/v1 `
+  --azure_openai_api_key dummy --azure_openai_auth_mode openai_compatible `
+  --target_model gpt-5.5 --workers 16 --out_root outputs/<name>
+# no-skill 基线：--skill outputs/empty_skill.md
+# 裸 prompt：需先删 prompts/rollout_system.md 里的模板 Rules（见 REPRODUCTION_PROGRESS.md）
+```
+
+---
+
 ## 3.5 LiveMathematicianBench 复现结果 ✅（gpt-5.5，全量 124 test）
 
 > 数学定理 MCQ（单选），max_turns=1，data/livemathematicianbench_split = 35/18/124。
