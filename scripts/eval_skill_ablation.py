@@ -17,6 +17,20 @@ The ablation target is a markdown section (default ``## Rules``) inside a prompt
 full evaluation is run via ``scripts/eval_only.py`` with an (empty) skill file.
 The original template is always restored afterwards (even on error / Ctrl-C).
 
+Process-level attribution (``--versions-dir``)
+----------------------------------------------
+Instead of ablating one template, evaluate every saved skill version from a
+training run (``out_root/skills/skill_v*.md`` plus ``best_skill.md``) on a fixed
+held-out split. The marginal delta between consecutive versions attributes score
+change to each optimization step's edit. Example::
+
+    python scripts/eval_skill_ablation.py --versions-dir outputs/train_run/skills `
+        --config configs/officeqa/default.yaml --split valid_unseen `
+        --split_dir data/officeqa_split --out-root outputs/version_curve `
+        --eval-arg env.workers=12 --target_model gpt-5.5 `
+        --azure_openai_endpoint http://localhost:4141/v1 `
+        --azure_openai_api_key dummy --azure_openai_auth_mode openai_compatible
+
 Example (OfficeQA, on the local ghc proxy with gpt-5.5)::
 
     $env:OPENAI_RESPONSES_API_MODELS="gpt-5.5"
@@ -270,12 +284,111 @@ def write_report(parsed: ParsedTemplate, results: list[RunResult], out_root: str
     print(f"\n  CSV : {csv_path}\n  JSON: {json_path}\n{'=' * 78}")
 
 
+# ── Version-curve attribution ───────────────────────────────────────────────
+
+def _run_eval_skill(base_cmd_no_skill: list[str], skill_path: str, variant_out: str) -> RunResult:
+    """Run eval_only.py for one skill file (no template editing)."""
+    name = os.path.splitext(os.path.basename(skill_path))[0]
+    res = RunResult(name=name, selected=[], rule_idx=None, out_root=variant_out)
+    summary_path = os.path.join(variant_out, "eval_summary.json")
+    if os.path.exists(summary_path):
+        try:
+            with open(summary_path, encoding="utf-8") as f:
+                s = json.load(f)
+            res.hard, res.soft, res.n_items = s.get("hard"), s.get("soft"), s.get("n_items")
+            print(f"  [cache] {name}: hard={res.hard}  (reused)")
+            return res
+        except Exception:
+            pass
+    cmd = list(base_cmd_no_skill) + ["--skill", skill_path, "--out_root", variant_out]
+    print(f"\n  [run] {name}: {' '.join(cmd)}")
+    t0 = time.time()
+    proc = subprocess.run(cmd, cwd=_PROJECT_ROOT)
+    if proc.returncode != 0:
+        res.error = f"eval_only exit {proc.returncode}"
+        print(f"  [fail] {name}: {res.error}")
+        return res
+    with open(summary_path, encoding="utf-8") as f:
+        s = json.load(f)
+    res.hard, res.soft, res.n_items = s.get("hard"), s.get("soft"), s.get("n_items")
+    print(f"  [done] {name}: hard={res.hard:.4f} soft={res.soft:.4f} "
+          f"n={res.n_items} ({time.time() - t0:.0f}s)")
+    return res
+
+
+def _discover_versions(versions_dir: str) -> list[str]:
+    files = [os.path.join(versions_dir, f) for f in os.listdir(versions_dir)
+             if re.match(r"skill_v\d+\.md$", f)]
+    files.sort(key=lambda p: int(re.search(r"v(\d+)", os.path.basename(p)).group(1)))
+    best = os.path.join(versions_dir, "best_skill.md")
+    if not os.path.exists(best):
+        best = os.path.join(os.path.dirname(versions_dir.rstrip("/\\")), "best_skill.md")
+    if os.path.exists(best):
+        files.append(os.path.abspath(best))
+    return files
+
+
+def run_versions(versions_dir: str, base_cmd: list[str], out_root: str, dry_run: bool) -> None:
+    files = _discover_versions(versions_dir)
+    if not files:
+        raise ValueError(f"No skill_v*.md found under {versions_dir!r}")
+    # base_cmd was built with a placeholder --skill; strip it so we can set per-file
+    cmd: list[str] = []
+    skip = False
+    for tok in base_cmd:
+        if skip:
+            skip = False
+            continue
+        if tok == "--skill":
+            skip = True
+            continue
+        cmd.append(tok)
+
+    print(f"  Found {len(files)} skill version(s): {[os.path.basename(f) for f in files]}")
+    if dry_run:
+        return
+    results: list[RunResult] = []
+    for path in files:
+        name = os.path.splitext(os.path.basename(path))[0]
+        results.append(_run_eval_skill(cmd, os.path.abspath(path), os.path.join(out_root, name)))
+
+    # report: per-version score + marginal delta vs previous version
+    csv_path = os.path.join(out_root, "version_curve.csv")
+    with open(csv_path, "w", encoding="utf-8", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["version", "hard", "soft", "n_items", "marginal_delta"])
+        prev = None
+        for r in results:
+            delta = (r.hard - prev) if (prev is not None and r.hard is not None) else None
+            w.writerow([r.name, r.hard, r.soft, r.n_items, delta])
+            if r.hard is not None and not r.name.startswith("best"):
+                prev = r.hard
+    with open(os.path.join(out_root, "version_curve.json"), "w", encoding="utf-8") as f:
+        json.dump([vars(r) for r in results], f, indent=2, ensure_ascii=False)
+
+    print(f"\n{'=' * 70}\n  SKILL VERSION CURVE\n{'=' * 70}")
+    print(f"  {'version':<16} {'hard':>8} {'Δ vs prev':>10}")
+    prev = None
+    for r in results:
+        delta = (r.hard - prev) if (prev is not None and r.hard is not None) else None
+        ds = "    --   " if delta is None else f"{delta:+.4f}"
+        hs = " n/a" if r.hard is None else f"{r.hard:.4f}"
+        print(f"  {r.name:<16} {hs:>8} {ds:>10}")
+        if r.hard is not None and not r.name.startswith("best"):
+            prev = r.hard
+    print(f"\n  CSV: {csv_path}\n{'=' * 70}")
+
+
 # ── CLI ─────────────────────────────────────────────────────────────────────
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Sentence-level skill ablation")
-    p.add_argument("--template", required=True,
-                   help="Prompt template file containing the ablatable section")
+    p.add_argument("--template",
+                   help="Prompt template file containing the ablatable section "
+                        "(required unless --versions-dir is given)")
+    p.add_argument("--versions-dir",
+                   help="Process-level mode: eval every skill_v*.md (+ best_skill.md) "
+                        "in this dir; produces a score-vs-version curve")
     p.add_argument("--section", default="## Rules",
                    help="Markdown heading of the section to ablate (default: '## Rules')")
     p.add_argument("--modes", nargs="+", default=["full", "bare", "loo", "addone"],
@@ -318,6 +431,18 @@ def build_base_eval_cmd(args: argparse.Namespace) -> list[str]:
 
 def main() -> None:
     args = parse_args()
+    out_root = os.path.abspath(args.out_root)
+    os.makedirs(out_root, exist_ok=True)
+    base_cmd = build_base_eval_cmd(args)
+
+    # ── Process-level mode: score-vs-version curve ──
+    if args.versions_dir:
+        run_versions(os.path.abspath(args.versions_dir), base_cmd, out_root, args.dry_run)
+        return
+
+    # ── Sentence-level mode: template-section ablation ──
+    if not args.template:
+        raise SystemExit("--template is required unless --versions-dir is given")
     template_path = os.path.abspath(args.template)
     with open(template_path, encoding="utf-8") as f:
         original = f.read()
@@ -330,12 +455,9 @@ def main() -> None:
         print("  [warn] full-variant reconstruction differs from original "
               "(whitespace only is OK; check --dry-run).")
 
-    out_root = os.path.abspath(args.out_root)
-    os.makedirs(out_root, exist_ok=True)
     variants = build_variants(len(parsed.rules), args.modes)
     print(f"  Planned {len(variants)} variant(s): {[v.name for v in variants]}")
 
-    base_cmd = build_base_eval_cmd(args)
     results: list[RunResult] = []
     try:
         for v in variants:
