@@ -25,6 +25,43 @@ OfficeQA scored EM 0.0; the model is not reciting answers.)
 
 ---
 
+## Sentence-level skill ablation — *which line* carries the value
+
+Tooling: **`scripts/eval_skill_ablation.py`** rewrites a prompt template's markdown
+section (default `## Rules`) into controlled variants, runs `eval_only.py` per variant,
+and reports per-rule deltas. Two attributions per rule *i*:
+- **LOO Δ** = `score(full) − score(full∖{i})` → how *indispensable* the rule is.
+- **add-one Δ** = `score(bare + {i}) − score(bare)` → its *standalone* value on the bare baseline.
+
+Run: OfficeQA template `## Rules` (6 rules), **full 172-item test split**, gpt-5.5,
+14 variants (full + bare + 6 LOO + 6 add-one). EM:
+
+- **full (all 6 rules) = 0.529**　**bare (no rules) = 0.337**　→ whole Rules block = **+19.2 pts**.
+
+| # | rule | LOO Δ | add-one Δ |
+|---|---|--:|--:|
+| 1 | Use only the provided local document tools | +0.000 | +0.099 |
+| 2 | Narrow to the most relevant file first | +0.012 | +0.012 |
+| 3 | Prefer short targeted searches, small reads | +0.017 | +0.029 |
+| 4 | Do not invent ungrounded values | −0.006 | **−0.058** |
+| 5 | Extract exact operands before arithmetic | +0.047 | +0.052 |
+| 6 | Return final answer inside `<answer>...</answer>` | **+0.163** | **+0.163** |
+
+**Findings.**
+1. **~85% of the Rules' value is a single output-format line (Rule 6).** Both LOO and
+   add-one ≈ +0.163 of the total +0.192. The evaluator extracts the answer from
+   `<answer>...</answer>`; without that instruction the model often omits the tag and is
+   scored wrong. The "skill" here is largely **harness/format compliance, not domain reasoning** —
+   pinning down the exact sentence behind the earlier TL;DR finding.
+2. **Rule 4 ("do not invent") is a net-negative line** (add-one −0.058, LOO ≈ 0): adding it
+   alone hurts (over-conservative / over-abstention). A candidate for the optimizer to drop.
+3. Rules 2/3/5 (retrieval strategy + arithmetic) are mild positives (+0.01…+0.05); Rule 1
+   helps only standalone (+0.099) and is redundant with the others (LOO = 0).
+
+Artifacts (gitignored): `outputs/ablation_officeqa_gpt55/ablation_report.{csv,json}`.
+
+---
+
 ## 结论（中文，可直接转给作者）
 
 我们在同一份上游 split、同样用 gpt-5.5 复现 SkillOpt，结论如下：
@@ -153,6 +190,8 @@ no-skill 13 (4.6%), thermal-throttle at both ends, does not affect the Δ compar
   `inject_oracle_pages`, `restrict_to_source_files` (default True = legacy).
 - `scripts/materialize_officeqa.py`, `scripts/materialize_docvqa.py` — data materialization.
 - `scripts/eval_only.py` — utf-8 skill read (Windows fix).
+- `scripts/eval_skill_ablation.py` — **sentence-level skill ablation** (LOO / add-one over a
+  template's `## Rules`; swap-eval-restore around `eval_only.py`).
 - Reports: `officeqa_reproduction_report.md`, `docvqa_reproduction_report.md`.
 
 ---
