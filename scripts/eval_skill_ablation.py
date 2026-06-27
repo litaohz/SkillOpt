@@ -347,10 +347,25 @@ def run_versions(versions_dir: str, base_cmd: list[str], out_root: str, dry_run:
     print(f"  Found {len(files)} skill version(s): {[os.path.basename(f) for f in files]}")
     if dry_run:
         return
+    import hashlib
     results: list[RunResult] = []
+    by_hash: dict[str, RunResult] = {}
     for path in files:
         name = os.path.splitext(os.path.basename(path))[0]
-        results.append(_run_eval_skill(cmd, os.path.abspath(path), os.path.join(out_root, name)))
+        with open(path, "rb") as fh:
+            h = hashlib.sha256(fh.read()).hexdigest()
+        if h in by_hash:
+            # identical skill content: reuse the prior score (a gate-rejected step)
+            prev = by_hash[h]
+            r = RunResult(name=name, selected=[], rule_idx=None,
+                          hard=prev.hard, soft=prev.soft, n_items=prev.n_items,
+                          out_root=prev.out_root)
+            print(f"  [dedup] {name}: identical to {prev.name} -> hard={r.hard}")
+            results.append(r)
+            continue
+        r = _run_eval_skill(cmd, os.path.abspath(path), os.path.join(out_root, name))
+        by_hash[h] = r
+        results.append(r)
 
     # report: per-version score + marginal delta vs previous version
     csv_path = os.path.join(out_root, "version_curve.csv")

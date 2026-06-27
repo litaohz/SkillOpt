@@ -60,6 +60,43 @@ Run: OfficeQA template `## Rules` (6 rules), **full 172-item test split**, gpt-5
 
 Artifacts (gitignored): `outputs/ablation_officeqa_gpt55/ablation_report.{csv,json}`.
 
+### Process-level attribution — *which optimization step* earned the gain
+
+Tooling: `scripts/eval_skill_ablation.py --versions-dir <run>/skills` evaluates every
+saved `skill_v*.md` (+ `best_skill.md`) on the fixed 172-item test split (content-dedup
+skips gate-rejected steps that left the skill unchanged). From a full OfficeQA training
+(gpt-5.5, 4 epochs / 8 steps; gate accepted only steps 1–2, rejected 6/8; skill grew
+902 → 14,308 chars):
+
+| version | test EM | Δ vs prev | step outcome |
+|---|--:|--:|---|
+| v0000 (init) | 0.593 | — | initial skill |
+| v0001 | 0.686 | **+0.093** | step 1 — gate-accepted |
+| v0002 | 0.709 | **+0.023** | step 2 — gate-accepted (best_step) |
+| v0003 | 0.709 | 0.000 | step 3 rejected (skill = v2) |
+| v0004 | 0.721 | +0.012 | epoch-2 slow-update |
+| v0005 | 0.721 | 0.000 | step 5 rejected |
+| v0006 | 0.709 | −0.012 | epoch-3 slow-update (regress) |
+| v0007 | 0.709 | 0.000 | step 7 rejected |
+| v0008 | 0.692 | −0.017 | epoch-4 slow-update (regress) |
+| best_skill (step 2) | **0.733** | — | gate-selected checkpoint |
+
+**Findings.**
+1. **~93% of the real improvement is the first 2 gate-accepted edits** (v0→v2 = +0.116 of
+   the +0.116 net to v2). These are the only steps the val-gate accepted.
+2. **Unconditional slow-update growth after epoch 1 is bloat**: the skill more than doubled
+   (5.9k → 14.3k chars) but test EM *drifted down* 0.709 → 0.692 (−0.017); epochs 3–4 each
+   regressed. More text ≠ more skill.
+3. **The gate works**: its step-2 `best_skill` (0.733) is the genuine high-water mark; the
+   over-grown final "current" skill (0.692) is worse. Selecting on val held up on test.
+
+Together with the sentence-level result this gives a consistent story: skill *value* is
+sparse — concentrated in a few early edits and (within those) a single output-format line —
+while most of the document's length is non-contributing or mildly harmful.
+
+Artifacts (gitignored): `outputs/version_curve_officeqa_gpt55/version_curve.{csv,json}`,
+training run `outputs/train_officeqa_gpt55_v1/` (summary: baseline test 0.564 → final 0.715).
+
 ---
 
 ## 结论（中文，可直接转给作者）
