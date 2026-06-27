@@ -64,8 +64,11 @@ def main() -> None:
     args = ap.parse_args()
 
     run = os.path.abspath(args.run)
-    with open(os.path.join(run, "summary.json"), encoding="utf-8") as f:
-        summary = json.load(f)
+    summary = {}
+    _summary_path = os.path.join(run, "summary.json")
+    if os.path.exists(_summary_path):
+        with open(_summary_path, encoding="utf-8") as f:
+            summary = json.load(f)
     recs = load_steps(run)
 
     steps = [r["step"] for r in recs]
