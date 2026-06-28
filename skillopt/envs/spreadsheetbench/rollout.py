@@ -26,6 +26,37 @@ from concurrent.futures import (
 import openpyxl
 
 from skillopt.envs.spreadsheetbench.react_agent import run_react
+
+# ── A3 research hook: optional per-task skill-section selection ───────────────
+# Gated by env var SKILLOPT_SKILL_SELECT_MAP=<path to json {task_id: [section_idx,...]}>.
+# Default unset => skill_content passes through unchanged (zero behavior change).
+_SKILL_SELECT_MAP: dict | None = None
+_SKILL_SELECT_LOADED = False
+
+
+def _maybe_select_skill(skill_content: str, task_id: str) -> str:
+    global _SKILL_SELECT_MAP, _SKILL_SELECT_LOADED
+    path = os.environ.get("SKILLOPT_SKILL_SELECT_MAP", "").strip()
+    if not path:
+        return skill_content
+    if not _SKILL_SELECT_LOADED:
+        try:
+            with open(path, encoding="utf-8") as f:
+                _SKILL_SELECT_MAP = json.load(f)
+        except Exception:
+            _SKILL_SELECT_MAP = {}
+        _SKILL_SELECT_LOADED = True
+    sel = (_SKILL_SELECT_MAP or {}).get(str(task_id))
+    if sel is None:
+        return skill_content
+    from skillopt.utils.skill_retrieval import split_sections
+    secs = split_sections(skill_content)
+    scored = [s for s in secs if s[0] != "__preamble__"]
+    pre = [s for s in secs if s[0] == "__preamble__"]
+    keep = [scored[i][1] for i in sel if 0 <= i < len(scored)]
+    return "\n\n".join([b for _, b in pre] + keep)
+
+
 from skillopt.envs.spreadsheetbench.evaluator import (
     evaluate, _generate_cell_names, _compare_cell_value,
 )
@@ -246,6 +277,8 @@ def process_one(
 
     sp = item.get("spreadsheet_path", f"spreadsheet/{task_id}")
     task_dir = sp if os.path.isabs(sp) else os.path.join(data_root, sp)
+
+    skill_content = _maybe_select_skill(skill_content, task_id)
 
     result = {
         "id": task_id,
@@ -625,6 +658,8 @@ def process_one_codegen(
 
     sp = item.get("spreadsheet_path", f"spreadsheet/{task_id}")
     task_dir = sp if os.path.isabs(sp) else os.path.join(data_root, sp)
+
+    skill_content = _maybe_select_skill(skill_content, task_id)
 
     result = {
         "id": task_id,

@@ -95,6 +95,80 @@ python scripts/eval_only.py --config configs/spreadsheetbench/default.yaml `
 
 ---
 
+## 3.3 OfficeQA 复现结果 ✅（gpt-5.5，全量 172 test）
+
+> 多轮工具 agent（读公报文档 + 离线检索，max_tool_turns=24）。EM 评测。
+
+| 配置 | EM (复现) | 论文 (gpt-5.5) |
+|---|--:|--:|
+| No skill（模板，`outputs/empty_skill.md`） | **0.5465** (94/172) | 33.1 (no skill) |
+| No skill（**裸 prompt**，删模板 Rules） | **0.2849** (49/172) | 33.1 (no skill) |
+| Best skill（`ckpt/officeqa/gpt5.5_skill.md`） | **0.7035** (121/172) | **72.1 (SkillOpt)** |
+
+> 论文 Table 1 OfficeQA 列：No skill 33.1 / Human 66.9 / LLM 51.7 / Trace2Skill 65.7 /
+> TextGrad 42.0 / GEPA 63.9 / **SkillOpt 72.1**（Δ +39.0）。我们的 best-skill 70.35 ≈ 论文 SkillOpt 72.1
+> （差 −1.75，proxy-gpt-5.5 同款偏移）；但**我们的 no-skill 54.65 远高于论文 33.1**，正是被模板 Rules 抬高
+> （裸 prompt 28.49 才落回论文 vanilla）。
+
+**OfficeQA 是"模板污染"最严重的 benchmark（详见 REPRODUCTION_PROGRESS.md）：**
+- `prompts/rollout_system.md` 永远加载 6 条 Rules，几乎逐字复制 `skills/initial.md`（待学习的 skill）。
+  把这些 Rules 去掉做裸 prompt → no-skill 从 **54.65 暴跌到 28.49（−25.9 EM）**，落回论文 vanilla ~33 附近。
+- **第二层泄漏：文件名日期。** 公报命名 `treasury_bulletin_YYYY_MM.txt`，问题带日期，`glob *YYYY*`
+  直接定位答案文件（42% 的 glob 调用带 4 位年份）。扩大语料 285→697 几乎不影响分数。
+- **已排除模型记忆**：闭卷测试（无文档/无工具/无基准命名）EM=0，纯评测口径问题。
+- token 重测（带统计）：no-skill 0.5174 / best 0.7267（temperature=1 噪声，见 §3.7 成本表，
+  multi-turn agent，best 反而省 call/token）。
+
+### OfficeQA 可复现命令
+```powershell
+$env:OPENAI_RESPONSES_API_MODELS="gpt-5.5"
+$env:PYTHONIOENCODING="utf-8"
+python scripts/materialize_officeqa.py        # 一次性：materialize split + 文档语料
+python scripts/eval_only.py --config configs/officeqa/default.yaml `
+  --skill ckpt/officeqa/gpt5.5_skill.md `
+  --split valid_unseen --split_dir data/officeqa_split `
+  --azure_openai_endpoint http://localhost:4141/v1 `
+  --azure_openai_api_key dummy --azure_openai_auth_mode openai_compatible `
+  --target_model gpt-5.5 --workers 8 --out_root outputs/<name>
+# no-skill 基线：--skill outputs/empty_skill.md
+```
+
+---
+
+## 3.4 DocVQA 复现结果 ✅（gpt-5.5，全量 374 test）
+
+> 单轮多模态 VQA（文档图像 + 问题），ANLS（soft）为主指标。
+
+| 配置 | ANLS(soft) | binary@0.5(hard) | 论文 |
+|---|--:|--:|--:|
+| No skill（模板） | **0.9178** | 0.8235 | 78.8 |
+| No skill（**裸 prompt**） | **0.8600** | 0.7246 | 78.8 |
+| Best skill（`ckpt/docvqa/gpt5.5_skill.md`，裸） | **0.9654** | 0.9171 | 91.2 |
+| Δ (skill, 裸) | **+10.5** | — | +12.4 |
+
+**结论：方向 + 量级复现。**
+- 模板 no-skill 0.918 ≈ 论文 best-skill(91.2)，被模板抬高；裸 prompt no-skill 落回 0.860（隐藏了
+  ~5.8 ANLS 的模板贡献）。裸 prompt 下 skill 增益 **+10.5 ≈ 论文 +12.4**。
+- ANLS scorer 已对独立参考实现验证（374/374 完全一致）。
+- token 重测：no-skill ANLS 0.9025 / best 0.9663（见 §3.7，单轮，prompt 几乎全是图像，completion 极小）。
+
+### DocVQA 可复现命令
+```powershell
+$env:OPENAI_RESPONSES_API_MODELS="gpt-5.5"
+$env:PYTHONIOENCODING="utf-8"
+python scripts/materialize_docvqa.py          # 一次性：split CSV + 页面图像
+python scripts/eval_only.py --config configs/docvqa/default.yaml `
+  --skill ckpt/docvqa/gpt5.5_skill.md `
+  --split valid_unseen --split_dir data/docvqa/splits `
+  --azure_openai_endpoint http://localhost:4141/v1 `
+  --azure_openai_api_key dummy --azure_openai_auth_mode openai_compatible `
+  --target_model gpt-5.5 --workers 16 --out_root outputs/<name>
+# no-skill 基线：--skill outputs/empty_skill.md
+# 裸 prompt：需先删 prompts/rollout_system.md 里的模板 Rules（见 REPRODUCTION_PROGRESS.md）
+```
+
+---
+
 ## 3.5 LiveMathematicianBench 复现结果 ✅（gpt-5.5，全量 124 test）
 
 > 数学定理 MCQ（单选），max_turns=1，data/livemathematicianbench_split = 35/18/124。
@@ -288,6 +362,116 @@ python scripts/eval_only.py --config configs/alfworld/default.yaml \
   （表面形式保留、关系方向陷阱的细化举例）真在贡献边际分数。
 - **这是一个清晰的 token/精度 Pareto 点**，不是免费午餐。最优解可能是 **prefix caching**（保留全
   skill、token 近乎免费）而非有损压缩。压缩适合"无缓存 + 成本敏感"场景。
+
+---
+
+## 3.9 实验：A3 query-conditioned skill retrieval（IB 框架，**负结论**）
+
+> 动机：把"按 query 选 skill 片段"形式化为 information bottleneck，希望同 token 下 EM 更高。
+> Z = f(S, X) 是检索出的 section 子集；目标 min I(Z;S|X) − β·I(Z;Y|X)。
+> 注：full skill 增益 = I(S;Y|X) 是 ceiling（对 f 是常数，从 argmin 消去）。IB 曲线 ≡ 信息平面上的
+> (压缩, 相关) **Pareto 前沿**，扫 β 即扫前沿；β = 前沿斜率。
+
+**前提探针（embedding，200 题）**：69% 的题只有 1 个 section "突出"，top-2 覆盖 → skill token 省 60%。
+看似稀疏、支持检索。**但全量评测推翻了这个乐观判断。**
+
+**全量 1400 A/B（同口径 harness，gpt-5.5）—— SearchQA 信息平面：**
+
+| 方案 (Z) | EM | total token | 评价 |
+|---|--:|--:|---|
+| none（Z=∅，β→0） | 0.7907 | 1.68M | 下界 |
+| **随机选 2/5 section** | **0.8314** | 2.81M | **控制组** |
+| embedding 选 2（q+ctx） | 0.8250 | 2.79M | 内点 |
+| hybrid bm25+emb 选 2（q-only） | 0.8257 | 3.04M | 内点（更差） |
+| **静态压缩 3605 字符** | **0.8357** | 2.79M | **Pareto 上的擂台** |
+| full（Z=S，β→∞） | 0.8536 | 4.47M | ceiling = I(S;Y\|X) |
+
+**核心负结论：所有 query-conditioned 检索都被静态压缩支配，且 ≈ 随机选 section。**
+- **随机(0.831) ≈ embedding(0.825) ≈ hybrid(0.826)**——"选哪些 section"几乎不影响 EM；
+  起作用的是"塞了约 2 个 section 的量"本身，而非选对了哪两个。
+- 检索器的 `section_keep_counts` 暴露原因：`Clue Interpretation`/`Common Clue Traps` 几乎每题都被选
+  （>1000/1400），所谓"稀疏"被 k=2 下限抹平——**SearchQA 的 skill 信息是弥漫式、近各向同性的**，
+  不是按 section 稀疏分布。用 IB 语言：这条任务的 **IB 曲线中段几乎是平的**，压缩率决定一切、选择策略不决定。
+- **推论**：(1) 在这类"弥漫式 skill"任务上 query-conditioned retrieval 理论上就赢不了静态压缩；
+  (2) 想真正逼近 ceiling 需换**更细粒度**（rule-level 而非 section-level），或干脆用 prefix caching 保 full。
+- 代码：`skillopt/utils/skill_retrieval.py`（SkillRetriever / HybridSkillRetriever，含自带 BM25，
+  零新依赖）；实验脚本在 session files/`a3_searchqa_ab.py` + `a3_probe.py`。
+
+**这是一个有价值的负结论**：它给出了"何时该用 SkillOpt-style retrieval"的判据——**只有当 skill 信息
+按 query 稀疏可分时才值得检索**；弥漫式 skill（如 SearchQA QA cheatsheet）应直接压缩或缓存。下一个
+该测的是**信息分布更稀疏的任务**（如 SpreadsheetBench：不同操作类型用不同 skill 段，疑似真稀疏）。
+
+---
+
+## 3.10 实验：A3 在 SpreadsheetBench 上验证（**判据收紧：per-query 稀疏 vs 全局稀疏**）
+
+> SpreadsheetBench 是多轮 codex 工具任务，skill 在 episode 开头注入一次，query = instruction。
+> 实现：rollout 加一个 **env 门控的 per-task section 选择 hook**（`SKILLOPT_SKILL_SELECT_MAP`，默认
+> 关闭、零行为变更），所有 policy 离线预计算成 `{task_id: [section_idx]}` 映射，无运行时 embedding API。
+> skill 7 节，其中 Matching(5013ch) + Robustness(4359ch) 占 71% 体量。
+
+**全量 280 test A/B（k=2，gpt-5.5）：**
+
+| policy (Z) | EM | total token | 说明 |
+|---|--:|--:|---|
+| full（7 节） | 0.7536 | 2,266,526 | 基线 |
+| **compress_k2（固定保 2 大节，query-无关）** | **0.7571** | 1,680,508 | **最高，省 26% token** |
+| embed_k2（按 instruction 相关性选 2 节） | 0.7429 | 1,724,446 | ≈ compress |
+| random_k2（随机选 2 节） | **0.5500** | 1,430,443 | **崩塌** |
+
+**核心结论（n=280，SE≈2.6pt）：**
+- **random(0.55) ≪ 其它(0.74–0.76)**：选择**确实重要**——和 SearchQA 的 random≈embed 截然不同。
+- **但 compress ≈ embed ≈ full（0.74–0.76，全在噪声内）**：**query-conditioned 检索并不优于固定压缩。**
+- **机制：SpreadsheetBench 是"全局稀疏"而非"per-query 稀疏"。** 存在一个**固定的**重要子集
+  （Matching+Robustness，几乎每题都需要）：random 失败因常漏掉它；embed 成功因常选中它；compress
+  成功因**永远**选它。所以"按 query 自适应"没有增量价值——正确策略就是"永远保同样 2 节"= 压缩。
+  （embed keep 分布：Robustness 204 / Matching 141 / Output 124 / Library 63… 偶尔用 Output 换掉
+  Matching，正是 embed 略低于 compress 的原因。）
+- **彩蛋：compress(0.757) 略高于 full(0.754)** —— 砍掉 5 个次要节**去噪提分**，还省 26% token。
+
+### 拆开 size vs popularity confound（k=3 决定性对照）
+
+compress 用"体积最大的 2 节"选，但**体积只是 popularity 的代理**——k=2 时 size-based 和
+popularity-based（用 **train split** 的 embedding 命中频率，无 test 泄漏）**选出完全相同的
+{Matching, Robustness}**，所以 compress 的成功**确实可解释为 popularity（命中最高频两节）**。
+
+k=3 时两者**分歧**，第 3 节：size 选 Library Selection(1806ch，train 命中 38)，popularity 选
+Output Requirements(212ch，train 命中 48)。全量对照：
+
+| 方法 | k | 第 3 节 | EM | token |
+|---|--|---|--:|--:|
+| compress(size) | 2 | — | **0.757** | 1.68M |
+| compress(size) | 3 | +Library(大) | 0.750 | 1.58M |
+| popularity(freq) | 3 | +Output(小) | 0.711 | 1.79M |
+| full | 7 | — | 0.754 | 2.27M |
+
+**结论(精确化用户的 popularity 洞察)：**
+- **k=2 时 size≡popularity**，都命中固定核心子集 {Matching, Robustness}——这就是 compress 成功、
+  random(0.55)失败的真正原因：**关键是有没有覆盖到这个核心子集**，random 常漏掉它。
+- **k=3 分歧时 size(0.750) > popularity(0.711)**：对生成代码的任务，"信息含量"（≈大节含更多实操
+  规则）比"检索频率"更能预测有用性。但二者都 ≈ full，差异在噪声边缘。
+- **最干净的表述**：存在一个**固定的高价值核心子集**，命中它即可；popularity 和 size 在 k=2 都正好
+  命中，这才是 compress 成功的本质。**不是 per-query 自适应，而是一个 query-无关的全局先验。**
+
+## A3 总结论（跨 SearchQA + SpreadsheetBench）
+
+**query-conditioned skill retrieval 在两个 benchmark 上都不优于静态压缩，但机制不同**——random 控制组揭示了真相：
+
+| | SearchQA（弥漫） | SpreadsheetBench（全局稀疏） |
+|---|---|---|
+| random vs embed | random ≈ embed（**选择无关**） | random ≪ embed（**选择重要**） |
+| embed vs compress | embed ≈ compress | embed ≈ compress |
+| 解释 | 各节信息近似等价，只有"量"重要 | 有固定重要子集，但**不随 query 变** |
+
+**收紧后的判据：检索只在"重要 skill 子集**因 query 而变**（per-query 稀疏）"时才可能赢压缩。**
+- 全局等价（SearchQA）→ 压缩=随机=检索。
+- 全局稀疏但固定（SpreadsheetBench）→ 固定压缩已捕获该子集，检索无增量。
+- 两个 benchmark 都不是 per-query 稀疏，所以 A3 都不成立。**但两次都得到"静态压缩可省 26–38% token
+  且 EM 持平甚至更高"的实用结论**（SpreadsheetBench compress 甚至 > full）。
+
+代码：rollout hook（`skillopt/envs/spreadsheetbench/rollout.py` 的 `_maybe_select_skill`，默认关闭）；
+离线脚本 session files/`a3_ss_make_maps.py`。**下一步候选**：找真正 per-query 稀疏的任务——如
+多领域混合 QA（每题属不同领域、各领域规则互斥），或把 skill 切到 **rule-level** 细粒度再检索。
 
 ---
 
