@@ -76,6 +76,17 @@ bloated `skill_final`) and run combinatorial attribution **only on those**.
 
 Status: ⏳ (after the first-order 172 attribution of `best_skill` completes).
 
+### Measured: the gate-selected skill is 1-of-19 useful (✅)
+
+First-order attribution of the e16 `best_skill` (19 units, 172 test, full=0.692,
+empty=0.547): a single output-format unit (#17, "match the requested output form
+exactly… omit units/prose/qualifiers") carries everything — LOO Δ **+0.145**
+(removing it drops to 0.547 = no-skill), add-one Δ **+0.174** (alone = 0.721,
+beating the full 19-unit skill). The other 18 units are ≈0 or negative; long
+arithmetic rules are standalone-harmful (add-one −0.19/−0.30). **Causal-pruned to
+4 lines (470 chars) = 0.715**, ties the entire 16-epoch run (best 0.733 / final
+0.715) at ~5× smaller. A 1–4 sentence skill reproduces 7.6h / 106M tokens.
+
 ---
 
 ## Part 4 — The fix: causal-guided, cost-aware, global optimization
