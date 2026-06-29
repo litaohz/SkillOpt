@@ -74,7 +74,13 @@ bloated `skill_final`) and run combinatorial attribution **only on those**.
   measured causal value ≈ 0."* This turns the temporal finding into a
   mechanistic, causal statement.
 
-Status: ⏳ (after the first-order 172 attribution of `best_skill` completes).
+Status: ✅ **bridged.** Bloated final skill (20,238 chars, with 18k force-added
+slow_update) = 0.709; removing the entire slow_update block → 2,488 chars =
+**0.7151** (EM +0.006, 8× smaller). Everything the 28 ineffective steps added has
+measured causal value ≈0. Time-sparsity and content-sparsity are the same
+phenomenon: useless steps emit causally-worthless redundant text. (Pruned lean
+skill = 0.715 / 470 chars also ties — the whole 7.6h/106M-token run reduces to a
+few sentences.)
 
 ### Measured: combinatorial pairwise confirms no hidden synergy (✅)
 
@@ -145,7 +151,7 @@ and a causal-attribution lens both proves it and fixes it.*
 ## Planned experiments (cheap → expensive; all reuse the eval cache)
 
 1. ✅ First-order attribution of the gate-selected `best_skill` (172 test).
-2. ⏳ Bridge experiment — combinatorial attribution of post-epoch-2 units.
+2. ✅ Bridge experiment — bloated final minus slow_update = 0.715 (≥ full); post-epoch-2 text causal value ≈0.
 3. ⏳ Cross-surface redundancy — template Rules + skill units in one pool.
-4. ⏳ Causal pruning vs full (Pareto EM/tokens) on the bloated skill.
+4. ✅ Causal pruning vs full (4 lines = 0.715, ties whole run at ~5x smaller).
 5. ⏳ In-loop attribution-guided optimizer A/B.
