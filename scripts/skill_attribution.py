@@ -54,12 +54,26 @@ _UNIT_START = re.compile(r"^\s*(?:#+\s|\d+[.)]\s|[-*+]\s)")
 
 # ── Skill → atomic units ────────────────────────────────────────────────────
 
-def split_units(text: str) -> list[str]:
+def split_units(text: str, granularity: str = "unit") -> list[str]:
     """Split a skill document into atomic units.
 
-    A unit is a single markdown header line, a single list item, or one
-    blank-line-delimited paragraph. Blank lines are separators (dropped).
+    granularity="unit": each markdown header line, list item, or blank-line
+    paragraph is its own unit. granularity="section": group each header with
+    everything until the next header into one unit (coarse, cheap).
     """
+    if granularity == "section":
+        sections: list[str] = []
+        cur: list[str] = []
+        for line in text.split("\n"):
+            if re.match(r"^\s*#+\s", line) and cur:
+                if any(l.strip() for l in cur):
+                    sections.append("\n".join(cur).rstrip())
+                cur = [line]
+            else:
+                cur.append(line)
+        if any(l.strip() for l in cur):
+            sections.append("\n".join(cur).rstrip())
+        return sections
     units: list[str] = []
     buf: list[str] = []
 
@@ -160,6 +174,7 @@ def main() -> None:
                     help="emit a pruned skill keeping only LOO Δ > 0 units")
     ap.add_argument("--prune-eps", type=float, default=0.0,
                     help="keep unit if LOO Δ > eps (default 0.0)")
+    ap.add_argument("--granularity", choices=["unit", "section"], default="unit")
     ap.add_argument("--out-root", required=True)
     ap.add_argument("--dry-run", action="store_true")
     # eval passthrough
@@ -176,7 +191,7 @@ def main() -> None:
 
     with open(args.skill, encoding="utf-8") as f:
         skill_text = f.read()
-    units = split_units(skill_text)
+    units = split_units(skill_text, args.granularity)
     out_root = os.path.abspath(args.out_root)
     os.makedirs(out_root, exist_ok=True)
     print(f"  Parsed {len(units)} unit(s) from {args.skill}")
