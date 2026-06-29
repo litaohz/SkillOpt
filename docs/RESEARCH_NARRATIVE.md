@@ -76,6 +76,15 @@ bloated `skill_final`) and run combinatorial attribution **only on those**.
 
 Status: ⏳ (after the first-order 172 attribution of `best_skill` completes).
 
+### Measured: combinatorial pairwise confirms no hidden synergy (✅)
+
+Targeted pairwise over {10,12,13,17} (reusing cache; only doubles new): all
+I(i,j) ≤ 0 (10↔17 −0.035, 12↔17 −0.047, 10↔12 −0.012, 12↔13 −0.029; rest ≈0) —
+**zero complements**. The arithmetic rules are substitutes for each other and
+redundant with #17. So the near-zero/negative LOO is *not* a redundancy illusion;
+pruning loses no synergy. Interaction-aware view agrees with first-order: 1 useful
+unit + 18 dead/redundant.
+
 ### Measured: the gate-selected skill is 1-of-19 useful (✅)
 
 First-order attribution of the e16 `best_skill` (19 units, 172 test, full=0.692,
