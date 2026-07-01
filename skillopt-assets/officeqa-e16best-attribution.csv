@@ -1,0 +1,22 @@
+unit,chars,loo_delta,addone_delta,text
+full,2512,,,(19 units)
+empty,0,,,(no skill)
+0,16,-0.011627906976744207,-0.0174418604651162,# OfficeQA Skill
+1,23,0.005813953488372103,-0.023255813953488302,## Retrieval Discipline
+2,84,0.0,-0.011627906976744207,- Start by narrowing to the most likely candidate file before reading long passages.
+3,111,-0.01744186046511631,-0.046511627906976716,"- Prefer targeted search terms that name the exact entity, period, measure, or table concept from the question."
+4,120,-0.029069767441860406,-0.0174418604651162,"- After a promising match, read only a small surrounding span and verify it matches the requested year, basis, and unit."
+5,235,-0.011627906976744207,-0.046511627906976716,"- When the question names a chart or graph, treat the plotted chart data/crossover as the target evidence; do not substitute nearby narrative summaries or adjacent tables unless they contain the same measure, period, and chart concept."
+6,22,-0.023255813953488413,-0.0174418604651162,## Evidence Discipline
+7,78,0.005813953488372103,0.03488372093023262,- Extract the exact value from the retrieved text before doing any arithmetic.
+8,103,-0.023255813953488413,-0.011627906976744207,"- Keep track of each operand's period, unit, and semantic role so nearby proxy values are not mixed in."
+9,106,0.005813953488372103,-0.0174418604651162,"- If the question asks for a transformed or derived quantity, compute only after confirming every operand."
+10,275,-0.005813953488372103,-0.19186046511627902,"- For range-based or time-series calculations, make a checked operand list with the expected count (months, fiscal years, or year-to-year intervals) before computing; use population formulas when the prompt specifies population standard deviation or coefficient of variation."
+11,213,-0.011627906976744207,-0.04069767441860461,"- When the prompt names inclusions, exclusions, retirements, revisions, or special conventions, read the nearby table notes/footnotes and choose the row or column whose definition already matches those conditions."
+12,296,-0.023255813953488413,-0.2965116279069767,"- Before statistical calculations, write down the exact requested series and formula, including whether rates are percentages, percentage points, decimals, annualized rates, or period rates; convert annualized quarterly rates to quarterly multipliers before compounding or taking geometric means."
+13,276,-0.011627906976744207,-0.06976744186046507,"- For tail-risk/loss questions, compute the requested return/change distribution first, apply the specified tail probability with the correct sign convention so loss is positive, and perform currency/unit conversion only once at the end using the requested date and frequency."
+14,26,-0.011627906976744207,-0.011627906976744207,## Final Answer Discipline
+15,95,-0.029069767441860406,-0.05232558139534882,- Return the final answer only after one last consistency check against the retrieved evidence.
+16,88,-0.029069767441860406,0.029069767441860517,"- Copy the final answer from a checked value, not from an unverified intermediate guess."
+17,267,0.14534883720930236,0.17441860465116277,"- Match the requested output form exactly: if the prompt asks for just a year, decimal, rounded number, or bracketed list, return only that value/list and omit units, prose, qualifiers such as ""around,"" and labels like ""percentage points"" unless explicitly requested."
+18,51,-0.029069767441860406,-0.046511627906976716,<!-- SLOW_UPDATE_START --> <!-- SLOW_UPDATE_END -->

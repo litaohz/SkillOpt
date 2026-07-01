@@ -1,0 +1,32 @@
+# OfficeQA e16 best_skill —— 单元编号 ↔ 原句对照
+
+> 源文件:`skillopt-assets/officeqa-e16-best_skill.md`(被归因的 19 单元 skill)。
+> 数值均为 **172 题 test 集、确定性 EM**。full=0.692,empty(无 skill)=0.547。
+> LOO Δ = 删掉这条掉多少分(越大越不可或缺);add-one Δ = 在 empty 上只加这条涨多少分。
+> ⚠️ 噪声带:172 题时单次 EM 噪声 σ≈0.035,两次之差 σ≈0.05,故 **|Δ|≲0.03 基本在噪声内、视为 ≈0**。
+
+| # | 字符 | LOO Δ | add-one Δ | 判定 | 原句 |
+|---|--:|--:|--:|---|---|
+| 0 | 16 | -0.012 | -0.017 | · ≈0(冗余/噪声内) | # OfficeQA Skill |
+| 1 | 23 | +0.006 | -0.023 | · ≈0(冗余/噪声内) | ## Retrieval Discipline |
+| 2 | 84 | +0.000 | -0.012 | · ≈0(冗余/噪声内) | - Start by narrowing to the most likely candidate file before reading long passages. |
+| 3 | 111 | -0.017 | -0.047 | · ≈0(冗余/噪声内) | - Prefer targeted search terms that name the exact entity, period, measure, or table concept from the question. |
+| 4 | 120 | -0.029 | -0.017 | · ≈0(冗余/噪声内) | - After a promising match, read only a small surrounding span and verify it matches the requested year, basis, and unit. |
+| 5 | 235 | -0.012 | -0.047 | · ≈0(冗余/噪声内) | - When the question names a chart or graph, treat the plotted chart data/crossover as the target evidence; do not substitute nearby narrative summaries or adjacent tables unless they contain the same measure, period, and chart concept. |
+| 6 | 22 | -0.023 | -0.017 | · ≈0(冗余/噪声内) | ## Evidence Discipline |
+| 7 | 78 | +0.006 | +0.035 | · ≈0(冗余/噪声内) | - Extract the exact value from the retrieved text before doing any arithmetic. |
+| 8 | 103 | -0.023 | -0.012 | · ≈0(冗余/噪声内) | - Keep track of each operand's period, unit, and semantic role so nearby proxy values are not mixed in. |
+| 9 | 106 | +0.006 | -0.017 | · ≈0(冗余/噪声内) | - If the question asks for a transformed or derived quantity, compute only after confirming every operand. |
+| 10 | 275 | -0.006 | -0.192 | ❌ 独立有害 | - For range-based or time-series calculations, make a checked operand list with the expected count (months, fiscal years, or year-to-year intervals) before computing; use population formulas when the prompt specifies population standard deviation or coefficient of variation. |
+| 11 | 213 | -0.012 | -0.041 | · ≈0(冗余/噪声内) | - When the prompt names inclusions, exclusions, retirements, revisions, or special conventions, read the nearby table notes/footnotes and choose the row or column whose definition already matches those conditions. |
+| 12 | 296 | -0.023 | -0.297 | ❌ 独立有害 | - Before statistical calculations, write down the exact requested series and formula, including whether rates are percentages, percentage points, decimals, annualized rates, or period rates; convert annualized quarterly rates to quarterly multipliers before compounding or taking geometric means. |
+| 13 | 276 | -0.012 | -0.070 | ❌ 独立有害 | - For tail-risk/loss questions, compute the requested return/change distribution first, apply the specified tail probability with the correct sign convention so loss is positive, and perform currency/unit conversion only once at the end using the requested date and frequency. |
+| 14 | 26 | -0.012 | -0.012 | · ≈0(冗余/噪声内) | ## Final Answer Discipline |
+| 15 | 95 | -0.029 | -0.052 | ❌ 独立有害 | - Return the final answer only after one last consistency check against the retrieved evidence. |
+| 16 | 88 | -0.029 | +0.029 | · ≈0(冗余/噪声内) | - Copy the final answer from a checked value, not from an unverified intermediate guess. |
+| 17 | 267 | +0.145 | +0.174 | ✅ 有用(保) | - Match the requested output form exactly: if the prompt asks for just a year, decimal, rounded number, or bracketed list, return only that value/list and omit units, prose, qualifiers such as "around," and labels like "percentage points" unless explicitly requested. |
+| 18 | 51 | -0.029 | -0.047 | · ≈0(冗余/噪声内) | <!-- SLOW_UPDATE_START --> <!-- SLOW_UPDATE_END --> |
+
+**判定口径**:✅ 有用 = LOO Δ > 0.03;❌ 独立有害 = add-one Δ ≤ −0.05(单独加明显掉分);其余在噪声带内,视为 ≈0(冗余)。
+
+**一句话**:19 条里只有 **#17** 真有用(LOO +0.145 / add-one +0.174);**#10/#12/#13/#15** 单独加明显有害(长算术规则,−0.05~−0.30);其余 ≈0 冗余。
