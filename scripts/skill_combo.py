@@ -33,9 +33,12 @@ import itertools
 import json
 import os
 import random
+import re
+import statistics
 import subprocess
 import sys
 import time
+from collections import OrderedDict
 
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 _PROJECT_ROOT = os.path.dirname(_SCRIPT_DIR)
@@ -127,14 +130,91 @@ def parse_units_arg(arg: str, n: int) -> list[int]:
     return out
 
 
+def _flat_order(all_idx: list[int], rng: random.Random) -> list[int]:
+    order = list(all_idx)
+    rng.shuffle(order)
+    return order
+
+
+def _stratified_order(groups: list[list[int]], rng: random.Random) -> list[int]:
+    """Owen sampling: shuffle group order, then units within each group, keeping
+    each group's units contiguous in the permutation."""
+    order: list[int] = []
+    gs = [list(g) for g in groups]
+    rng.shuffle(gs)
+    for g in gs:
+        rng.shuffle(g)
+        order.extend(g)
+    return order
+
+
+def _section_groups(units: list[str]) -> tuple[list[list[int]], list[int]]:
+    """Group unit indices by section — each markdown header starts a new section.
+    Returns (groups, section_id_per_unit)."""
+    ids: list[int] = []
+    sid = 0
+    seen_header = False
+    for u in units:
+        first = u.lstrip().split("\n", 1)[0]
+        if re.match(r"^#+\s", first):
+            if seen_header:
+                sid += 1
+            seen_header = True
+        ids.append(sid)
+    gm: "OrderedDict[int, list[int]]" = OrderedDict()
+    for idx, s in enumerate(ids):
+        gm.setdefault(s, []).append(idx)
+    return list(gm.values()), ids
+
+
+def _collect_marginals(order_fn, seeds, perms, empty, s_keep, n):
+    """Accumulate per-unit marginal-contribution samples over permutations.
+    order_fn(rng) -> a permutation of unit indices."""
+    samples: list[list[float]] = [[] for _ in range(n)]
+    n_perms_total = 0
+    for seed in seeds:
+        rng = random.Random(seed)
+        for p in range(perms):
+            order = order_fn(rng)
+            prev = empty
+            S: list[int] = []
+            for idx in order:
+                S.append(idx)
+                cur = s_keep(S, f"seed{seed}_perm{p}_prefix{len(S)}")
+                if None not in (cur, prev):
+                    samples[idx].append(cur - prev)
+                prev = cur
+            n_perms_total += 1
+    return samples, n_perms_total
+
+
+def _unit_stats(samples, all_idx, units):
+    """Per-unit mean +/- SE from marginal samples. Returns (rows, sum_of_phi)."""
+    rows = []
+    total = 0.0
+    for i in all_idx:
+        vals = samples[i]
+        phi = statistics.fmean(vals) if vals else None
+        se = (statistics.stdev(vals) / (len(vals) ** 0.5)) if len(vals) > 1 else None
+        if phi is not None:
+            total += phi
+        rows.append({"unit": i, "phi": phi, "se": se, "n": len(vals),
+                     "text": units[i].replace("\n", " ")})
+    return rows, total
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description="Interaction-aware skill attribution")
     ap.add_argument("--skill", required=True)
-    ap.add_argument("--method", choices=["pairwise", "shapley"], required=True)
+    ap.add_argument("--method", choices=["pairwise", "shapley", "owen"], required=True)
     ap.add_argument("--units", default="all",
                     help="pairwise: comma-separated unit indices to test (e.g. 0,3,4,6)")
-    ap.add_argument("--perms", type=int, default=20, help="shapley: # MC permutations")
+    ap.add_argument("--perms", type=int, default=20,
+                    help="shapley: # MC permutations per seed")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--seeds", default="",
+                    help="shapley: comma-separated seeds for multi-seed SE estimation "
+                         "(e.g. 0,1,2); overrides --seed. Total perms = len(seeds)*--perms.")
     ap.add_argument("--reuse-from", default="",
                     help="prior attribution out_root to import cached evals from")
     ap.add_argument("--out-root", required=True)
@@ -208,37 +288,95 @@ def main() -> None:
         print("           I>0 ⇒ complements (keep together); I≈0 ⇒ independent.")
 
     elif args.method == "shapley":
-        rng = random.Random(args.seed)
-        phi = [0.0] * n
-        cnt = [0] * n
+        seeds = ([int(s) for s in args.seeds.replace(" ", "").split(",") if s]
+                 if args.seeds else [args.seed])
         empty = cache.score("", "empty", args.dry_run)
-        for p in range(args.perms):
-            order = all_idx[:]
-            rng.shuffle(order)
-            prev = empty
-            S: list[int] = []
-            for idx in order:
-                S.append(idx)
-                cur = s_keep(S, f"perm{p}_prefix{len(S)}")
-                if None not in (cur, prev):
-                    phi[idx] += cur - prev
-                    cnt[idx] += 1
-                prev = cur
+        full = s_keep(all_idx, "full")
+        samples, n_perms_total = _collect_marginals(
+            lambda rng: _flat_order(all_idx, rng), seeds, args.perms, empty, s_keep, n)
         if args.dry_run:
             return
-        rows = [{"unit": i, "shapley": round(phi[i] / cnt[i], 4) if cnt[i] else None,
-                 "samples": cnt[i], "text": units[i].replace("\n", " ")} for i in all_idx]
+        rows, total_phi = _unit_stats(samples, all_idx, units)
         csv_path = os.path.join(out_root, "shapley.csv")
         with open(csv_path, "w", encoding="utf-8", newline="") as f:
             w = csv.writer(f)
-            w.writerow(["unit", "shapley", "samples", "text"])
+            w.writerow(["unit", "shapley", "se", "samples", "text"])
             for r in rows:
-                w.writerow([r["unit"], r["shapley"], r["samples"], r["text"]])
-        print(f"\n{'='*70}\n  MONTE-CARLO SHAPLEY ({args.perms} perms)\n{'='*70}")
+                w.writerow([r["unit"],
+                            None if r["phi"] is None else round(r["phi"], 4),
+                            None if r["se"] is None else round(r["se"], 4),
+                            r["n"], r["text"]])
+        print(f"\n{'='*70}\n  MONTE-CARLO SHAPLEY "
+              f"({len(seeds)} seed(s) x {args.perms} perms = {n_perms_total})\n{'='*70}")
+        print(f"  {'unit':>4} {'phi':>8} {'±SE':>7} {'n':>4}  text")
         for r in rows:
-            t = (r["text"][:54] + "…") if len(r["text"]) > 55 else r["text"]
-            print(f"  {r['unit']:>3} {r['shapley']!s:>8} (n={r['samples']})  {t}")
+            t = (r["text"][:50] + "…") if len(r["text"]) > 51 else r["text"]
+            phi = "None" if r["phi"] is None else f"{r['phi']:+.4f}"
+            se = "None" if r["se"] is None else f"{r['se']:.4f}"
+            print(f"  {r['unit']:>4} {phi:>8} {se:>7} {r['n']:>4}  {t}")
+        if None not in (full, empty):
+            target = full - empty
+            diff = total_phi - target
+            verdict = "PASS" if abs(diff) < 1e-6 else f"drift {diff:+.4f} (incomplete perms?)"
+            print(f"\n  Efficiency: Σφ={total_phi:+.4f}  v(full)−v(empty)={target:+.4f}  → {verdict}")
         print(f"\n  CSV: {csv_path}\n{'='*70}")
+
+    elif args.method == "owen":
+        seeds = ([int(s) for s in args.seeds.replace(" ", "").split(",") if s]
+                 if args.seeds else [args.seed])
+        groups, sec_ids = _section_groups(units)
+        sec_label = {}
+        for g in groups:
+            head = units[g[0]].lstrip().split("\n", 1)[0]
+            sec_label[sec_ids[g[0]]] = head[:48]
+        print(f"  Owen: {len(groups)} sections (a priori unions): "
+              f"{[len(g) for g in groups]} units each")
+        empty = cache.score("", "empty", args.dry_run)
+        full = s_keep(all_idx, "full")
+        samples, n_perms_total = _collect_marginals(
+            lambda rng: _stratified_order(groups, rng), seeds, args.perms, empty, s_keep, n)
+        if args.dry_run:
+            return
+        rows, total_phi = _unit_stats(samples, all_idx, units)
+        # Section-level (quotient game) value = sum of Owen values within the union.
+        sec_phi: dict[int, float] = {}
+        for r in rows:
+            s = sec_ids[r["unit"]]
+            if r["phi"] is not None:
+                sec_phi[s] = sec_phi.get(s, 0.0) + r["phi"]
+        csv_path = os.path.join(out_root, "owen.csv")
+        with open(csv_path, "w", encoding="utf-8", newline="") as f:
+            w = csv.writer(f)
+            w.writerow(["unit", "section", "owen", "se", "samples", "text"])
+            for r in rows:
+                w.writerow([r["unit"], sec_ids[r["unit"]],
+                            None if r["phi"] is None else round(r["phi"], 4),
+                            None if r["se"] is None else round(r["se"], 4),
+                            r["n"], r["text"]])
+        sec_csv = os.path.join(out_root, "owen_sections.csv")
+        with open(sec_csv, "w", encoding="utf-8", newline="") as f:
+            w = csv.writer(f)
+            w.writerow(["section", "section_owen", "label"])
+            for s in sorted(sec_phi):
+                w.writerow([s, round(sec_phi[s], 4), sec_label.get(s, "")])
+        print(f"\n{'='*70}\n  OWEN VALUE (two-level Shapley, sections=unions) "
+              f"({len(seeds)} seed(s) x {args.perms} perms = {n_perms_total})\n{'='*70}")
+        print("  -- section-level (quotient game) --")
+        for s in sorted(sec_phi):
+            print(f"  sec{s:>2} {sec_phi[s]:+.4f}  {sec_label.get(s, '')}")
+        print("  -- unit-level (within-union Owen) --")
+        print(f"  {'unit':>4} {'sec':>3} {'owen':>8} {'±SE':>7} {'n':>4}  text")
+        for r in rows:
+            t = (r["text"][:46] + "…") if len(r["text"]) > 47 else r["text"]
+            phi = "None" if r["phi"] is None else f"{r['phi']:+.4f}"
+            se = "None" if r["se"] is None else f"{r['se']:.4f}"
+            print(f"  {r['unit']:>4} {sec_ids[r['unit']]:>3} {phi:>8} {se:>7} {r['n']:>4}  {t}")
+        if None not in (full, empty):
+            target = full - empty
+            diff = total_phi - target
+            verdict = "PASS" if abs(diff) < 1e-6 else f"drift {diff:+.4f} (incomplete perms?)"
+            print(f"\n  Efficiency: Σφ={total_phi:+.4f}  v(full)−v(empty)={target:+.4f}  → {verdict}")
+        print(f"\n  CSV: {csv_path}  |  sections: {sec_csv}\n{'='*70}")
 
 
 if __name__ == "__main__":
