@@ -34,30 +34,30 @@
 
 ## 四列对比:一阶 vs 交互(含 Shapley)
 
-> Shapley = perms=3 Monte-Carlo(`scripts/skill_combo.py --method shapley`,复用一阶缓存)。
-> **Efficiency 公理自检:Σ Shapley = +0.1452 ≈ full−empty = +0.145 → PASS**(实现正确)。
-> ⚠️ perms=3 为小预算试跑,中间值有噪声,重点看排序与两端。
+> Shapley ±SE = 10 排列 Monte-Carlo(seed0×10,`--method shapley --seeds 0 --perms 10`,复用一阶缓存;SE 由多排列样本估计,增量续跑自 perms=5)。
+> **Efficiency 公理自检:Σ Shapley = +0.1453 = full−empty = +0.145 → PASS**(实现正确)。
+> ⚠️ 归因**稀疏**——signal 几乎全在 #17;n=10 后 SE 收窄,#7/#16 已确定为正(见读法)。缓存实测:中段 size 5–18 几乎零命中(撞车概率 1/C(19,k)≈1e-5),故 perms 越大越贵、但结论早在 perms=3 就定型。
 
-| # | LOO Δ | add-one Δ | Shapley | 原句(节选) |
+| # | LOO Δ | add-one Δ | Shapley ±SE (n=10) | 原句(节选) |
 |---|--:|--:|--:|---|
-| 0 | -0.012 | -0.017 | -0.006 | # OfficeQA Skill |
-| 1 | +0.006 | -0.023 | -0.008 | ## Retrieval Discipline |
-| 2 | +0.000 | -0.012 | +0.019 | - Start by narrowing to the most likely candidate fi |
-| 3 | -0.017 | -0.047 | -0.006 | - Prefer targeted search terms that name the exact e |
-| 4 | -0.029 | -0.017 | +0.037 | - After a promising match, read only a small surroun |
-| 5 | -0.012 | -0.047 | -0.012 | - When the question names a chart or graph, treat th |
-| 6 | -0.023 | -0.017 | +0.002 | ## Evidence Discipline |
-| 7 | +0.006 | +0.035 | +0.062 | - Extract the exact value from the retrieved text be |
-| 8 | -0.023 | -0.012 | +0.019 | - Keep track of each operand's period, unit, and sem |
-| 9 | +0.006 | -0.017 | -0.010 | - If the question asks for a transformed or derived  |
-| 10 | -0.006 | -0.192 | -0.091 | - For range-based or time-series calculations, make  |
-| 11 | -0.012 | -0.041 | +0.000 | - When the prompt names inclusions, exclusions, reti |
-| 12 | -0.023 | -0.297 | -0.107 | - Before statistical calculations, write down the ex |
-| 13 | -0.012 | -0.070 | +0.033 | - For tail-risk/loss questions, compute the requeste |
-| 14 | -0.012 | -0.012 | +0.000 | ## Final Answer Discipline |
-| 15 | -0.029 | -0.052 | -0.027 | - Return the final answer only after one last consis |
-| 16 | -0.029 | +0.029 | +0.072 | - Copy the final answer from a checked value, not fr |
-| 17 | +0.145 | +0.174 | +0.174 | - Match the requested output form exactly: if the pr |
-| 18 | -0.029 | -0.047 | -0.008 | <!-- SLOW_UPDATE_START --> <!-- SLOW_UPDATE_END --> |
+| 0 | -0.012 | -0.017 | -0.011 ±0.007 | # OfficeQA Skill |
+| 1 | +0.006 | -0.023 | -0.001 ±0.006 | ## Retrieval Discipline |
+| 2 | +0.000 | -0.012 | +0.011 ±0.010 | - Start by narrowing to the most likely candidate fi |
+| 3 | -0.017 | -0.047 | -0.012 ±0.007 | - Prefer targeted search terms that name the exact e |
+| 4 | -0.029 | -0.017 | +0.004 ±0.014 | - After a promising match, read only a small surroun |
+| 5 | -0.012 | -0.047 | -0.011 ±0.012 | - When the question names a chart or graph, treat th |
+| 6 | -0.023 | -0.017 | -0.008 ±0.007 | ## Evidence Discipline |
+| 7 | +0.006 | +0.035 | +0.037 ±0.008 | - Extract the exact value from the retrieved text be |
+| 8 | -0.023 | -0.012 | +0.019 ±0.015 | - Keep track of each operand's period, unit, and sem |
+| 9 | +0.006 | -0.017 | +0.004 ±0.007 | - If the question asks for a transformed or derived  |
+| 10 | -0.006 | -0.192 | -0.048 ±0.025 | - For range-based or time-series calculations, make  |
+| 11 | -0.012 | -0.041 | +0.007 ±0.007 | - When the prompt names inclusions, exclusions, reti |
+| 12 | -0.023 | -0.297 | -0.091 ±0.032 | - Before statistical calculations, write down the ex |
+| 13 | -0.012 | -0.070 | -0.004 ±0.012 | - For tail-risk/loss questions, compute the requeste |
+| 14 | -0.012 | -0.012 | +0.009 ±0.005 | ## Final Answer Discipline |
+| 15 | -0.029 | -0.052 | +0.016 ±0.016 | - Return the final answer only after one last consis |
+| 16 | -0.029 | +0.029 | +0.031 ±0.010 | - Copy the final answer from a checked value, not fr |
+| 17 | +0.145 | +0.174 | +0.208 ±0.020 | - Match the requested output form exactly: if the pr |
+| 18 | -0.029 | -0.047 | -0.013 ±0.007 | <!-- SLOW_UPDATE_START --> <!-- SLOW_UPDATE_END --> |
 
-**读法**:#17 全方法领先(唯一稳健正);#10/#12 add-one 与 Shapley 均明显负=真死重;#7/#16 LOO≈0 但 Shapley 转正=被一阶低估、被交互捞回(需加 perms 复核)。
+**读法**:#17 全方法领先且绝对主导(**+0.208 ±0.020**,n=10,信号≈10×SE);#10(**−0.048 ±0.025**)/#12(**−0.091 ±0.032**)add-one 与 Shapley 均明显负=真死重;#7(**+0.037 ±0.008**,4.4×SE)/#16(**+0.031 ±0.010**,3.2×SE)LOO≈0 但 Shapley **确定转正**=被一阶低估、被交互捞回(perms=10 后 SE 收窄已牢固站住正号;#8/#15 仍在噪声带内)。
