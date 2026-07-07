@@ -91,3 +91,25 @@ best 选择分 0.708→**0.792 在 step 4 到顶后锁死**,其后 28 步全 rej
 > 版本溯源(时空连接)三路三角互证。
 > **局限**:n=1 run、且是复现的 e16(非官方 `ckpt` 32-unit skill)。要成为关于"SkillOpt"的一般结论,
 > 需在官方 skill / 其他 env / 其他方法上复验(见 methodology 文档待办)。
+
+---
+
+## Phase 1a:官方 ckpt skill(32 units)一阶归因 —— 结论强复现
+
+> 数据源:`outputs/attrib_ckpt_officeqa/attribution.{csv,json}`(2026-07-08,66 评测 exit 0)。
+> 同口径:valid_unseen/172、gpt-5.5。**full=0.680,empty=0.541**(Δ +0.139)。Shapley(1b)见后续。
+
+对**论文官方**的 `ckpt/officeqa/gpt5.5_skill.md`(32 units)做 LOO/add-one,**和我们复现的 e16(19u)同构**:
+
+| unit | LOO | add-one | 内容(节选) | 判定 |
+|---|--:|--:|---|---|
+| **#30** | **+0.047** | **+0.174** | Match any requested output **template** exactly… | ✅ **格式规则独大**(= e16 #17,add-one 同为 +0.174)|
+| #21 | -0.012 | +0.087 | …enforce the requested unit and format | ➕ 次要格式规则 |
+| #9 | -0.017 | +0.047 | Extract the exact value… | ➕ |
+| #25 | -0.023 | **−0.366** | Before computing any statistic, write formula… | ❌ 长统计规则,最毒 |
+| #16 / #18 / #26 | ~ | −0.33 / −0.23 / −0.18 | 各种长统计/时序规则 | ❌ 死重/有害 |
+
+**泛化第一点成立**:官方 ckpt 与复现 e16 **同一模式**——
+**(1)** 价值集中在**唯一一条"输出格式对齐"规则**(ckpt #30 add-one **+0.174** ≈ e16 #17 的 +0.174,数值几乎一致);
+**(2)** **长统计/算术规则单独加明显有害**(add-one −0.18~−0.37),对应 e16 的 #10/#12/#13。
+→ "**格式规则=全部价值,长统计规则=死重**"不是 e16 个案,在**论文官方 skill 上重现**。
