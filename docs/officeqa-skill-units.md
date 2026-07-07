@@ -61,3 +61,33 @@
 | 18 | -0.029 | -0.047 | -0.013 ±0.007 | <!-- SLOW_UPDATE_START --> <!-- SLOW_UPDATE_END --> |
 
 **读法**:#17 全方法领先且绝对主导(**+0.208 ±0.020**,n=10,信号≈10×SE);#10(**−0.048 ±0.025**)/#12(**−0.091 ±0.032**)add-one 与 Shapley 均明显负=真死重;#7(**+0.037 ±0.008**,4.4×SE)/#16(**+0.031 ±0.010**,3.2×SE)LOO≈0 但 Shapley **确定转正**=被一阶低估、被交互捞回(perms=10 后 SE 收窄已牢固站住正号;#8/#15 仍在噪声带内)。
+
+---
+
+## 时间 × 空间稀疏性:e16 的全部增益 = 单次编辑
+
+> 数据源:`outputs/train_officeqa_gpt55_e16/{summary.json,history.json,skills/skill_v*.md}`。
+> **全部现成,零新增评测。** 图:`docs/officeqa-e16-sparsity.png`。
+
+我们归因的 e16 best_skill **本身就是"时间稀疏性"的产物**,而 Shapley 是"空间稀疏性"(一阶 LOO/add-one)的升级——今天把两条轴接成了**同一事件**:
+
+**① 时间稀疏(训练轨迹)**:32 步优化**只有 step 4 一次被接受**(`total_accepts=1`,`best_step=4`)。
+best 选择分 0.708→**0.792 在 step 4 到顶后锁死**,其后 28 步全 reject、best 纹丝不动。
+`best_skill.md`(=`best_origin=step_0004`,2512 字)就是这一步冻结的产物;"e16"标的是**训练跑了
+16 epoch**,但 best 早在 **epoch 2/step 4** 定型,后 14 epoch 一无所获。
+
+**② 尺寸稀疏(反直觉)**:step 4 之后 optimizer 把"current"skill 探到 **18.8K 字(赢家的 7.5×)
+全被拒**——**小的早期版本打败了所有更大的**。训练末尾的肥版(`slow_update_epoch_16`,~20K 字)
+并未被选中。
+
+**③ 空间稀疏(Shapley,见上表)**:那份 2512 字/19-unit 赢家里,**~1 条(#17)独扛**,其余 ≈0 或负。
+
+**三者是同一事件**:溯源 skill 版本发现——`skill_v0000–v0003`(step 1–3)**不含**输出格式规则(best 0.708);
+`skill_v0004`(step 4)**首次出现该规则**、best 跳到 0.792。即 **step-4 那次唯一 accept 的内容,
+正是引入了 Shapley 里独大的 #17**。
+
+> **一句话**:SkillOpt 本次 OfficeQA 的全部增益 = **某早期步骤发现了一条输出格式规则**;其余 ~96%
+> 的优化步与 ~90% 的文本是 bloat(含 #10/#12 这类负贡献)。Shapley(空间)+ 训练 history(时间)+
+> 版本溯源(时空连接)三路三角互证。
+> **局限**:n=1 run、且是复现的 e16(非官方 `ckpt` 32-unit skill)。要成为关于"SkillOpt"的一般结论,
+> 需在官方 skill / 其他 env / 其他方法上复验(见 methodology 文档待办)。
