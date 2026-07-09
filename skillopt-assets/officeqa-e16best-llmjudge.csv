@@ -1,0 +1,20 @@
+unit,score_mean,score_std,label,redundant_with,n_runs,reason,text
+0,0.0,0.0,neutral,,3,Title only; it does not add operational guidance.,# OfficeQA Skill
+1,0.0,0.0,neutral,,3,Section heading only; the substantive retrieval guidance is in later units.,## Retrieval Discipline
+2,1.0,0.0,useful,,3,Encourages efficient file-level narrowing before expensive document reading.,- Start by narrowing to the most likely candidate file before reading long passa
+3,2.0,0.0,essential,,3,Targeted searches are central to finding the correct financial document evidence.,"- Prefer targeted search terms that name the exact entity, period, measure, or t"
+4,2.0,0.0,essential,,3,"Verification of year, basis, and unit directly prevents common evidence mismatches.","- After a promising match, read only a small surrounding span and verify it matc"
+5,1.0,0.0,useful,,3,Prevents substituting narrative or nearby tables for specifically requested chart evidence.,"- When the question names a chart or graph, treat the plotted chart data/crossov"
+6,0.0,0.0,neutral,,3,Section heading only; it adds no independent behavior.,## Evidence Discipline
+7,2.0,0.0,essential,,3,Exact extraction before arithmetic is fundamental for reliable quantitative answers.,- Extract the exact value from the retrieved text before doing any arithmetic.
+8,2.0,0.0,essential,,3,"Tracking period, unit, and role is critical to avoid mixing incompatible operands.","- Keep track of each operand's period, unit, and semantic role so nearby proxy v"
+9,1.0,0.0,useful,,3,Reinforces correct sequencing for derived quantities after operand validation.,"- If the question asks for a transformed or derived quantity, compute only after"
+10,2.0,0.0,essential,,3,Checked series counts and correct statistical formulas are crucial for time-series calculations.,"- For range-based or time-series calculations, make a checked operand list with "
+11,1.0,0.0,useful,,3,Footnote and definition checks help choose the correct row or column under special conventions.,"- When the prompt names inclusions, exclusions, retirements, revisions, or speci"
+12,1.333,0.471,useful,,3,"Clarifies rate conventions and compounding, reducing errors in financial statistics.","- Before statistical calculations, write down the exact requested series and for"
+13,1.0,0.0,useful,,3,Provides valuable but specialized guidance for tail-risk and loss calculations.,"- For tail-risk/loss questions, compute the requested return/change distribution"
+14,0.0,0.0,neutral,,3,Section heading only; the actionable final-answer rules follow.,## Final Answer Discipline
+15,1.0,0.0,useful,,3,A final consistency check reduces transcription and reasoning errors.,- Return the final answer only after one last consistency check against the retr
+16,0.667,0.471,useful,15,3,Mostly restates the need to base the final response on checked evidence.,"- Copy the final answer from a checked value, not from an unverified intermediat"
+17,2.0,0.0,essential,,3,Exact output formatting is a core requirement of the task.,"- Match the requested output form exactly: if the prompt asks for just a year, d"
+18,0.0,0.0,neutral,,3,Placeholder comment with no task-relevant guidance.,<!-- SLOW_UPDATE_START --> <!-- SLOW_UPDATE_END -->

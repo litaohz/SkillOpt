@@ -1,0 +1,166 @@
+#!/usr/bin/env python3
+"""LLM-judge baseline for skill-unit attribution (SSG Part-3 diagnosis baseline).
+
+Zero-eval baseline: an LLM reads the whole skill (units numbered identically to
+``split_units``) and directly scores each unit's expected contribution to task
+success, flagging redundancy / harm. This is the cheap text-only baseline the
+SSG proposal contrasts against interaction-aware Skill Shapley — the expectation
+is that an LLM-judge *cannot* see interaction-harm (redundant duplicates,
+complements) from the text surface.
+
+Output: ``llm_judge.csv`` (unit, score_mean, score_std, label_majority,
+redundant_with, reason) aggregated over ``--runs`` independent judgments.
+"""
+from __future__ import annotations
+
+import argparse
+import csv
+import json
+import os
+import re
+import statistics
+import sys
+
+_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+_PROJECT_ROOT = os.path.dirname(_SCRIPT_DIR)
+sys.path.insert(0, _SCRIPT_DIR)
+sys.path.insert(0, _PROJECT_ROOT)
+
+from skill_attribution import split_units  # noqa: E402
+from skillopt.model import azure_openai as ao  # noqa: E402
+
+TASK_DESC = (
+    "The skill guides an agent that answers questions over U.S. Treasury / office "
+    "financial documents (tables, time series, charts) using search + document-read "
+    "tools. The agent must retrieve the right evidence, do careful arithmetic/statistics, "
+    "and return the final answer in the exact requested format."
+)
+
+JUDGE_SYSTEM = (
+    "You are an expert evaluator of LLM-agent *skill* documents. You judge how much "
+    "each unit of a skill actually contributes to task success — being skeptical: a "
+    "unit can be harmful (misleading / over-constraining), redundant (duplicated by "
+    "another unit), neutral filler, or genuinely useful/essential. Consider "
+    "interactions between units, not just each unit in isolation."
+)
+
+
+def build_user_prompt(units: list[str]) -> str:
+    lines = [
+        "## Task the skill is for",
+        TASK_DESC,
+        "",
+        "## Skill units (numbered)",
+    ]
+    for i, u in enumerate(units):
+        one = " ".join(u.split())
+        lines.append(f"[{i}] {one}")
+    lines += [
+        "",
+        "## Instructions",
+        "For EACH unit above, judge its expected contribution to task success.",
+        "Return ONLY a JSON array (no prose, no code fences), one object per unit:",
+        '  {"unit": <int>, "score": <int -2..+2>, "label": '
+        '"harmful|redundant|neutral|useful|essential", '
+        '"redundant_with": <int or null>, "reason": "<one short sentence>"}',
+        "Scale: -2 harmful (removing it would HELP), -1 mildly harmful, "
+        "0 neutral/filler, +1 useful, +2 essential (removing it clearly hurts).",
+        "Mark 'redundant' (score ~0) only if another unit already covers it; put that "
+        "unit's index in redundant_with.",
+        "Output every unit exactly once, ordered by unit index.",
+    ]
+    return "\n".join(lines)
+
+
+def extract_json_array(text: str) -> list[dict]:
+    text = text.strip()
+    text = re.sub(r"^```(?:json)?", "", text).strip()
+    text = re.sub(r"```$", "", text).strip()
+    start = text.find("[")
+    end = text.rfind("]")
+    if start == -1 or end == -1:
+        raise ValueError("no JSON array in response")
+    return json.loads(text[start : end + 1])
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser(description="LLM-judge baseline for skill attribution")
+    ap.add_argument("--skill", required=True)
+    ap.add_argument("--out-root", required=True)
+    ap.add_argument("--model", default="gpt-5.5")
+    ap.add_argument("--runs", type=int, default=3)
+    ap.add_argument("--reasoning-effort", default="medium")
+    ap.add_argument("--azure_openai_endpoint", default="http://localhost:4141/v1")
+    ap.add_argument("--azure_openai_api_key", default="dummy")
+    ap.add_argument("--azure_openai_auth_mode", default="openai_compatible")
+    args = ap.parse_args()
+
+    with open(args.skill, encoding="utf-8") as f:
+        units = split_units(f.read())
+    n = len(units)
+    os.makedirs(args.out_root, exist_ok=True)
+
+    ao.configure_azure_openai(
+        target_endpoint=args.azure_openai_endpoint,
+        target_api_key=args.azure_openai_api_key,
+        target_auth_mode=args.azure_openai_auth_mode,
+    )
+    ao.set_target_deployment(args.model)
+
+    user = build_user_prompt(units)
+    per_run: list[dict[int, dict]] = []
+    for r in range(args.runs):
+        print(f"  [judge] run {r + 1}/{args.runs} ({n} units) ...", flush=True)
+        text, _ = ao.chat_target(
+            JUDGE_SYSTEM, user, max_completion_tokens=16384,
+            stage="llm_judge", reasoning_effort=args.reasoning_effort,
+        )
+        with open(os.path.join(args.out_root, f"raw_run{r}.txt"), "w", encoding="utf-8") as f:
+            f.write(text)
+        try:
+            arr = extract_json_array(text)
+        except Exception as e:
+            print(f"  [warn] run {r}: parse failed ({e}); skipped")
+            continue
+        per_run.append({int(o["unit"]): o for o in arr if "unit" in o})
+
+    if not per_run:
+        print("  [fail] no parseable judgments")
+        sys.exit(1)
+
+    rows = []
+    for i in range(n):
+        scores = [pr[i]["score"] for pr in per_run if i in pr and pr[i].get("score") is not None]
+        labels = [pr[i].get("label", "") for pr in per_run if i in pr]
+        redw = [pr[i].get("redundant_with") for pr in per_run if i in pr and pr[i].get("redundant_with") is not None]
+        reason = next((pr[i].get("reason", "") for pr in per_run if i in pr), "")
+        rows.append({
+            "unit": i,
+            "score_mean": round(statistics.fmean(scores), 3) if scores else None,
+            "score_std": round(statistics.pstdev(scores), 3) if len(scores) > 1 else 0.0,
+            "label": max(set(labels), key=labels.count) if labels else "",
+            "redundant_with": redw[0] if redw else "",
+            "n_runs": len(scores),
+            "reason": reason,
+            "text": " ".join(units[i].split())[:80],
+        })
+
+    csv_path = os.path.join(args.out_root, "llm_judge.csv")
+    with open(csv_path, "w", encoding="utf-8", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["unit", "score_mean", "score_std", "label", "redundant_with", "n_runs", "reason", "text"])
+        for r in rows:
+            w.writerow([r["unit"], r["score_mean"], r["score_std"], r["label"],
+                        r["redundant_with"], r["n_runs"], r["reason"], r["text"]])
+
+    print(f"\n{'='*70}\n  LLM-JUDGE ({args.model}, {len(per_run)}/{args.runs} runs parsed)\n{'='*70}")
+    print(f"  {'unit':>4} {'score':>6} {'±std':>5} {'label':>10} {'red->':>6}  text")
+    for r in rows:
+        sm = "None" if r["score_mean"] is None else f"{r['score_mean']:+.2f}"
+        print(f"  {r['unit']:>4} {sm:>6} {r['score_std']!s:>5} {r['label']:>10} "
+              f"{r['redundant_with']!s:>6}  {r['text'][:44]}")
+    print(f"\n  CSV: {csv_path}\n{'='*70}")
+
+
+if __name__ == "__main__":
+    main()

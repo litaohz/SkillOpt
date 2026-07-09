@@ -1,0 +1,407 @@
+[
+ [
+  {
+   "unit": 0,
+   "score": 0,
+   "label": "neutral",
+   "redundant_with": null,
+   "reason": "Title only; it does not add operational guidance."
+  },
+  {
+   "unit": 1,
+   "score": 0,
+   "label": "neutral",
+   "redundant_with": null,
+   "reason": "Section heading only; the substantive retrieval guidance is in later units."
+  },
+  {
+   "unit": 2,
+   "score": 1,
+   "label": "useful",
+   "redundant_with": null,
+   "reason": "Encourages efficient file-level narrowing before expensive document reading."
+  },
+  {
+   "unit": 3,
+   "score": 2,
+   "label": "essential",
+   "redundant_with": null,
+   "reason": "Targeted searches are central to finding the correct financial document evidence."
+  },
+  {
+   "unit": 4,
+   "score": 2,
+   "label": "essential",
+   "redundant_with": null,
+   "reason": "Verification of year, basis, and unit directly prevents common evidence mismatches."
+  },
+  {
+   "unit": 5,
+   "score": 1,
+   "label": "useful",
+   "redundant_with": null,
+   "reason": "Prevents substituting narrative or nearby tables for specifically requested chart evidence."
+  },
+  {
+   "unit": 6,
+   "score": 0,
+   "label": "neutral",
+   "redundant_with": null,
+   "reason": "Section heading only; it adds no independent behavior."
+  },
+  {
+   "unit": 7,
+   "score": 2,
+   "label": "essential",
+   "redundant_with": null,
+   "reason": "Exact extraction before arithmetic is fundamental for reliable quantitative answers."
+  },
+  {
+   "unit": 8,
+   "score": 2,
+   "label": "essential",
+   "redundant_with": null,
+   "reason": "Tracking period, unit, and role is critical to avoid mixing incompatible operands."
+  },
+  {
+   "unit": 9,
+   "score": 1,
+   "label": "useful",
+   "redundant_with": null,
+   "reason": "Reinforces correct sequencing for derived quantities after operand validation."
+  },
+  {
+   "unit": 10,
+   "score": 2,
+   "label": "essential",
+   "redundant_with": null,
+   "reason": "Checked series counts and correct statistical formulas are crucial for time-series calculations."
+  },
+  {
+   "unit": 11,
+   "score": 1,
+   "label": "useful",
+   "redundant_with": null,
+   "reason": "Footnote and definition checks help choose the correct row or column under special conventions."
+  },
+  {
+   "unit": 12,
+   "score": 1,
+   "label": "useful",
+   "redundant_with": null,
+   "reason": "Clarifies rate conventions and compounding, reducing errors in financial statistics."
+  },
+  {
+   "unit": 13,
+   "score": 1,
+   "label": "useful",
+   "redundant_with": null,
+   "reason": "Provides valuable but specialized guidance for tail-risk and loss calculations."
+  },
+  {
+   "unit": 14,
+   "score": 0,
+   "label": "neutral",
+   "redundant_with": null,
+   "reason": "Section heading only; the actionable final-answer rules follow."
+  },
+  {
+   "unit": 15,
+   "score": 1,
+   "label": "useful",
+   "redundant_with": null,
+   "reason": "A final consistency check reduces transcription and reasoning errors."
+  },
+  {
+   "unit": 16,
+   "score": 0,
+   "label": "redundant",
+   "redundant_with": 15,
+   "reason": "Mostly restates the need to base the final response on checked evidence."
+  },
+  {
+   "unit": 17,
+   "score": 2,
+   "label": "essential",
+   "redundant_with": null,
+   "reason": "Exact output formatting is a core requirement of the task."
+  },
+  {
+   "unit": 18,
+   "score": 0,
+   "label": "neutral",
+   "redundant_with": null,
+   "reason": "Placeholder comment with no task-relevant guidance."
+  }
+ ],
+ [
+  {
+   "unit": 0,
+   "score": 0,
+   "label": "neutral",
+   "redundant_with": null,
+   "reason": "Title only and does not add operational guidance."
+  },
+  {
+   "unit": 1,
+   "score": 0,
+   "label": "neutral",
+   "redundant_with": null,
+   "reason": "Section header organizes later guidance but has no independent effect."
+  },
+  {
+   "unit": 2,
+   "score": 1,
+   "label": "useful",
+   "redundant_with": null,
+   "reason": "Encourages efficient retrieval and reduces irrelevant long-document reading."
+  },
+  {
+   "unit": 3,
+   "score": 2,
+   "label": "essential",
+   "redundant_with": null,
+   "reason": "Targeted search by entity, period, measure, and table concept is central to finding the right evidence."
+  },
+  {
+   "unit": 4,
+   "score": 2,
+   "label": "essential",
+   "redundant_with": null,
+   "reason": "Verification of year, basis, and unit prevents the most common wrong-evidence failures."
+  },
+  {
+   "unit": 5,
+   "score": 1,
+   "label": "useful",
+   "redundant_with": null,
+   "reason": "Chart-specific evidence discipline prevents substituting superficially related narrative or table data."
+  },
+  {
+   "unit": 6,
+   "score": 0,
+   "label": "neutral",
+   "redundant_with": null,
+   "reason": "Section header only and adds no task behavior by itself."
+  },
+  {
+   "unit": 7,
+   "score": 2,
+   "label": "essential",
+   "redundant_with": null,
+   "reason": "Extracting exact values before arithmetic is fundamental for accurate quantitative answers."
+  },
+  {
+   "unit": 8,
+   "score": 2,
+   "label": "essential",
+   "redundant_with": null,
+   "reason": "Tracking period, unit, and semantic role directly prevents mixing incompatible operands."
+  },
+  {
+   "unit": 9,
+   "score": 1,
+   "label": "useful",
+   "redundant_with": null,
+   "reason": "Reinforces that derived answers should be computed only from confirmed operands."
+  },
+  {
+   "unit": 10,
+   "score": 2,
+   "label": "essential",
+   "redundant_with": null,
+   "reason": "Checked series counts and correct statistical formulas are critical for time-series and range questions."
+  },
+  {
+   "unit": 11,
+   "score": 1,
+   "label": "useful",
+   "redundant_with": null,
+   "reason": "Footnotes and definitional conventions often determine the correct financial row or column."
+  },
+  {
+   "unit": 12,
+   "score": 1,
+   "label": "useful",
+   "redundant_with": null,
+   "reason": "Clarifies rate conventions and conversions that can otherwise cause subtle statistical errors."
+  },
+  {
+   "unit": 13,
+   "score": 1,
+   "label": "useful",
+   "redundant_with": null,
+   "reason": "Provides valuable specialized guidance for loss and tail-risk computations when such prompts appear."
+  },
+  {
+   "unit": 14,
+   "score": 0,
+   "label": "neutral",
+   "redundant_with": null,
+   "reason": "Section header only and does not independently improve answers."
+  },
+  {
+   "unit": 15,
+   "score": 1,
+   "label": "useful",
+   "redundant_with": null,
+   "reason": "A final evidence consistency check catches retrieval or arithmetic slips before answering."
+  },
+  {
+   "unit": 16,
+   "score": 1,
+   "label": "useful",
+   "redundant_with": null,
+   "reason": "Helps prevent final-answer contamination from unverified intermediate guesses."
+  },
+  {
+   "unit": 17,
+   "score": 2,
+   "label": "essential",
+   "redundant_with": null,
+   "reason": "Exact output formatting is an explicit success criterion for these tasks."
+  },
+  {
+   "unit": 18,
+   "score": 0,
+   "label": "neutral",
+   "redundant_with": null,
+   "reason": "Placeholder comment with no substantive guidance."
+  }
+ ],
+ [
+  {
+   "unit": 0,
+   "score": 0,
+   "label": "neutral",
+   "redundant_with": null,
+   "reason": "Title only; it does not add operational guidance."
+  },
+  {
+   "unit": 1,
+   "score": 0,
+   "label": "neutral",
+   "redundant_with": null,
+   "reason": "Section heading only; the actionable content is in the bullets."
+  },
+  {
+   "unit": 2,
+   "score": 1,
+   "label": "useful",
+   "redundant_with": null,
+   "reason": "Helps avoid wasting context on irrelevant long documents."
+  },
+  {
+   "unit": 3,
+   "score": 2,
+   "label": "essential",
+   "redundant_with": null,
+   "reason": "Targeted search terms are central to retrieving the correct financial evidence."
+  },
+  {
+   "unit": 4,
+   "score": 2,
+   "label": "essential",
+   "redundant_with": null,
+   "reason": "Verifying year, basis, and unit prevents common wrong-answer substitutions."
+  },
+  {
+   "unit": 5,
+   "score": 1,
+   "label": "useful",
+   "redundant_with": null,
+   "reason": "Prevents substituting narrative or adjacent tables for requested chart evidence."
+  },
+  {
+   "unit": 6,
+   "score": 0,
+   "label": "neutral",
+   "redundant_with": null,
+   "reason": "Section heading only; it contributes no separate procedure."
+  },
+  {
+   "unit": 7,
+   "score": 2,
+   "label": "essential",
+   "redundant_with": null,
+   "reason": "Accurate arithmetic depends on first extracting exact source values."
+  },
+  {
+   "unit": 8,
+   "score": 2,
+   "label": "essential",
+   "redundant_with": null,
+   "reason": "Tracking period, unit, and role is critical to avoid mixing proxy operands."
+  },
+  {
+   "unit": 9,
+   "score": 1,
+   "label": "useful",
+   "redundant_with": null,
+   "reason": "Reinforces sequencing so derived quantities are not computed from unverified inputs."
+  },
+  {
+   "unit": 10,
+   "score": 2,
+   "label": "essential",
+   "redundant_with": null,
+   "reason": "Time-series and statistical questions require complete operand lists and correct formulas."
+  },
+  {
+   "unit": 11,
+   "score": 1,
+   "label": "useful",
+   "redundant_with": null,
+   "reason": "Footnotes and definitions often determine the correct financial row or column."
+  },
+  {
+   "unit": 12,
+   "score": 2,
+   "label": "essential",
+   "redundant_with": null,
+   "reason": "Rate conventions and annualization errors can completely change statistical results."
+  },
+  {
+   "unit": 13,
+   "score": 1,
+   "label": "useful",
+   "redundant_with": null,
+   "reason": "Provides valuable guardrails for specialized tail-risk and loss calculations."
+  },
+  {
+   "unit": 14,
+   "score": 0,
+   "label": "neutral",
+   "redundant_with": null,
+   "reason": "Section heading only; the bullets carry the substance."
+  },
+  {
+   "unit": 15,
+   "score": 1,
+   "label": "useful",
+   "redundant_with": null,
+   "reason": "A final evidence consistency check catches retrieval or arithmetic slips."
+  },
+  {
+   "unit": 16,
+   "score": 1,
+   "label": "useful",
+   "redundant_with": null,
+   "reason": "Discourages answering from an unchecked guess or stale intermediate value."
+  },
+  {
+   "unit": 17,
+   "score": 2,
+   "label": "essential",
+   "redundant_with": null,
+   "reason": "The task explicitly requires exact final-answer formatting."
+  },
+  {
+   "unit": 18,
+   "score": 0,
+   "label": "neutral",
+   "redundant_with": null,
+   "reason": "Placeholder comment with no task guidance."
+  }
+ ]
+]
