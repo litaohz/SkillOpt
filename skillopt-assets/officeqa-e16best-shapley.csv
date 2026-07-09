@@ -1,20 +1,20 @@
-unit,shapley,samples,text
-0,-0.0058,3,# OfficeQA Skill
-1,-0.0078,3,## Retrieval Discipline
-2,0.0194,3,- Start by narrowing to the most likely candidate file before reading long passages.
-3,-0.0058,3,"- Prefer targeted search terms that name the exact entity, period, measure, or table concept from the question."
-4,0.0368,3,"- After a promising match, read only a small surrounding span and verify it matches the requested year, basis, and unit."
-5,-0.0116,3,"- When the question names a chart or graph, treat the plotted chart data/crossover as the target evidence; do not substitute nearby narrative summaries or adjacent tables unless they contain the same measure, period, and chart concept."
-6,0.0019,3,## Evidence Discipline
-7,0.062,3,- Extract the exact value from the retrieved text before doing any arithmetic.
-8,0.0194,3,"- Keep track of each operand's period, unit, and semantic role so nearby proxy values are not mixed in."
-9,-0.0097,3,"- If the question asks for a transformed or derived quantity, compute only after confirming every operand."
-10,-0.0911,3,"- For range-based or time-series calculations, make a checked operand list with the expected count (months, fiscal years, or year-to-year intervals) before computing; use population formulas when the prompt specifies population standard deviation or coefficient of variation."
-11,0.0,3,"- When the prompt names inclusions, exclusions, retirements, revisions, or special conventions, read the nearby table notes/footnotes and choose the row or column whose definition already matches those conditions."
-12,-0.1066,3,"- Before statistical calculations, write down the exact requested series and formula, including whether rates are percentages, percentage points, decimals, annualized rates, or period rates; convert annualized quarterly rates to quarterly multipliers before compounding or taking geometric means."
-13,0.0329,3,"- For tail-risk/loss questions, compute the requested return/change distribution first, apply the specified tail probability with the correct sign convention so loss is positive, and perform currency/unit conversion only once at the end using the requested date and frequency."
-14,0.0,3,## Final Answer Discipline
-15,-0.0271,3,- Return the final answer only after one last consistency check against the retrieved evidence.
-16,0.0717,3,"- Copy the final answer from a checked value, not from an unverified intermediate guess."
-17,0.1744,3,"- Match the requested output form exactly: if the prompt asks for just a year, decimal, rounded number, or bracketed list, return only that value/list and omit units, prose, qualifiers such as ""around,"" and labels like ""percentage points"" unless explicitly requested."
-18,-0.0078,3,<!-- SLOW_UPDATE_START --> <!-- SLOW_UPDATE_END -->
+unit,shapley,se,samples,text
+0,-0.011,0.0068,10,# OfficeQA Skill
+1,-0.0006,0.006,10,## Retrieval Discipline
+2,0.0105,0.0098,10,- Start by narrowing to the most likely candidate file before reading long passages.
+3,-0.0116,0.0066,10,"- Prefer targeted search terms that name the exact entity, period, measure, or table concept from the question."
+4,0.0035,0.0137,10,"- After a promising match, read only a small surrounding span and verify it matches the requested year, basis, and unit."
+5,-0.011,0.0118,10,"- When the question names a chart or graph, treat the plotted chart data/crossover as the target evidence; do not substitute nearby narrative summaries or adjacent tables unless they contain the same measure, period, and chart concept."
+6,-0.0081,0.0067,10,## Evidence Discipline
+7,0.0366,0.0084,10,- Extract the exact value from the retrieved text before doing any arithmetic.
+8,0.0186,0.0148,10,"- Keep track of each operand's period, unit, and semantic role so nearby proxy values are not mixed in."
+9,0.0035,0.0067,10,"- If the question asks for a transformed or derived quantity, compute only after confirming every operand."
+10,-0.0483,0.0247,10,"- For range-based or time-series calculations, make a checked operand list with the expected count (months, fiscal years, or year-to-year intervals) before computing; use population formulas when the prompt specifies population standard deviation or coefficient of variation."
+11,0.007,0.0069,10,"- When the prompt names inclusions, exclusions, retirements, revisions, or special conventions, read the nearby table notes/footnotes and choose the row or column whose definition already matches those conditions."
+12,-0.0907,0.0317,10,"- Before statistical calculations, write down the exact requested series and formula, including whether rates are percentages, percentage points, decimals, annualized rates, or period rates; convert annualized quarterly rates to quarterly multipliers before compounding or taking geometric means."
+13,-0.0041,0.0119,10,"- For tail-risk/loss questions, compute the requested return/change distribution first, apply the specified tail probability with the correct sign convention so loss is positive, and perform currency/unit conversion only once at the end using the requested date and frequency."
+14,0.0087,0.0054,10,## Final Answer Discipline
+15,0.0157,0.0155,10,- Return the final answer only after one last consistency check against the retrieved evidence.
+16,0.0314,0.0097,10,"- Copy the final answer from a checked value, not from an unverified intermediate guess."
+17,0.2081,0.0195,10,"- Match the requested output form exactly: if the prompt asks for just a year, decimal, rounded number, or bracketed list, return only that value/list and omit units, prose, qualifiers such as ""around,"" and labels like ""percentage points"" unless explicitly requested."
+18,-0.0128,0.0065,10,<!-- SLOW_UPDATE_START --> <!-- SLOW_UPDATE_END -->

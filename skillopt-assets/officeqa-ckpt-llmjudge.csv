@@ -1,0 +1,33 @@
+unit,score_mean,score_std,label,redundant_with,n_runs,reason,text
+0,0.0,0.0,neutral,,3,Document title only; it adds no operational guidance.,# OfficeQA Skill
+1,0.0,0.0,neutral,,3,Section heading only; usefulness comes from the bullets below.,## Retrieval Discipline
+2,1.0,0.0,useful,,3,Helps avoid failed exact-date searches and directs the agent to authoritative time-series tables.,"- When an external official time-series observation is needed, prefer the source"
+3,2.0,0.0,essential,,3,Prioritizing provided evidence prevents unnecessary search and improves accuracy on document-grounded QA.,- Treat provided/oracle parsed pages as primary evidence: if they contain the re
+4,1.0,0.0,useful,,3,Encourages efficient retrieval before reading long irrelevant text.,- Start by narrowing to the most likely candidate file before reading long passa
+5,1.0,0.0,useful,,3,Targeted query terms improve recall and precision for the requested table or measure.,"- Prefer targeted search terms that name the exact entity, period, measure, or t"
+6,1.0,0.0,useful,,3,"Small-span verification reduces mismatches in year, basis, or unit.","- After a promising match, read only a small surrounding span and verify it matc"
+7,2.0,0.0,essential,,3,"Prevents computing from incomplete time ranges, a common serious failure mode.","- If the requested date range extends beyond the provided/oracle page, first enu"
+8,0.0,0.0,neutral,,3,Section heading only; it provides no direct behavioral instruction.,## Evidence Discipline
+9,2.0,0.0,essential,,3,Exact extraction before arithmetic is fundamental to evidence-based financial answers.,- Extract the exact value from the retrieved text before doing any arithmetic.
+10,2.0,0.0,essential,,3,"Tracking period, unit, and role prevents mixing nearby but incorrect operands.","- Keep track of each operand's period, unit, and semantic role so nearby proxy v"
+11,1.0,0.0,useful,,3,Specific Treasury financing role distinctions prevent common semantic calculation errors.,"- For Treasury financing narratives, label each amount by transaction role befor"
+12,1.0,0.0,useful,,3,A currency direction ledger reduces scale and exchange-rate orientation mistakes.,"- When converting currencies or scales, make a direction ledger first: source ta"
+13,2.0,0.0,essential,,3,Correct table alignment is critical when financial tables have repeated labels and adjacent columns.,"- For tables, align values by row label and exact column header, not proximity a"
+14,1.0,0.0,useful,,3,Reinforces that derived answers must wait until all operands are verified.,"- If the question asks for a transformed or derived quantity, compute only after"
+15,2.0,0.0,essential,,3,"Direction, sign, shares, and gaps are frequent sources of wrong final calculations.","- For derived comparisons, preserve the direction and sign implied by the wordin"
+16,2.0,0.0,essential,,3,"Statistical and growth questions require explicit formulas, endpoints, and conventions to be correct.","- For statistical, regression, correlation, and growth-rate questions, write a f"
+17,1.0,0.0,useful,,3,Freezing an evidenced lookup key prevents cascading errors in multi-stage questions.,- For multi-stage questions where one table determines the period/entity used in
+18,2.0,0.0,essential,,3,"Inclusive time-series ledgers prevent missing, duplicate, or wrong-basis observations.","- For inclusive time-series ranges, make a period-by-period ledger covering ever"
+19,1.0,0.0,useful,,3,"Adds important details for medians, regressions, endpoint inclusion, and logarithmic growth.","- For statistical transforms over time-series windows, confirm endpoint inclusio"
+20,0.0,0.0,neutral,,3,Section heading only; it does not itself improve task performance.,## Final Answer Discipline
+21,2.0,0.0,essential,,3,Exact unit conversion and requested formatting are central requirements of the task.,"- Before finalizing, enforce the requested unit and format: convert thousands/mi"
+22,1.0,0.0,useful,,3,A final evidence consistency check catches extraction or arithmetic slips.,- Return the final answer only after one last consistency check against the retr
+23,0.333,0.471,redundant,22,3,Copying from a checked value is already covered by the final consistency check.,"- Copy the final answer from a checked value, not from an unverified intermediat"
+24,0.0,0.0,neutral,,3,Section heading only; the substantive guidance is in later units.,## Statistical and Time-Series Calculation Checks
+25,2.0,0.0,essential,,3,"Specifies denominator conventions and no intermediate rounding, which are crucial for statistical accuracy.","- Before computing any statistic, write the intended formula and denominator con"
+26,1.667,0.471,essential,,3,Counting observations and excluding totals or out-of-range columns prevents major time-series errors.,"- For long inclusive ranges, first enumerate the expected count of observations "
+27,1.0,0.0,useful,,3,Helps avoid using the wrong nearby section when labels are similar.,"- When a page contains multiple nearby sections with similar labels, use only th"
+28,1.0,0.0,useful,,3,Captures specialized but important quotation and exchange-rate transformation rules.,"- For Treasury security quotations, obey the table's quote basis. If the table s"
+29,0.0,0.0,neutral,,3,Section heading only; it adds no separate actionable instruction.,## Stricter Final Formatting
+30,2.0,0.0,essential,,3,Strictly matching the requested output template is a core success criterion.,- Match any requested output template exactly. Unless the prompt explicitly asks
+31,0.0,0.0,neutral,,3,Comment marker only; it has no task effect.,<!-- SLOW_UPDATE_START --> <!-- SLOW_UPDATE_END -->
