@@ -1,0 +1,33 @@
+unit,score_mean,score_std,label,redundant_with,n_runs,reason,text
+0,0.0,0.0,neutral,,3,Title header with no actionable content.,# OfficeQA Skill
+1,0.0,0.0,neutral,,3,Section header only.,## Retrieval Discipline
+2,1.0,0.0,useful,,3,Guides efficient retrieval strategy and avoids repeated empty searches.,"- When an external official time-series observation is needed, prefer the source"
+3,2.0,0.0,essential,,3,Prioritizing oracle pages as primary evidence is central to accuracy and efficiency.,- Treat provided/oracle parsed pages as primary evidence: if they contain the re
+4,1.0,0.0,useful,,3,Narrowing to candidate file first is sensible retrieval guidance.,- Start by narrowing to the most likely candidate file before reading long passa
+5,1.0,0.0,useful,,3,Targeted search terms improve retrieval precision.,"- Prefer targeted search terms that name the exact entity, period, measure, or t"
+6,1.0,0.0,useful,,3,Verifying year/basis/unit prevents wrong-evidence errors.,"- After a promising match, read only a small surrounding span and verify it matc"
+7,2.0,0.0,essential,,3,Preventing computation from partial ledgers is critical for correctness.,"- If the requested date range extends beyond the provided/oracle page, first enu"
+8,0.0,0.0,neutral,,3,Section header only.,## Evidence Discipline
+9,2.0,0.0,essential,,3,Extracting exact values before arithmetic is fundamental to accuracy.,- Extract the exact value from the retrieved text before doing any arithmetic.
+10,1.0,0.0,useful,,3,Tracking operand metadata prevents mixing proxy values.,"- Keep track of each operand's period, unit, and semantic role so nearby proxy v"
+11,2.0,0.0,essential,,3,Domain-specific labeling of Treasury financing roles prevents common serious mistakes.,"- For Treasury financing narratives, label each amount by transaction role befor"
+12,2.0,0.0,essential,,3,Currency/scale direction ledger prevents inversion errors that ruin answers.,"- When converting currencies or scales, make a direction ledger first: source ta"
+13,2.0,0.0,essential,,3,Table alignment by exact header avoids frequent proximity errors.,"- For tables, align values by row label and exact column header, not proximity a"
+14,0.0,0.0,redundant,9,3,Compute-after-confirming largely restates the extract-before-arithmetic rule.,"- If the question asks for a transformed or derived quantity, compute only after"
+15,2.0,0.0,essential,,3,Preserving direction/sign in derived comparisons prevents wrong-signed answers.,"- For derived comparisons, preserve the direction and sign implied by the wordin"
+16,1.667,0.471,essential,,3,Formula ledger for stats/regression tasks is key to convention correctness.,"- For statistical, regression, correlation, and growth-rate questions, write a f"
+17,1.0,0.0,useful,,3,Freezing derived keys aids multi-stage lookups.,- For multi-stage questions where one table determines the period/entity used in
+18,1.0,0.0,useful,26,3,Period-by-period ledger guidance is helpful though overlaps with 26.,"- For inclusive time-series ranges, make a period-by-period ledger covering ever"
+19,1.0,0.0,useful,16,3,Statistical transform details useful but partly overlap 16 and 25.,"- For statistical transforms over time-series windows, confirm endpoint inclusio"
+20,0.0,0.0,neutral,,3,Section header only.,## Final Answer Discipline
+21,2.0,0.0,essential,,3,Enforcing unit/format conversion is directly tied to exact-format requirement.,"- Before finalizing, enforce the requested unit and format: convert thousands/mi"
+22,1.0,0.0,useful,,3,Final consistency check reduces careless errors.,- Return the final answer only after one last consistency check against the retr
+23,1.0,0.0,useful,22,3,"Copying from checked value reinforces verification, minor overlap with 22.","- Copy the final answer from a checked value, not from an unverified intermediat"
+24,0.0,0.0,neutral,,3,Section header only.,## Statistical and Time-Series Calculation Checks
+25,2.0,0.0,essential,,3,Population vs sample stddev and no-intermediate-rounding is decisive for statistical answers.,"- Before computing any statistic, write the intended formula and denominator con"
+26,1.0,0.0,useful,,3,Counting observations and excluding total/cumulative columns prevents range errors.,"- For long inclusive ranges, first enumerate the expected count of observations "
+27,1.0,0.0,useful,13,3,Matching exact section title useful but overlaps with 13.,"- When a page contains multiple nearby sections with similar labels, use only th"
+28,2.0,0.0,essential,,3,32nds quote conversion is a domain trap that would silently ruin answers.,"- For Treasury security quotations, obey the table's quote basis. If the table s"
+29,0.0,0.0,neutral,,3,Section header only.,## Stricter Final Formatting
+30,2.0,0.0,essential,,3,Strict numeric-only output formatting is critical to exact-format grading.,- Match any requested output template exactly. Unless the prompt explicitly asks
+31,0.0,0.0,neutral,,3,Empty placeholder comment with no content.,<!-- SLOW_UPDATE_START --> <!-- SLOW_UPDATE_END -->
