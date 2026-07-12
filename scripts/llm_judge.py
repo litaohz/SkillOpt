@@ -29,12 +29,23 @@ sys.path.insert(0, _PROJECT_ROOT)
 from skill_attribution import split_units  # noqa: E402
 from skillopt.model import azure_openai as ao  # noqa: E402
 
-TASK_DESC = (
+TASK_DESC_OFFICEQA = (
     "The skill guides an agent that answers questions over U.S. Treasury / office "
     "financial documents (tables, time series, charts) using search + document-read "
     "tools. The agent must retrieve the right evidence, do careful arithmetic/statistics, "
     "and return the final answer in the exact requested format."
 )
+
+TASK_DESC_SSB = (
+    "The skill guides an agent that manipulates Excel (.xlsx) spreadsheets to satisfy a "
+    "natural-language instruction (SpreadsheetBench). The agent writes and executes a "
+    "Python solution (openpyxl / pandas), edits the target cells or ranges, preserves "
+    "unrelated sheets/cells and formatting, and saves an output workbook whose cell "
+    "values are checked for exact correctness."
+)
+
+TASK_DESCS = {"officeqa": TASK_DESC_OFFICEQA, "ssb": TASK_DESC_SSB}
+TASK_DESC = TASK_DESC_OFFICEQA
 
 JUDGE_SYSTEM = (
     "You are an expert evaluator of LLM-agent *skill* documents. You judge how much "
@@ -45,10 +56,10 @@ JUDGE_SYSTEM = (
 )
 
 
-def build_user_prompt(units: list[str]) -> str:
+def build_user_prompt(units: list[str], task_desc: str = TASK_DESC) -> str:
     lines = [
         "## Task the skill is for",
-        TASK_DESC,
+        task_desc,
         "",
         "## Skill units (numbered)",
     ]
@@ -93,7 +104,13 @@ def main() -> None:
     ap.add_argument("--azure_openai_endpoint", default="http://localhost:4141/v1")
     ap.add_argument("--azure_openai_api_key", default="dummy")
     ap.add_argument("--azure_openai_auth_mode", default="openai_compatible")
+    ap.add_argument("--task", choices=sorted(TASK_DESCS), default="officeqa",
+                    help="task context for the judge prompt")
+    ap.add_argument("--task-desc", default=None,
+                    help="override task description text (takes precedence over --task)")
     args = ap.parse_args()
+
+    task_desc = args.task_desc or TASK_DESCS[args.task]
 
     with open(args.skill, encoding="utf-8") as f:
         units = split_units(f.read())
@@ -107,7 +124,7 @@ def main() -> None:
     )
     ao.set_target_deployment(args.model)
 
-    user = build_user_prompt(units)
+    user = build_user_prompt(units, task_desc)
     per_run: list[dict[int, dict]] = []
     for r in range(args.runs):
         print(f"  [judge] run {r + 1}/{args.runs} ({n} units) ...", flush=True)

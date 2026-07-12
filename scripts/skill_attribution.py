@@ -152,6 +152,12 @@ def build_base_eval_cmd(args: argparse.Namespace) -> list[str]:
         cmd += ["--split_dir", args.split_dir]
     if args.target_model:
         cmd += ["--target_model", args.target_model]
+    if args.target_backend:
+        cmd += ["--target_backend", args.target_backend]
+    if args.claude_code_exec_path:
+        cmd += ["--claude_code_exec_path", args.claude_code_exec_path]
+    if args.claude_code_exec_use_sdk:
+        cmd += ["--claude_code_exec_use_sdk", args.claude_code_exec_use_sdk]
     if args.azure_openai_endpoint:
         cmd += ["--azure_openai_endpoint", args.azure_openai_endpoint]
     if args.azure_openai_api_key:
@@ -182,6 +188,9 @@ def main() -> None:
     ap.add_argument("--split", default="valid_unseen")
     ap.add_argument("--split_dir", default="")
     ap.add_argument("--target_model", default="")
+    ap.add_argument("--target_backend", default="")
+    ap.add_argument("--claude_code_exec_path", default="")
+    ap.add_argument("--claude_code_exec_use_sdk", default="")
     ap.add_argument("--azure_openai_endpoint", default="")
     ap.add_argument("--azure_openai_api_key", default="")
     ap.add_argument("--azure_openai_auth_mode", default="")
