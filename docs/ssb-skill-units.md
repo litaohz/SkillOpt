@@ -38,6 +38,23 @@
 
 **结论：内省式归因的失效对 prompt 校准鲁棒。** 逼 judge 打负分，它会打——但打在错的单元上；真正的 boilerplate/结构性有害单元系统性识别不出。这不是 prompt artifact，而是"读文本 ≠ 懂行为贡献"的本质局限。
 
+## judge 相关性是否由 prompt 决定?（framing invariance）
+
+质疑：judge 相关 add-one 还是 LOO，会不会只是 prompt 怎么写？为此做**语义对齐**实验——两个变体把问法**精确对齐**到两个行为量：
+
+- `addone_framed`：“skill 为空，只加这一条，单独能改变多少？”（= add-one 语义）
+- `loo_framed`：“agent 已有完整 skill，单独删这一条会掉多少？”（= LOO 语义）
+
+| judge prompt | 均值 | #负分 | ρ(add-one) | ρ(LOO) |
+|---|--:|--:|--:|--:|
+| neutral（默认，删除语义措辞） | +1.00 | 0 | +0.246 | −0.180 |
+| addone_framed | +0.85 | 0 | +0.302 | −0.254 |
+| loo_framed | +0.77 | 0 | +0.221 | **−0.210** |
+
+**决定性证据**：`loo_framed` 明确按 LOO 语义问（“从满 skill 删掉它会掉多少分”），结果**仍与真实 LOO 负相关（−0.210）、与 add-one 正相关（+0.221）**。若相关性由 prompt 决定，loo_framed 应对齐 LOO（转正）——但它连符号都没翻。三个 prompt 的符号模式完全一致（+add-one / −LOO），措辞只改变幅度约 ±0.05。
+
+**结论：judge 的相关目标不由 prompt 决定。** 不管怎么问，judge 输出的都是“这段文字看起来独不独立有用”（≈ add-one 方向），而系统性判错“边际不可替代性”（LOO）。这是“读文本 ≠ 懂行为贡献”的本质局限，不是 prompt artifact。
+
 ## 全 67 单元表（按 add-one 降序）
 
 | # | chars | add-one Δ% | LOO Δ% | judge | label | text |

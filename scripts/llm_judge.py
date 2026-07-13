@@ -88,20 +88,50 @@ def build_user_prompt(
     for i, u in enumerate(units):
         one = " ".join(u.split())
         lines.append(f"[{i}] {one}")
-    lines += [
-        "",
-        "## Instructions",
-        "For EACH unit above, judge its expected contribution to task success.",
-        "Return ONLY a JSON array (no prose, no code fences), one object per unit:",
-        '  {"unit": <int>, "score": <int -2..+2>, "label": '
-        '"harmful|redundant|neutral|useful|essential", '
-        '"redundant_with": <int or null>, "reason": "<one short sentence>"}',
-        "Scale: -2 harmful (removing it would HELP), -1 mildly harmful, "
-        "0 neutral/filler, +1 useful, +2 essential (removing it clearly hurts).",
-        "Mark 'redundant' (score ~0) only if another unit already covers it; put that "
-        "unit's index in redundant_with.",
-        "Output every unit exactly once, ordered by unit index.",
-    ]
+    lines += ["", "## Instructions"]
+
+    if variant == "addone_framed":
+        # Match the add-one behavioral quantity: value of a unit added ALONE.
+        lines += [
+            "Imagine the agent has an EMPTY skill (no guidance at all). For EACH unit "
+            "above, judge how much adding ONLY that single unit — by itself, with no "
+            "other units present — would change task success versus having no skill.",
+            "Return ONLY a JSON array (no prose, no code fences), one object per unit:",
+            '  {"unit": <int>, "score": <int -2..+2>, "label": '
+            '"harmful|redundant|neutral|useful|essential", '
+            '"redundant_with": <int or null>, "reason": "<one short sentence>"}',
+            "Scale (STANDALONE effect): -2 = adding it alone clearly HURTS, -1 mildly "
+            "hurts, 0 no effect alone, +1 helps alone, +2 = adding it alone clearly "
+            "helps. Judge each unit in ISOLATION, not assuming other units are present.",
+        ]
+    elif variant == "loo_framed":
+        # Match the LOO behavioral quantity: effect of REMOVING a unit from the full skill.
+        lines += [
+            "Assume the agent already has the COMPLETE skill (all units above present). "
+            "For EACH unit, judge how much REMOVING only that one unit (leaving all "
+            "others) would change task success.",
+            "Return ONLY a JSON array (no prose, no code fences), one object per unit:",
+            '  {"unit": <int>, "score": <int -2..+2>, "label": '
+            '"harmful|redundant|neutral|useful|essential", '
+            '"redundant_with": <int or null>, "reason": "<one short sentence>"}',
+            "Scale (REMOVAL effect from the full skill): -2 = removing it clearly HELPS "
+            "(the unit is harmful), -1 mildly helps, 0 removing it makes no difference "
+            "(redundant/filler), +1 removing it mildly hurts, +2 = removing it clearly "
+            "hurts (indispensable). Account for the other units already covering it.",
+        ]
+    else:
+        lines += [
+            "For EACH unit above, judge its expected contribution to task success.",
+            "Return ONLY a JSON array (no prose, no code fences), one object per unit:",
+            '  {"unit": <int>, "score": <int -2..+2>, "label": '
+            '"harmful|redundant|neutral|useful|essential", '
+            '"redundant_with": <int or null>, "reason": "<one short sentence>"}',
+            "Scale: -2 harmful (removing it would HELP), -1 mildly harmful, "
+            "0 neutral/filler, +1 useful, +2 essential (removing it clearly hurts).",
+            "Mark 'redundant' (score ~0) only if another unit already covers it; put "
+            "that unit's index in redundant_with.",
+        ]
+    lines.append("Output every unit exactly once, ordered by unit index.")
     if variant == "strong":
         lines.append(_STRONG_INSTR)
     return "\n".join(lines)
@@ -132,9 +162,10 @@ def main() -> None:
                     help="task context for the judge prompt")
     ap.add_argument("--task-desc", default=None,
                     help="override task description text (takes precedence over --task)")
-    ap.add_argument("--variant", choices=["default", "strong"], default="default",
-                    help="'strong' adds an explicit negative-prior to counter the "
-                         "judge's observed positivity bias (fairness/robustness check)")
+    ap.add_argument("--variant", choices=["default", "strong", "addone_framed", "loo_framed"],
+                    default="default",
+                    help="'strong' adds a negative-prior; 'addone_framed'/'loo_framed' "
+                         "phrase the question to match the add-one / LOO behavioral quantity")
     args = ap.parse_args()
 
     task_desc = args.task_desc or TASK_DESCS[args.task]
