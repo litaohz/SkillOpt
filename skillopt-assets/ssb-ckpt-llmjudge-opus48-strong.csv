@@ -1,0 +1,68 @@
+unit,score_mean,score_std,label,redundant_with,n_runs,reason,text
+0,0.0,0.0,neutral,,3,"Title, no actionable content.",# Spreadsheet Manipulation Skill (xlsx)
+1,0.0,0.0,neutral,,3,Section header filler.,## Overview
+2,0.0,0.0,redundant,0,3,Restates the obvious task.,This skill guides agents in manipulating Excel (.xlsx) spreadsheets using Python
+3,1.0,0.0,useful,,3,Library restriction is a useful constraint.,"**Primary libraries**: `openpyxl` (structure-preserving read/write), `pandas` (d"
+4,0.0,0.0,neutral,,3,"Divider, no content.",---
+5,0.0,0.0,neutral,,3,Section header.,## Common Workflow
+6,1.0,0.0,useful,,3,Explore step is basic good practice.,"1. **Explore** the input file: list sheets, inspect headers, check dimensions."
+7,1.0,0.0,useful,,3,Inspecting example/reference tabs helps edge cases.,"- Inspect actual workbook data beyond the preview, including nearby rows/columns"
+8,1.0,0.0,useful,,3,Warns to recompute full range not copy examples.,- Treat existing filled cells in the requested output area or adjacent example t
+9,0.667,0.471,useful,10,3,Multi-table awareness helps locate targets.,"- Scan the used range for complete header groups, not just row 1. Tables may sta"
+10,1.0,0.0,useful,,3,Header-based location avoids fixed coordinates.,"- Locate tables, fields, and target ranges by header text, nearby labels, and su"
+11,1.0,0.0,useful,,3,"Defines path variables, standard convention.",2. **Write `solution.py`** with `INPUT_PATH` and `OUTPUT_PATH` defined at the to
+12,0.667,0.471,useful,13,3,"Verify creation, overlaps confirmation step.",3. **Execute** `python solution.py` and verify the output file was created.
+13,0.333,0.471,redundant,12,3,Confirm target values is good practice.,4. **Confirm** the target cells/range contain the expected values.
+14,0.0,0.0,neutral,,3,Divider.,---
+15,0.0,0.0,neutral,,3,Section header.,## Library Selection
+16,0.667,0.471,useful,3,3,Library selection table is concise guidance.,"| Use case | Library | |----------|---------| | Preserve formulas, formatting, n"
+17,1.333,0.471,useful,,3,Critical warning about pandas destroying formulas.,**Warning**: `pandas.to_excel()` silently destroys existing formulas and named r
+18,2.0,0.0,essential,,3,Explains data_only for reading cached formula values.,**Formula evaluation caution**: `openpyxl` can write formulas but does **not** c
+19,1.0,0.0,useful,18,3,Concrete code for dual-load pattern.,```python wb = openpyxl.load_workbook(INPUT_PATH) wb_values = openpyxl.load_work
+20,1.333,0.471,useful,,3,Key guidance to write values not formulas for verification.,"Treat wording such as “write/fix a formula,” “SUMIFS/COUNTIFS,” “VBA,” or “macro"
+21,1.0,0.0,useful,,3,Using given formula as spec is helpful.,"When the user provides an existing or broken formula, use it as a semantic speci"
+22,0.0,0.0,neutral,,3,Divider.,---
+23,0.0,0.0,neutral,,3,Section header.,## solution.py Template
+24,0.667,0.471,useful,,3,"Import boilerplate, trivial.",```python import openpyxl import pandas as pd
+25,0.333,0.471,neutral,11,3,Path variable template duplicates unit 11.,"INPUT_PATH = ""..."" # set to the actual input path OUTPUT_PATH = ""..."" # set to t"
+26,0.333,0.471,neutral,,3,Trivial load boilerplate.,"wb = openpyxl.load_workbook(INPUT_PATH) ws = wb.active # or wb[""SheetName""]"
+27,0.0,0.0,neutral,,3,Placeholder comment.,# --- perform manipulation ---
+28,0.333,0.471,neutral,31,3,Trivial save line.,wb.save(OUTPUT_PATH) ```
+29,0.0,0.0,neutral,,3,Divider.,---
+30,0.0,0.0,neutral,,3,Section header.,## Output Requirements
+31,0.333,0.471,redundant,28,3,Save to output path reminder.,- Save the result to `OUTPUT_PATH`.
+32,1.0,0.0,useful,,3,Avoid hardcoding dimensions is valuable.,- Do not hardcode row counts or column letters — iterate over actual rows in the
+33,2.0,0.0,essential,,3,Preserving unrelated cells is core to grading.,- Preserve sheets and cells not mentioned in the instruction.
+34,0.0,0.0,neutral,,3,Section header.,## Matching and Target Range Hygiene
+35,1.0,0.0,useful,,3,Operator choice guidance reduces mismatch errors.,- Choose the comparison operator from the instruction and examples: use `startsw
+36,1.0,0.0,useful,,3,Normalization/numeric parsing guidance helps matching.,- Create small helper functions for comparisons and numeric parsing. Normalize t
+37,1.0,0.0,useful,,3,Date normalization guidance is broadly relevant.,"- Normalize date keys deliberately: handle `datetime`/`date` objects, Excel seri"
+38,-0.333,0.471,harmful,37,3,"Narrow period-grid case, overlaps date guidance.","- For monthly or period summary grids, canonicalize period labels from all sourc"
+39,1.0,0.0,useful,,3,Inclusivity inference is a common pitfall.,"- For date ranges and rolling windows, infer endpoint inclusivity from wording a"
+40,0.667,0.471,useful,,3,Time value handling with number_format is specific and useful.,"- For time extraction or time-threshold logic, parse `datetime`, `time`, Excel s"
+41,1.0,0.0,useful,,3,Composite key and order preservation guidance.,"- For joins, deduplication, grouping, interval lookups, lookup grids, and ordere"
+42,1.0,0.0,useful,,3,Two-pass approach for lookup outputs is sound.,"- For outputs that depend on other rows or lookup grids, make a first pass to bu"
+43,0.667,0.471,useful,36,3,Numeric-ID consistency useful but overlaps normalization.,"- For lookups, filters, joins, and label/header matching, normalize comparison k"
+44,1.0,0.0,useful,,3,Clear target range then preserve formatting is key.,"- When replacing a generated output area, clear only the instructed target range"
+45,1.0,0.0,useful,,3,Formatting application guidance with color conversion.,"- If the instruction includes formatting changes, apply them exactly after writi"
+46,1.0,0.0,useful,,3,Don't restructure unless asked—prevents errors.,"- When the instruction names a destination range or columns, write derived resul"
+47,0.0,0.0,redundant,42,3,"Overlaps two-pass/clear guidance, adds row copy detail.","- For filtered lists, summaries, and aggregations, first collect all source reco"
+48,1.0,0.0,useful,,3,Preserve blanks as None matters for exact checks.,- Preserve intended blanks as empty cells (`None`) rather than placeholder text 
+49,1.0,0.0,useful,,3,0-vs-blank missing-match distinction is important.,"- For numeric aggregation, crosstab, SUMIFS-like, and INDEX/MATCH-style summary "
+50,1.0,0.0,useful,,3,Blank-sensitive logic with data_only is specific.,"- For blank-sensitive logic such as “if input is blank, output blank,” evaluate "
+51,0.333,0.471,neutral,,3,Section header.,## Robustness for Simple Fill Tasks
+52,0.667,0.471,useful,51,3,"Prefer simple loops, run once—good practice.","- Prefer simple, auditable row/column loops over complex workbook XML parsing un"
+53,0.0,0.0,redundant,20,3,Repeats formula-to-value guidance already in unit 20.,"<!-- SLOW_UPDATE_START --> When the user asks for a formula, macro, VBA code, or"
+54,0.667,0.471,useful,13,3,Reload and verify literals catches failures.,"After writing, reload or inspect the saved workbook and verify that every reques"
+55,0.0,0.0,redundant,21,3,Repeats using formulas as spec from unit 21.,"Use existing formulas in the workbook as examples/specifications, not as output."
+56,0.0,0.0,redundant,50,3,Duplicates blank-sensitive formula guidance.,"For blank-sensitive formula tasks, compute the branch explicitly: if the driving"
+57,0.0,0.0,redundant,42,3,Lookup/category fill-all overlaps two-pass lookup guidance.,"For lookup/category tasks, locate both the input rows and the lookup table by he"
+58,-0.667,0.471,harmful,,3,Very narrow nth-row/OFFSET case.,"For “every nth row” or OFFSET-style tasks, infer the source column, first source"
+59,-1.333,0.471,harmful,,3,"Overly specific schedule scenario adds noise, over-constrains.","For schedule/calendar fill tasks, build a cycle-day-to-periods mapping from the "
+60,-0.333,0.471,neutral,42,3,INDEX/MATCH multi-key overlaps lookup guidance.,"For INDEX/MATCH problems where the first row works but subsequent rows fail, tre"
+61,0.667,0.471,useful,,3,Multi-step completeness reminder is valuable.,"For multi-step macro/VBA-style requests, implement every stated operation in the"
+62,1.0,0.0,useful,,3,Special total/constraint rows handling is common pitfall.,"When a target range includes special rows such as `Total`, `Grand Total`, `min`,"
+63,-1.667,0.471,harmful,,3,Hyper-specific residual-balancing recipe likely misleads other tasks.,"For residual-balancing tasks, identify data rows separately from min/max constra"
+64,-1.0,0.0,harmful,62,3,"Overly narrow time-threshold summary case, overlaps 62.","For time-threshold rows, decide per row whether it is a normal data row or a sum"
+65,0.0,0.0,redundant,52,3,Repeats run/verify simplicity guidance.,Keep scripts simple enough to run cleanly. Avoid unnecessary dynamic code genera
+66,-1.0,0.0,harmful,,3,"Content-filter caution irrelevant, adds distracting constraint.",If workbook cells contain arbitrary sample text that could be sensitive or trigg
