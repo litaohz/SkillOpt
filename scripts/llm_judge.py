@@ -55,8 +55,30 @@ JUDGE_SYSTEM = (
     "interactions between units, not just each unit in isolation."
 )
 
+# Strong-prior variant: explicitly counter the observed positivity bias so the
+# judge is given every chance to assign negatives before we conclude it cannot.
+JUDGE_SYSTEM_STRONG = (
+    JUDGE_SYSTEM
+    + " CRITICAL CALIBRATION: empirically, in machine-optimized skills a LARGE "
+    "fraction of units are net-HARMFUL or redundant — behavioral ablation on skills "
+    "like this one found that roughly HALF of the units, when present, REDUCE task "
+    "success (they over-constrain, mislead, add noise, or duplicate other units). A "
+    "response that assigns zero or almost-zero negative scores is therefore almost "
+    "certainly miscalibrated. Your primary job is to identify which specific units a "
+    "careful engineer should DELETE. Do not hedge toward the middle; assign -2/-1 "
+    "freely wherever a unit is more likely to hurt than help."
+)
 
-def build_user_prompt(units: list[str], task_desc: str = TASK_DESC) -> str:
+# Extra instruction block appended in the strong variant.
+_STRONG_INSTR = (
+    "This is an optimized skill; expect many harmful/redundant units. Actively hunt "
+    "for units to remove. Assigning no negatives is a failure of the task."
+)
+
+
+def build_user_prompt(
+    units: list[str], task_desc: str = TASK_DESC, variant: str = "default"
+) -> str:
     lines = [
         "## Task the skill is for",
         task_desc,
@@ -80,6 +102,8 @@ def build_user_prompt(units: list[str], task_desc: str = TASK_DESC) -> str:
         "unit's index in redundant_with.",
         "Output every unit exactly once, ordered by unit index.",
     ]
+    if variant == "strong":
+        lines.append(_STRONG_INSTR)
     return "\n".join(lines)
 
 
@@ -108,9 +132,13 @@ def main() -> None:
                     help="task context for the judge prompt")
     ap.add_argument("--task-desc", default=None,
                     help="override task description text (takes precedence over --task)")
+    ap.add_argument("--variant", choices=["default", "strong"], default="default",
+                    help="'strong' adds an explicit negative-prior to counter the "
+                         "judge's observed positivity bias (fairness/robustness check)")
     args = ap.parse_args()
 
     task_desc = args.task_desc or TASK_DESCS[args.task]
+    judge_system = JUDGE_SYSTEM_STRONG if args.variant == "strong" else JUDGE_SYSTEM
 
     with open(args.skill, encoding="utf-8") as f:
         units = split_units(f.read())
@@ -124,12 +152,12 @@ def main() -> None:
     )
     ao.set_target_deployment(args.model)
 
-    user = build_user_prompt(units, task_desc)
+    user = build_user_prompt(units, task_desc, args.variant)
     per_run: list[dict[int, dict]] = []
     for r in range(args.runs):
-        print(f"  [judge] run {r + 1}/{args.runs} ({n} units) ...", flush=True)
+        print(f"  [judge] run {r + 1}/{args.runs} ({n} units, variant={args.variant}) ...", flush=True)
         text, _ = ao.chat_target(
-            JUDGE_SYSTEM, user, max_completion_tokens=16384,
+            judge_system, user, max_completion_tokens=16384,
             stage="llm_judge", reasoning_effort=args.reasoning_effort,
         )
         with open(os.path.join(args.out_root, f"raw_run{r}.txt"), "w", encoding="utf-8") as f:
