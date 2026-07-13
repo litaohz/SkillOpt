@@ -40,22 +40,23 @@
 
 ## Test-280 剪枝验证
 
-把 val-40 归因的处方拿到**独立的 test-280**（cc/opus-4.8）上验证。两个 25 单元剪枝 skill 只重合 11/25，构成两 flat 方法的正面对决。
+把 val-40 归因的处方拿到**独立的 test-280**（cc/opus-4.8）上验证。三种归因各自剪出一个 **25 单元** skill（同预算），处方互不相同：overlap LOO∩add-one=11/25、judge∩LOO=9/25、judge∩add-one=13/25。
 
-| skill | #units | chars | test-280 hard |
-|---|--:|--:|--:|
-| full（论文原 skill） | 67 | 13287 | 0.786 |
-| **LOO-pruned**（保留 LOO Δ>0） | 25 | 4640 | **0.800** |
-| add-one-topK（add-one 前 25） | 25 | 6644 | 0.782 |
-| no-skill | 0 | 0 | 0.511 |
+| skill | #units | chars | test-280 hard | SE(±) |
+|---|--:|--:|--:|--:|
+| full（论文原 skill） | 67 | 13287 | 0.786 | 2.45% |
+| **LOO-pruned**（保留 LOO Δ>0） | 25 | 4640 | **0.800** | 2.39% |
+| add-one-topK（add-one 前 25） | 25 | 6644 | 0.782 | 2.47% |
+| judge-pruned（judge 前 25） | 25 | 5811 | 0.800 | 2.39% |
+| no-skill | 0 | 0 | 0.511 | 2.99% |
 
-三个结论：
+**诚实解读（含统计显著性）：**
 
-1. **LOO-pruned（0.800）> full（0.786）** —— 只用 1/3 的单元、35% 的篇幅，test 分**不降反升 +1.4pt**。删掉 LOO≤0 的死重（冗余 + 有害单元），性能反而更好 → **LOO 归因能指导有效剪枝**，且论文原 skill 确实含净有害单元。
-2. **LOO-pruned（0.800）> add-one-topK（0.782）** —— 同样 25 单元预算、仅重合 11/25，**匹配 criterion 的 LOO 剪枝赢 +1.8pt**。这印证了"剪枝要用 LOO 不是 add-one"（criterion 与 operation 匹配），也直接量化了 `add-one↔LOO≈0` 的**下游代价**：用错端点做剪枝，test 掉 1.8 分。
-3. add-one-topK（0.782）几乎追平 full —— add-one 作为**构造**（从空集 top-K 往上加）也接近满 skill，符合它"裸贡献"的语义定位。
+1. **唯一显著的效应 = 1/3 体积的无损压缩。** 三个 25 单元剪枝 skill（0.782–0.800）全都 ≈ full（0.786），且都远高于 no-skill（0.511，差 ~10 SE）。即**归因指导下把 67 单元砍到 25、篇幅砍到 35–50%，test 不掉分**——论文原 skill 有大量可删死重，任一归因都能定位到。
+2. **四个变体之间的差异不显著。** 它们跨度仅 **1.8pt，而 1 SE≈2.4pt（n=280）** → LOO-pruned=judge-pruned=0.800、add-one=0.782、full=0.786 的排序**在噪声内**。⚠️ 因此**不能**用 test-280 声称"LOO 剪枝优于 add-one/judge"——粗粒度 top-25 剪枝这个任务太"容易"（把 boilerplate/分隔符删掉谁都会），区分不开各方法。
+3. **judge 在粗粒度триаж上够用、在细粒度归因上失效。** judge 把结构单元（`---`、标题）打低分、内容规则打高分，所以 judge-pruned 也删对了 boilerplate → 0.800。judge 的**失效是细粒度的**（见上文 Spearman −0.18/≈0、never-negative、认不出真正有害单元），而不是"选哪 25 个留下"这种粗活。
 
-**定位**：add-one / LOO 都是 flat baseline。本节证明了它们**各自的正确用法**（LOO→剪枝、add-one→构造）以及**用错端点的代价**。真正的结构化方法（DAG+tree / SSG）目标是超越这些 flat 端点——本节为其提供了完整的对照与验证协议（value function=val、confirmation=test，避免 test 泄漏）。*（本节不声称 SSG 结果。）*
+**定位**：flat 归因（LOO/add-one）与内省归因（judge）在"砍到 1/3 不掉分"上**难分伯仲**（差异在噪声内）；真正区分它们的是**细粒度保真度**（相关性、识别有害/冗余单元），而那正是结构化方法（DAG+tree / SSG）要发力、也是粗粒度剪枝任务测不出来的地方。本节确立了 value function=val、confirmation=test（避免 test 泄漏）的验证协议。*（本节不声称 SSG 结果。）*
 
 ## judge 相关性是否由 prompt 决定?（framing invariance）
 
