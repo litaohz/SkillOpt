@@ -1,0 +1,20 @@
+{
+  "skill": "C:\\Users\\taoli1\\SkillOpt\\outputs\\ssb_pruned_addone_topk.md",
+  "split": "test",
+  "n_items": 280,
+  "hard": 0.7821428571428571,
+  "soft": 0.7821428571428571,
+  "tokens": {
+    "_total": {
+      "calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0
+    }
+  },
+  "tokens_per_item": {
+    "prompt": 0.0,
+    "completion": 0.0,
+    "total": 0.0
+  }
+}

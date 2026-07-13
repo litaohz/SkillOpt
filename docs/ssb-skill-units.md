@@ -38,6 +38,25 @@
 
 **结论：内省式归因的失效对 prompt 校准鲁棒。** 逼 judge 打负分，它会打——但打在错的单元上；真正的 boilerplate/结构性有害单元系统性识别不出。这不是 prompt artifact，而是"读文本 ≠ 懂行为贡献"的本质局限。
 
+## Test-280 剪枝验证
+
+把 val-40 归因的处方拿到**独立的 test-280**（cc/opus-4.8）上验证。两个 25 单元剪枝 skill 只重合 11/25，构成两 flat 方法的正面对决。
+
+| skill | #units | chars | test-280 hard |
+|---|--:|--:|--:|
+| full（论文原 skill） | 67 | 13287 | 0.786 |
+| **LOO-pruned**（保留 LOO Δ>0） | 25 | 4640 | **0.800** |
+| add-one-topK（add-one 前 25） | 25 | 6644 | 0.782 |
+| no-skill | 0 | 0 | 0.511 |
+
+三个结论：
+
+1. **LOO-pruned（0.800）> full（0.786）** —— 只用 1/3 的单元、35% 的篇幅，test 分**不降反升 +1.4pt**。删掉 LOO≤0 的死重（冗余 + 有害单元），性能反而更好 → **LOO 归因能指导有效剪枝**，且论文原 skill 确实含净有害单元。
+2. **LOO-pruned（0.800）> add-one-topK（0.782）** —— 同样 25 单元预算、仅重合 11/25，**匹配 criterion 的 LOO 剪枝赢 +1.8pt**。这印证了"剪枝要用 LOO 不是 add-one"（criterion 与 operation 匹配），也直接量化了 `add-one↔LOO≈0` 的**下游代价**：用错端点做剪枝，test 掉 1.8 分。
+3. add-one-topK（0.782）几乎追平 full —— add-one 作为**构造**（从空集 top-K 往上加）也接近满 skill，符合它"裸贡献"的语义定位。
+
+**定位**：add-one / LOO 都是 flat baseline。本节证明了它们**各自的正确用法**（LOO→剪枝、add-one→构造）以及**用错端点的代价**。真正的结构化方法（DAG+tree / SSG）目标是超越这些 flat 端点——本节为其提供了完整的对照与验证协议（value function=val、confirmation=test，避免 test 泄漏）。*（本节不声称 SSG 结果。）*
+
 ## judge 相关性是否由 prompt 决定?（framing invariance）
 
 质疑：judge 相关 add-one 还是 LOO，会不会只是 prompt 怎么写？为此做**语义对齐**实验——两个变体把问法**精确对齐**到两个行为量：
