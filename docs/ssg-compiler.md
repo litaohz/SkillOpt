@@ -35,16 +35,34 @@ This is exactly the theory's prediction: **flat skills degenerate SSG → plain
 Shapley; the value of structural attribution only appears on skills with a rich
 dependency DAG.**
 
-## Implication for the SSG showcase
+## Folder-form (structured) skill — where SSG stops degenerating
 
-To demonstrate SSG's value (where D actually constrains feasible coalitions and
-changes the marginals), we need **structured skills** — SKILL.md + `scripts/` +
-`references/` with real call / def-use / link edges — matching theory Part 3's
-**injection experiment** (controllable ground-truth defects). Two concrete routes:
+`scripts/skill_compiler.py` also accepts a **folder** (`SKILL.md` + `scripts/` +
+`references/` + `assets/`): `SKILL.md` is split into section units and every file
+under `scripts/`/`references/`/`assets/` becomes one whole-file unit, so
+cross-file `call` / `link` / `def-use` edges fire.
 
-1. **Expand the SSB seed** (`skillopt/envs/spreadsheetbench/skills/initial.md`)
-   into folder form (theory doc-2's worked example: `scripts/inspect.py`,
-   `scripts/template.py`, `references/openpyxl-pitfalls.md`, with cross-refs).
-2. **Adopt SkillsBench-style structured skills** for the injection/precision-recall
-   experiment (defect types: stale API, misleading rule, redundant paraphrase,
-   over-constraining rule), with baselines LOO / add-one / LLM-judge / flat Shapley.
+We faithfully expanded the SSB **seed** (`skillopt/envs/spreadsheetbench/skills/initial.md`)
+into folder form at `ssg/xlsx-skill/` (content unchanged; implicit references
+physicalised into real files + explicit paths/links), then compiled it:
+
+`python scripts/skill_compiler.py --skill ssg/xlsx-skill --out-root outputs/ssg_compile_xlsx --dot`
+
+| | flat ckpt (67u) | **structured xlsx (27u)** |
+|---|--:|--:|
+| τ types present | 3 | **5 (all)** |
+| D edges | 8 | **13** |
+| D edge kinds | 2 (def-use, call) | **4 (def-use, reference, call, link)** |
+| D-isolated units | 87% | **52%** |
+
+Extracted D edges (all deterministic, not hand-authored): Explore-step → `inspect.py`
+(call), Write-step → `template.py` (call), `INPUT_PATH`/`OUTPUT_PATH` mentions →
+`template.py` (def-use), Choose-library → §Library Selection (reference), Warning →
+`references/openpyxl-pitfalls.md` (link), Worked-Example → §Common Workflow +
+scripts (reference/call). Acyclic; topological order exists.
+
+**On the structured skill D is non-trivial and connected**, so a precedence-
+constrained Winter value will actually differ from the flat Shapley baseline. This
+`ssg/xlsx-skill/` is the substrate for the SSG estimator (next step) and, later,
+the optional injection experiment.
+
