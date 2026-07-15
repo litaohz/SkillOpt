@@ -1,0 +1,780 @@
+{
+  "skill": "C:\\Users\\taoli1\\SkillOpt\\ckpt\\spreadsheetbench\\gpt5.5_skill.md",
+  "n_units": 67,
+  "acyclic": true,
+  "units": [
+    {
+      "id": 0,
+      "tau": "metadata",
+      "parent": null,
+      "is_header": true,
+      "text": "# Spreadsheet Manipulation Skill (xlsx)"
+    },
+    {
+      "id": 1,
+      "tau": "section",
+      "parent": 0,
+      "is_header": true,
+      "text": "## Overview"
+    },
+    {
+      "id": 2,
+      "tau": "instruction",
+      "parent": 1,
+      "is_header": false,
+      "text": "This skill guides agents in manipulating Excel (.xlsx) spreadsheets using Python."
+    },
+    {
+      "id": 3,
+      "tau": "instruction",
+      "parent": 1,
+      "is_header": false,
+      "text": "**Primary libraries**: `openpyxl` (structure-preserving read/write), `pandas` (data transformation). Never use any other"
+    },
+    {
+      "id": 4,
+      "tau": "instruction",
+      "parent": 1,
+      "is_header": false,
+      "text": "---"
+    },
+    {
+      "id": 5,
+      "tau": "section",
+      "parent": 0,
+      "is_header": true,
+      "text": "## Common Workflow"
+    },
+    {
+      "id": 6,
+      "tau": "instruction",
+      "parent": 5,
+      "is_header": false,
+      "text": "1. **Explore** the input file: list sheets, inspect headers, check dimensions."
+    },
+    {
+      "id": 7,
+      "tau": "instruction",
+      "parent": 5,
+      "is_header": false,
+      "text": "- Inspect actual workbook data beyond the preview, including nearby rows/columns, sample outputs, formulas, labels, head"
+    },
+    {
+      "id": 8,
+      "tau": "instruction",
+      "parent": 5,
+      "is_header": false,
+      "text": "- Treat existing filled cells in the requested output area or adjacent example tables as semantic examples for edge case"
+    },
+    {
+      "id": 9,
+      "tau": "instruction",
+      "parent": 5,
+      "is_header": false,
+      "text": "- Scan the used range for complete header groups, not just row 1. Tables may start in later rows/columns, have title row"
+    },
+    {
+      "id": 10,
+      "tau": "instruction",
+      "parent": 5,
+      "is_header": false,
+      "text": "- Locate tables, fields, and target ranges by header text, nearby labels, and surrounding nonblank structure rather than"
+    },
+    {
+      "id": 11,
+      "tau": "instruction",
+      "parent": 5,
+      "is_header": false,
+      "text": "2. **Write `solution.py`** with `INPUT_PATH` and `OUTPUT_PATH` defined at the top."
+    },
+    {
+      "id": 12,
+      "tau": "instruction",
+      "parent": 5,
+      "is_header": false,
+      "text": "3. **Execute** `python solution.py` and verify the output file was created."
+    },
+    {
+      "id": 13,
+      "tau": "instruction",
+      "parent": 5,
+      "is_header": false,
+      "text": "4. **Confirm** the target cells/range contain the expected values."
+    },
+    {
+      "id": 14,
+      "tau": "instruction",
+      "parent": 5,
+      "is_header": false,
+      "text": "---"
+    },
+    {
+      "id": 15,
+      "tau": "section",
+      "parent": 0,
+      "is_header": true,
+      "text": "## Library Selection"
+    },
+    {
+      "id": 16,
+      "tau": "instruction",
+      "parent": 15,
+      "is_header": false,
+      "text": "| Use case | Library | |----------|---------| | Preserve formulas, formatting, named ranges | `openpyxl` | | Bulk data t"
+    },
+    {
+      "id": 17,
+      "tau": "instruction",
+      "parent": 15,
+      "is_header": false,
+      "text": "**Warning**: `pandas.to_excel()` silently destroys existing formulas and named ranges. When writing back to a spreadshee"
+    },
+    {
+      "id": 18,
+      "tau": "instruction",
+      "parent": 15,
+      "is_header": false,
+      "text": "**Formula evaluation caution**: `openpyxl` can write formulas but does **not** calculate them or update cached results. "
+    },
+    {
+      "id": 19,
+      "tau": "script",
+      "parent": 15,
+      "is_header": false,
+      "text": "```python wb = openpyxl.load_workbook(INPUT_PATH) wb_values = openpyxl.load_workbook(INPUT_PATH, data_only=True) ws = wb"
+    },
+    {
+      "id": 20,
+      "tau": "instruction",
+      "parent": 15,
+      "is_header": false,
+      "text": "Treat wording such as “write/fix a formula,” “SUMIFS/COUNTIFS,” “VBA,” or “macro” as a description of the spreadsheet lo"
+    },
+    {
+      "id": 21,
+      "tau": "instruction",
+      "parent": 15,
+      "is_header": false,
+      "text": "When the user provides an existing or broken formula, use it as a semantic specification: honor its referenced lookup ra"
+    },
+    {
+      "id": 22,
+      "tau": "instruction",
+      "parent": 15,
+      "is_header": false,
+      "text": "---"
+    },
+    {
+      "id": 23,
+      "tau": "section",
+      "parent": 0,
+      "is_header": true,
+      "text": "## solution.py Template"
+    },
+    {
+      "id": 24,
+      "tau": "script",
+      "parent": 23,
+      "is_header": false,
+      "text": "```python import openpyxl import pandas as pd"
+    },
+    {
+      "id": 25,
+      "tau": "instruction",
+      "parent": 23,
+      "is_header": false,
+      "text": "INPUT_PATH = \"...\" # set to the actual input path OUTPUT_PATH = \"...\" # set to the actual output path"
+    },
+    {
+      "id": 26,
+      "tau": "instruction",
+      "parent": 23,
+      "is_header": false,
+      "text": "wb = openpyxl.load_workbook(INPUT_PATH) ws = wb.active # or wb[\"SheetName\"]"
+    },
+    {
+      "id": 27,
+      "tau": "section",
+      "parent": null,
+      "is_header": true,
+      "text": "# --- perform manipulation ---"
+    },
+    {
+      "id": 28,
+      "tau": "script",
+      "parent": 27,
+      "is_header": false,
+      "text": "wb.save(OUTPUT_PATH) ```"
+    },
+    {
+      "id": 29,
+      "tau": "instruction",
+      "parent": 27,
+      "is_header": false,
+      "text": "---"
+    },
+    {
+      "id": 30,
+      "tau": "section",
+      "parent": 27,
+      "is_header": true,
+      "text": "## Output Requirements"
+    },
+    {
+      "id": 31,
+      "tau": "instruction",
+      "parent": 30,
+      "is_header": false,
+      "text": "- Save the result to `OUTPUT_PATH`."
+    },
+    {
+      "id": 32,
+      "tau": "instruction",
+      "parent": 30,
+      "is_header": false,
+      "text": "- Do not hardcode row counts or column letters — iterate over actual rows in the workbook."
+    },
+    {
+      "id": 33,
+      "tau": "instruction",
+      "parent": 30,
+      "is_header": false,
+      "text": "- Preserve sheets and cells not mentioned in the instruction."
+    },
+    {
+      "id": 34,
+      "tau": "section",
+      "parent": 27,
+      "is_header": true,
+      "text": "## Matching and Target Range Hygiene"
+    },
+    {
+      "id": 35,
+      "tau": "instruction",
+      "parent": 34,
+      "is_header": false,
+      "text": "- Choose the comparison operator from the instruction and examples: use `startswith` for “begins with”, substring search"
+    },
+    {
+      "id": 36,
+      "tau": "instruction",
+      "parent": 34,
+      "is_header": false,
+      "text": "- Create small helper functions for comparisons and numeric parsing. Normalize text by trimming, collapsing repeated spa"
+    },
+    {
+      "id": 37,
+      "tau": "instruction",
+      "parent": 34,
+      "is_header": false,
+      "text": "- Normalize date keys deliberately: handle `datetime`/`date` objects, Excel serial numbers, and date-like strings, then "
+    },
+    {
+      "id": 38,
+      "tau": "instruction",
+      "parent": 34,
+      "is_header": false,
+      "text": "- For monthly or period summary grids, canonicalize period labels from all sources: sheet names, title text, row/column "
+    },
+    {
+      "id": 39,
+      "tau": "instruction",
+      "parent": 34,
+      "is_header": false,
+      "text": "- For date ranges and rolling windows, infer endpoint inclusivity from wording and examples. Phrases like `X to Y`, `thr"
+    },
+    {
+      "id": 40,
+      "tau": "instruction",
+      "parent": 34,
+      "is_header": false,
+      "text": "- For time extraction or time-threshold logic, parse `datetime`, `time`, Excel serial/fractional times, and time-like st"
+    },
+    {
+      "id": 41,
+      "tau": "instruction",
+      "parent": 34,
+      "is_header": false,
+      "text": "- For joins, deduplication, grouping, interval lookups, lookup grids, and ordered outputs, build explicit normalized key"
+    },
+    {
+      "id": 42,
+      "tau": "instruction",
+      "parent": 34,
+      "is_header": false,
+      "text": "- For outputs that depend on other rows or lookup grids, make a first pass to build normalized dictionaries/groups/range"
+    },
+    {
+      "id": 43,
+      "tau": "instruction",
+      "parent": 34,
+      "is_header": false,
+      "text": "- For lookups, filters, joins, and label/header matching, normalize comparison keys consistently: trim whitespace, skip "
+    },
+    {
+      "id": 44,
+      "tau": "instruction",
+      "parent": 34,
+      "is_header": false,
+      "text": "- When replacing a generated output area, clear only the instructed target range before writing new results so stale val"
+    },
+    {
+      "id": 45,
+      "tau": "instruction",
+      "parent": 34,
+      "is_header": false,
+      "text": "- If the instruction includes formatting changes, apply them exactly after writing values and only to the requested cell"
+    },
+    {
+      "id": 46,
+      "tau": "instruction",
+      "parent": 34,
+      "is_header": false,
+      "text": "- When the instruction names a destination range or columns, write derived results directly there. Do not insert rows/co"
+    },
+    {
+      "id": 47,
+      "tau": "instruction",
+      "parent": 34,
+      "is_header": false,
+      "text": "- For filtered lists, summaries, and aggregations, first collect all source records/results in memory, preserving the re"
+    },
+    {
+      "id": 48,
+      "tau": "instruction",
+      "parent": 34,
+      "is_header": false,
+      "text": "- Preserve intended blanks as empty cells (`None`) rather than placeholder text or `0` unless the task specifies otherwi"
+    },
+    {
+      "id": 49,
+      "tau": "instruction",
+      "parent": 34,
+      "is_header": false,
+      "text": "- For numeric aggregation, crosstab, SUMIFS-like, and INDEX/MATCH-style summary outputs, infer missing-match behavior fr"
+    },
+    {
+      "id": 50,
+      "tau": "instruction",
+      "parent": 34,
+      "is_header": false,
+      "text": "- For blank-sensitive logic such as “if input is blank, output blank,” evaluate the driving input with `data_only=True` "
+    },
+    {
+      "id": 51,
+      "tau": "section",
+      "parent": 27,
+      "is_header": true,
+      "text": "## Robustness for Simple Fill Tasks"
+    },
+    {
+      "id": 52,
+      "tau": "instruction",
+      "parent": 51,
+      "is_header": false,
+      "text": "- Prefer simple, auditable row/column loops over complex workbook XML parsing unless the task truly requires unsupported"
+    },
+    {
+      "id": 53,
+      "tau": "instruction",
+      "parent": 51,
+      "is_header": false,
+      "text": "<!-- SLOW_UPDATE_START --> When the user asks for a formula, macro, VBA code, or a fix to an Excel formula, still delive"
+    },
+    {
+      "id": 54,
+      "tau": "instruction",
+      "parent": 51,
+      "is_header": false,
+      "text": "After writing, reload or inspect the saved workbook and verify that every requested/evaluated target cell contains a non"
+    },
+    {
+      "id": 55,
+      "tau": "instruction",
+      "parent": 51,
+      "is_header": false,
+      "text": "Use existing formulas in the workbook as examples/specifications, not as output. If a cell contains a reference formula "
+    },
+    {
+      "id": 56,
+      "tau": "instruction",
+      "parent": 51,
+      "is_header": false,
+      "text": "For blank-sensitive formula tasks, compute the branch explicitly: if the driving source cell is truly blank, write `None"
+    },
+    {
+      "id": 57,
+      "tau": "instruction",
+      "parent": 51,
+      "is_header": false,
+      "text": "For lookup/category tasks, locate both the input rows and the lookup table by headers and nearby labels. Support exact k"
+    },
+    {
+      "id": 58,
+      "tau": "instruction",
+      "parent": 51,
+      "is_header": false,
+      "text": "For “every nth row” or OFFSET-style tasks, infer the source column, first source row, and step from the provided example"
+    },
+    {
+      "id": 59,
+      "tau": "instruction",
+      "parent": 51,
+      "is_header": false,
+      "text": "For schedule/calendar fill tasks, build a cycle-day-to-periods mapping from the schedule/template area first, then fill "
+    },
+    {
+      "id": 60,
+      "tau": "instruction",
+      "parent": 51,
+      "is_header": false,
+      "text": "For INDEX/MATCH problems where the first row works but subsequent rows fail, treat row labels, column/year headers, regi"
+    },
+    {
+      "id": 61,
+      "tau": "instruction",
+      "parent": 51,
+      "is_header": false,
+      "text": "For multi-step macro/VBA-style requests, implement every stated operation in the workbook, not just the first deletion/f"
+    },
+    {
+      "id": 62,
+      "tau": "instruction",
+      "parent": 51,
+      "is_header": false,
+      "text": "When a target range includes special rows such as `Total`, `Grand Total`, `min`, `max`, constraints, headers, or blank s"
+    },
+    {
+      "id": 63,
+      "tau": "instruction",
+      "parent": 51,
+      "is_header": false,
+      "text": "For residual-balancing tasks, identify data rows separately from min/max constraint rows. Add positive residuals from un"
+    },
+    {
+      "id": 64,
+      "tau": "instruction",
+      "parent": 51,
+      "is_header": false,
+      "text": "For time-threshold rows, decide per row whether it is a normal data row or a summary row. Normal rows use the before/aft"
+    },
+    {
+      "id": 65,
+      "tau": "instruction",
+      "parent": 51,
+      "is_header": false,
+      "text": "Keep scripts simple enough to run cleanly. Avoid unnecessary dynamic code generation and fragile f-strings with regex ex"
+    },
+    {
+      "id": 66,
+      "tau": "instruction",
+      "parent": 51,
+      "is_header": false,
+      "text": "If workbook cells contain arbitrary sample text that could be sensitive or trigger content filters, do not quote large r"
+    }
+  ],
+  "H_edges": [
+    [
+      0,
+      1
+    ],
+    [
+      1,
+      2
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      0,
+      5
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      5,
+      8
+    ],
+    [
+      5,
+      9
+    ],
+    [
+      5,
+      10
+    ],
+    [
+      5,
+      11
+    ],
+    [
+      5,
+      12
+    ],
+    [
+      5,
+      13
+    ],
+    [
+      5,
+      14
+    ],
+    [
+      0,
+      15
+    ],
+    [
+      15,
+      16
+    ],
+    [
+      15,
+      17
+    ],
+    [
+      15,
+      18
+    ],
+    [
+      15,
+      19
+    ],
+    [
+      15,
+      20
+    ],
+    [
+      15,
+      21
+    ],
+    [
+      15,
+      22
+    ],
+    [
+      0,
+      23
+    ],
+    [
+      23,
+      24
+    ],
+    [
+      23,
+      25
+    ],
+    [
+      23,
+      26
+    ],
+    [
+      27,
+      28
+    ],
+    [
+      27,
+      29
+    ],
+    [
+      27,
+      30
+    ],
+    [
+      30,
+      31
+    ],
+    [
+      30,
+      32
+    ],
+    [
+      30,
+      33
+    ],
+    [
+      27,
+      34
+    ],
+    [
+      34,
+      35
+    ],
+    [
+      34,
+      36
+    ],
+    [
+      34,
+      37
+    ],
+    [
+      34,
+      38
+    ],
+    [
+      34,
+      39
+    ],
+    [
+      34,
+      40
+    ],
+    [
+      34,
+      41
+    ],
+    [
+      34,
+      42
+    ],
+    [
+      34,
+      43
+    ],
+    [
+      34,
+      44
+    ],
+    [
+      34,
+      45
+    ],
+    [
+      34,
+      46
+    ],
+    [
+      34,
+      47
+    ],
+    [
+      34,
+      48
+    ],
+    [
+      34,
+      49
+    ],
+    [
+      34,
+      50
+    ],
+    [
+      27,
+      51
+    ],
+    [
+      51,
+      52
+    ],
+    [
+      51,
+      53
+    ],
+    [
+      51,
+      54
+    ],
+    [
+      51,
+      55
+    ],
+    [
+      51,
+      56
+    ],
+    [
+      51,
+      57
+    ],
+    [
+      51,
+      58
+    ],
+    [
+      51,
+      59
+    ],
+    [
+      51,
+      60
+    ],
+    [
+      51,
+      61
+    ],
+    [
+      51,
+      62
+    ],
+    [
+      51,
+      63
+    ],
+    [
+      51,
+      64
+    ],
+    [
+      51,
+      65
+    ],
+    [
+      51,
+      66
+    ]
+  ],
+  "D_edges": [
+    {
+      "src": 11,
+      "dst": 25,
+      "kind": "def-use"
+    },
+    {
+      "src": 19,
+      "dst": 25,
+      "kind": "def-use"
+    },
+    {
+      "src": 26,
+      "dst": 25,
+      "kind": "def-use"
+    },
+    {
+      "src": 28,
+      "dst": 25,
+      "kind": "def-use"
+    },
+    {
+      "src": 31,
+      "dst": 25,
+      "kind": "def-use"
+    },
+    {
+      "src": 12,
+      "dst": 11,
+      "kind": "call"
+    },
+    {
+      "src": 23,
+      "dst": 11,
+      "kind": "call"
+    },
+    {
+      "src": 65,
+      "dst": 11,
+      "kind": "call"
+    }
+  ]
+}
