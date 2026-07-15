@@ -1,0 +1,380 @@
+{
+  "skill": "C:\\Users\\taoli1\\SkillOpt\\ssg\\xlsx-skill",
+  "n_units": 27,
+  "acyclic": true,
+  "units": [
+    {
+      "id": 0,
+      "tau": "metadata",
+      "file": "SKILL.md",
+      "parent": null,
+      "is_header": false,
+      "text": "--- name: xlsx-skill description: Manipulate Excel (.xlsx) spreadsheets with Python (openpyxl / pandas). allowed-tools: "
+    },
+    {
+      "id": 1,
+      "tau": "metadata",
+      "file": "SKILL.md",
+      "parent": null,
+      "is_header": true,
+      "text": "# Spreadsheet Manipulation Skill (xlsx)"
+    },
+    {
+      "id": 2,
+      "tau": "section",
+      "file": "SKILL.md",
+      "parent": 1,
+      "is_header": true,
+      "text": "## Overview"
+    },
+    {
+      "id": 3,
+      "tau": "instruction",
+      "file": "SKILL.md",
+      "parent": 2,
+      "is_header": false,
+      "text": "This skill guides agents in manipulating Excel (.xlsx) spreadsheets using Python."
+    },
+    {
+      "id": 4,
+      "tau": "instruction",
+      "file": "SKILL.md",
+      "parent": 2,
+      "is_header": false,
+      "text": "**Primary libraries**: `openpyxl` (structure-preserving read/write), `pandas` (data transformation). Never use any other"
+    },
+    {
+      "id": 5,
+      "tau": "section",
+      "file": "SKILL.md",
+      "parent": 1,
+      "is_header": true,
+      "text": "## Common Workflow"
+    },
+    {
+      "id": 6,
+      "tau": "instruction",
+      "file": "SKILL.md",
+      "parent": 5,
+      "is_header": false,
+      "text": "1. **Explore** the input file: run `python scripts/inspect.py` to list sheets,"
+    },
+    {
+      "id": 7,
+      "tau": "instruction",
+      "file": "SKILL.md",
+      "parent": 5,
+      "is_header": false,
+      "text": "inspect headers, and check dimensions."
+    },
+    {
+      "id": 8,
+      "tau": "instruction",
+      "file": "SKILL.md",
+      "parent": 5,
+      "is_header": false,
+      "text": "2. **Write `solution.py`** using `scripts/template.py` as the skeleton — it"
+    },
+    {
+      "id": 9,
+      "tau": "instruction",
+      "file": "SKILL.md",
+      "parent": 5,
+      "is_header": false,
+      "text": "defines `INPUT_PATH` and `OUTPUT_PATH` at the top."
+    },
+    {
+      "id": 10,
+      "tau": "instruction",
+      "file": "SKILL.md",
+      "parent": 5,
+      "is_header": false,
+      "text": "3. Choose the library according to the Library Selection table."
+    },
+    {
+      "id": 11,
+      "tau": "instruction",
+      "file": "SKILL.md",
+      "parent": 5,
+      "is_header": false,
+      "text": "4. **Execute** `python solution.py` and verify the output file was created."
+    },
+    {
+      "id": 12,
+      "tau": "instruction",
+      "file": "SKILL.md",
+      "parent": 5,
+      "is_header": false,
+      "text": "5. **Confirm** the target cells/range contain the expected values."
+    },
+    {
+      "id": 13,
+      "tau": "section",
+      "file": "SKILL.md",
+      "parent": 1,
+      "is_header": true,
+      "text": "## Library Selection"
+    },
+    {
+      "id": 14,
+      "tau": "instruction",
+      "file": "SKILL.md",
+      "parent": 13,
+      "is_header": false,
+      "text": "| Use case | Library | |----------|---------| | Preserve formulas, formatting, named ranges | `openpyxl` | | Bulk data t"
+    },
+    {
+      "id": 15,
+      "tau": "section",
+      "file": "SKILL.md",
+      "parent": 13,
+      "is_header": true,
+      "text": "### Warning"
+    },
+    {
+      "id": 16,
+      "tau": "instruction",
+      "file": "SKILL.md",
+      "parent": 15,
+      "is_header": false,
+      "text": "`pandas.to_excel()` silently destroys existing formulas and named ranges. When writing back to a spreadsheet that contai"
+    },
+    {
+      "id": 17,
+      "tau": "section",
+      "file": "SKILL.md",
+      "parent": 1,
+      "is_header": true,
+      "text": "## Worked Example"
+    },
+    {
+      "id": 18,
+      "tau": "instruction",
+      "file": "SKILL.md",
+      "parent": 17,
+      "is_header": false,
+      "text": "Following the Common Workflow: first run `scripts/inspect.py` to discover the sheet and headers, then adapt `scripts/tem"
+    },
+    {
+      "id": 19,
+      "tau": "section",
+      "file": "SKILL.md",
+      "parent": 1,
+      "is_header": true,
+      "text": "## Output Requirements"
+    },
+    {
+      "id": 20,
+      "tau": "instruction",
+      "file": "SKILL.md",
+      "parent": 19,
+      "is_header": false,
+      "text": "- Save the result to `OUTPUT_PATH`."
+    },
+    {
+      "id": 21,
+      "tau": "instruction",
+      "file": "SKILL.md",
+      "parent": 19,
+      "is_header": false,
+      "text": "- Do not hardcode row counts or column letters — iterate over actual rows in the"
+    },
+    {
+      "id": 22,
+      "tau": "instruction",
+      "file": "SKILL.md",
+      "parent": 19,
+      "is_header": false,
+      "text": "workbook."
+    },
+    {
+      "id": 23,
+      "tau": "instruction",
+      "file": "SKILL.md",
+      "parent": 19,
+      "is_header": false,
+      "text": "- Preserve sheets and cells not mentioned in the instruction."
+    },
+    {
+      "id": 24,
+      "tau": "script",
+      "file": "scripts/inspect.py",
+      "parent": null,
+      "is_header": false,
+      "text": "\"\"\"Explore an .xlsx workbook: list sheets, headers, and dimensions. Usage: python scripts/inspect.py <INPUT_PATH> \"\"\" im"
+    },
+    {
+      "id": 25,
+      "tau": "script",
+      "file": "scripts/template.py",
+      "parent": null,
+      "is_header": false,
+      "text": "\"\"\"Skeleton for solution.py — copy this and fill in the manipulation. INPUT_PATH / OUTPUT_PATH are defined at the top; t"
+    },
+    {
+      "id": 26,
+      "tau": "resource",
+      "file": "references/openpyxl-pitfalls.md",
+      "parent": null,
+      "is_header": true,
+      "text": "# openpyxl / pandas pitfalls Referenced by the **Warning** under Library Selection in `SKILL.md`. - `pandas.to_excel()` "
+    }
+  ],
+  "H_edges": [
+    [
+      1,
+      2
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      1,
+      5
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      5,
+      8
+    ],
+    [
+      5,
+      9
+    ],
+    [
+      5,
+      10
+    ],
+    [
+      5,
+      11
+    ],
+    [
+      5,
+      12
+    ],
+    [
+      1,
+      13
+    ],
+    [
+      13,
+      14
+    ],
+    [
+      13,
+      15
+    ],
+    [
+      15,
+      16
+    ],
+    [
+      1,
+      17
+    ],
+    [
+      17,
+      18
+    ],
+    [
+      1,
+      19
+    ],
+    [
+      19,
+      20
+    ],
+    [
+      19,
+      21
+    ],
+    [
+      19,
+      22
+    ],
+    [
+      19,
+      23
+    ]
+  ],
+  "D_edges": [
+    {
+      "src": 9,
+      "dst": 25,
+      "kind": "def-use"
+    },
+    {
+      "src": 18,
+      "dst": 25,
+      "kind": "def-use"
+    },
+    {
+      "src": 20,
+      "dst": 25,
+      "kind": "def-use"
+    },
+    {
+      "src": 24,
+      "dst": 25,
+      "kind": "def-use"
+    },
+    {
+      "src": 10,
+      "dst": 13,
+      "kind": "reference"
+    },
+    {
+      "src": 18,
+      "dst": 5,
+      "kind": "reference"
+    },
+    {
+      "src": 25,
+      "dst": 19,
+      "kind": "reference"
+    },
+    {
+      "src": 6,
+      "dst": 24,
+      "kind": "call"
+    },
+    {
+      "src": 8,
+      "dst": 25,
+      "kind": "call"
+    },
+    {
+      "src": 16,
+      "dst": 26,
+      "kind": "link"
+    },
+    {
+      "src": 16,
+      "dst": 26,
+      "kind": "call"
+    },
+    {
+      "src": 18,
+      "dst": 24,
+      "kind": "call"
+    },
+    {
+      "src": 18,
+      "dst": 25,
+      "kind": "call"
+    }
+  ]
+}

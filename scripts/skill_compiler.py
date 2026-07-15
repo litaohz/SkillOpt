@@ -49,34 +49,86 @@ def header_of(unit: str):
     return None
 
 
-def classify(unit: str) -> str:
+def classify(unit: str, relfile: str | None = None, is_file: bool = False) -> str:
     """Assign a type tau(i) to a unit with deterministic heuristics."""
+    if is_file and relfile:
+        d = relfile.replace("\\", "/").split("/")[0]
+        if relfile.endswith(".py") or d == "scripts":
+            return "script"
+        if d in ("references", "assets") or relfile.endswith((".md", ".txt")):
+            return "resource"
     s = unit.strip()
     low = s.lower()
     h = header_of(unit)
     if h is not None:
-        # top title / frontmatter-ish
         if h[0] == 1 and ("skill" in low or "frontmatter" in low):
             return "metadata"
-        return "section"  # structural header node in H (not a leaf instruction)
+        return "section"
+    if s.startswith("---") and "name:" in low and "description:" in low:
+        return "metadata"
     if s.startswith("```") or "```" in s:
-        # code block: script template vs worked example
         if any(t in low for t in ("output_path", "input_path", "openpyxl.load", "wb.save", "import ")):
             return "script"
         return "example"
     if low.startswith("<!--") and low.endswith("-->"):
         return "metadata"
-    if any(t in low for t in ("for example", "worked example", "e.g.,")) and "```" in s:
-        return "example"
     return "instruction"
 
 
-def build_hierarchy(units: list[str]):
-    """Return parent[i] (index of enclosing header unit or None) + roots."""
+def load_units(path: str):
+    """Return (texts, files, is_file) for a flat .md OR a folder-form skill.
+
+    Folder form: SKILL.md is split into section units; every file under
+    scripts/ , references/ , assets/ becomes one whole-file unit.
+    """
+    if os.path.isfile(path):
+        with open(path, encoding="utf-8") as f:
+            units = split_units(f.read())
+        base = os.path.basename(path)
+        return units, [base] * len(units), [False] * len(units)
+
+    texts: list[str] = []
+    files: list[str] = []
+    is_file: list[bool] = []
+    # 1) SKILL.md (or skill.md) split into section units
+    for cand in ("SKILL.md", "skill.md"):
+        sp = os.path.join(path, cand)
+        if os.path.isfile(sp):
+            with open(sp, encoding="utf-8") as f:
+                for u in split_units(f.read()):
+                    texts.append(u)
+                    files.append(cand)
+                    is_file.append(False)
+            break
+    # 2) whole-file units for scripts/ references/ assets/
+    for sub in ("scripts", "references", "assets"):
+        d = os.path.join(path, sub)
+        if not os.path.isdir(d):
+            continue
+        for name in sorted(os.listdir(d)):
+            fp = os.path.join(d, name)
+            if os.path.isfile(fp):
+                with open(fp, encoding="utf-8", errors="replace") as f:
+                    texts.append(f.read())
+                files.append(f"{sub}/{name}")
+                is_file.append(True)
+    return texts, files, is_file
+
+
+def build_hierarchy(units: list[str], is_file: list[bool] | None = None):
+    """Return parent[i] (index of enclosing header unit or None) + roots.
+
+    File-units (whole scripts/resources) are treated as roots grouped by dir and
+    do not participate in the SKILL.md header stack.
+    """
+    if is_file is None:
+        is_file = [False] * len(units)
     parent = [None] * len(units)
-    # stack of (level, index) for open headers
     stack: list[tuple[int, int]] = []
     for i, u in enumerate(units):
+        if is_file[i]:
+            parent[i] = None
+            continue
         h = header_of(u)
         if h is not None:
             level = h[0]
@@ -90,8 +142,14 @@ def build_hierarchy(units: list[str]):
     return parent, roots
 
 
-def build_dependencies(units: list[str]):
+def build_dependencies(units: list[str], files: list[str] | None = None,
+                       is_file: list[bool] | None = None):
     """Return list of edges (src, dst, kind): src depends on dst."""
+    n = len(units)
+    if files is None:
+        files = [""] * n
+    if is_file is None:
+        is_file = [False] * n
     edges: list[tuple[int, int, str]] = []
     seen: set[tuple[int, int, str]] = set()
 
@@ -100,7 +158,7 @@ def build_dependencies(units: list[str]):
             seen.add((a, b, kind))
             edges.append((a, b, kind))
 
-    # ---- def-use on CONST tokens ----
+    # ---- def-use on CONST tokens (works across files: template.py defs) ----
     defs: dict[str, list[int]] = {}
     for i, u in enumerate(units):
         for m in ASSIGN_RE.finditer(u):
@@ -119,27 +177,32 @@ def build_dependencies(units: list[str]):
         if h is not None and len(h[1]) >= 4:
             headers[i] = h[1]
     for i, u in enumerate(units):
-        body = u
+        if header_of(u) is not None:
+            continue
         for j, title in headers.items():
-            if i != j and title.lower() in body.lower() and header_of(u) is None:
+            if i != j and title.lower() in u.lower():
                 add(i, j, "reference")
 
-    # ---- call / link to script or resource units by path ----
+    # ---- call / link to script or resource file-units by path ----
     path_units: dict[str, int] = {}
+    for i in range(n):
+        if is_file[i] and files[i]:
+            rel = files[i].replace("\\", "/")
+            path_units[rel] = i
+            path_units[os.path.basename(rel)] = i
     for i, u in enumerate(units):
-        h = header_of(u)
-        # a unit that *is* a file path node (folder-form) — best effort
-        for m in PATH_RE.finditer(u):
-            path_units.setdefault(os.path.basename(m.group(1)), i)
-    for i, u in enumerate(units):
+        if is_file[i]:
+            continue
         for m in LINK_RE.finditer(u):
-            tgt = os.path.basename(m.group(1))
-            if tgt in path_units:
-                add(i, path_units[tgt], "link")
+            tgt = m.group(1).replace("\\", "/")
+            j = path_units.get(tgt) or path_units.get(os.path.basename(tgt))
+            if j is not None:
+                add(i, j, "link")
         for m in PATH_RE.finditer(u):
-            tgt = os.path.basename(m.group(1))
-            if tgt in path_units and path_units[tgt] != i:
-                add(i, path_units[tgt], "call")
+            tgt = m.group(1).replace("\\", "/")
+            j = path_units.get(tgt) or path_units.get(os.path.basename(tgt))
+            if j is not None:
+                add(i, j, "call")
 
     return edges
 
@@ -186,12 +249,11 @@ def main() -> None:
     ap.add_argument("--dot", action="store_true", help="also emit graphviz .dot")
     args = ap.parse_args()
 
-    with open(args.skill, encoding="utf-8") as f:
-        units = split_units(f.read())
+    units, files, is_file = load_units(args.skill)
     n = len(units)
-    taus = [classify(u) for u in units]
-    parent, roots = build_hierarchy(units)
-    edges = build_dependencies(units)
+    taus = [classify(units[i], files[i], is_file[i]) for i in range(n)]
+    parent, roots = build_hierarchy(units, is_file)
+    edges = build_dependencies(units, files, is_file)
     cyclic = has_cycle(n, edges)
 
     os.makedirs(args.out_root, exist_ok=True)
@@ -200,7 +262,7 @@ def main() -> None:
         "n_units": n,
         "acyclic": not cyclic,
         "units": [
-            {"id": i, "tau": taus[i], "parent": parent[i],
+            {"id": i, "tau": taus[i], "file": files[i], "parent": parent[i],
              "is_header": header_of(units[i]) is not None,
              "text": " ".join(units[i].split())[:120]}
             for i in range(n)
