@@ -351,9 +351,25 @@ def main() -> None:
 
     # Load skill
     skill_path = os.path.abspath(args.skill)
-    with open(skill_path, encoding="utf-8") as f:
-        skill_content = f.read()
-    print(f"  [skill] {skill_path} ({len(skill_content)} chars)")
+    if os.path.isdir(skill_path):
+        # SSG folder-skill mode (standard Agent Skills). The skill reaches the
+        # agent ONLY via the real folder materialised into the cc workspace
+        # (.claude/skills + .agents/skills) with native discovery + progressive
+        # disclosure; nothing is injected into the system/user prompt. We read
+        # SKILL.md only for logging and pass skill_content="" downstream so the
+        # flat-injection path (_build_system) stays empty (no confound).
+        os.environ["SKILLOPT_SKILL_DIR"] = skill_path
+        md = os.path.join(skill_path, "SKILL.md")
+        with open(md, encoding="utf-8") as f:
+            md_text = f.read()
+        nfiles = sum(len(fs) for _, _, fs in os.walk(skill_path))
+        print(f"  [skill] FOLDER {skill_path} (SKILL.md {len(md_text)} chars + {nfiles} files); "
+              f"injected via .claude/.agents skills dir, not the prompt")
+        skill_content = ""
+    else:
+        with open(skill_path, encoding="utf-8") as f:
+            skill_content = f.read()
+        print(f"  [skill] {skill_path} ({len(skill_content)} chars)")
 
     # Configure models
     configure_azure_openai(

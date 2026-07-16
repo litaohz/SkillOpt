@@ -275,6 +275,29 @@ def _build_codex_driver() -> str:
     )
 
 
+def _folder_skill_files(skill_dir: str) -> tuple[str, list[tuple[str, str]]]:
+    """SSG folder-skill mode (standard Agent Skills).
+
+    Given a real skill folder (SKILL.md + scripts/ + references/ + assets/),
+    return (skill_name, copy_files) so prepare_workspace lays the WHOLE folder
+    under .agents/skills/<name>/ and cc discovers + activates it by description
+    and progressively discloses scripts/references natively — no fake frontmatter,
+    no forced 'Read the SKILL.md' instruction. Reused via env SKILLOPT_SKILL_DIR.
+    """
+    import glob as _g
+    skill_dir = os.path.abspath(skill_dir)
+    name = os.path.basename(skill_dir.rstrip("/\\")) or "skillopt-target"
+    copy: list[tuple[str, str]] = []
+    for src in _g.glob(os.path.join(skill_dir, "**", "*"), recursive=True):
+        if os.path.isfile(src):
+            rel = os.path.relpath(src, skill_dir).replace("\\", "/")
+            # materialise under BOTH Claude Code's native project location and
+            # the cross-client convention so discovery works regardless of client.
+            copy.append((src, f".claude/skills/{name}/{rel}"))
+            copy.append((src, f".agents/skills/{name}/{rel}"))
+    return name, copy
+
+
 def _prepare_codex_workspace(
     *,
     instruction: str,
@@ -290,7 +313,7 @@ def _prepare_codex_workspace(
 ) -> tuple[str, str, str, str]:
     task_out_dir = os.path.dirname(output_path)
     work_dir = os.path.join(task_out_dir, workspace_name)
-    skill_md = _build_codex_skill(skill_content)
+    skill_dir = os.environ.get("SKILLOPT_SKILL_DIR", "").strip()
     task_md = _build_codex_task(
         instruction,
         input_xlsx,
@@ -300,6 +323,29 @@ def _prepare_codex_workspace(
         diagnostic_instruction=diagnostic_instruction,
         diagnostic_trace_context=diagnostic_trace_context,
     )
+    if skill_dir and os.path.isdir(skill_dir):
+        # ── SSG folder-skill mode (standard Agent Skills, native discovery) ──
+        name, skill_copy = _folder_skill_files(skill_dir)
+        skill_md = ""  # no fake single-file skill; the real folder is copied in
+        prompt = (
+            "You have access to installed Agent Skills in this workspace. "
+            "Consider whether any applies before you start.\n"
+            "Read `task.md`, inspect `input.xlsx` if useful, and write the final "
+            "solution to `solution.py`.\n"
+            "You may run `python run_solution.py` to validate the script locally.\n"
+            "In your final response, briefly confirm whether `solution.py` was "
+            "written and summarize the approach."
+        )
+        prepare_workspace(
+            work_dir=work_dir,
+            skill_md=None,
+            task_text=task_md,
+            extra_files={"run_solution.py": _build_codex_driver()},
+            copy_files=[(input_xlsx, "input.xlsx"), *skill_copy],
+        )
+        return work_dir, skill_md, task_md, prompt
+
+    skill_md = _build_codex_skill(skill_content)
     prompt = (
         "Read `.agents/skills/skillopt-target/SKILL.md` directly; do not call a Skill tool.\n"
         "Read `task.md`, inspect `input.xlsx` if useful, and write the final solution to `solution.py`.\n"
