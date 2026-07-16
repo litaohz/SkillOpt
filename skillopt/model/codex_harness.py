@@ -67,7 +67,7 @@ def render_skill_md(
 def prepare_workspace(
     *,
     work_dir: str,
-    skill_md: str,
+    skill_md: str | None,
     task_text: str = "",
     task_filename: str = "task.md",
     images: list[str] | None = None,
@@ -80,8 +80,9 @@ def prepare_workspace(
     os.makedirs(os.path.join(work_dir, ".agents", "skills", "skillopt-target"), exist_ok=True)
 
     skill_path = os.path.join(work_dir, ".agents", "skills", "skillopt-target", "SKILL.md")
-    with open(skill_path, "w", encoding="utf-8") as f:
-        f.write(skill_md)
+    if skill_md is not None:
+        with open(skill_path, "w", encoding="utf-8") as f:
+            f.write(skill_md)
 
     task_path = os.path.join(work_dir, task_filename)
     if task_text:
