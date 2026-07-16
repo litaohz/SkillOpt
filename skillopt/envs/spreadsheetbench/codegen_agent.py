@@ -370,11 +370,19 @@ def _run_exec_backend(
     model: str,
     timeout: int,
 ) -> tuple[str, str]:
+    # SSG folder-skill mode needs the native Skill tool so cc auto-matches by
+    # description and progressively discloses scripts/references. The default
+    # exec tool set (Read,Bash) omits Skill, which silently degrades a real
+    # Agent Skill into a plain markdown file the model has to Read manually.
+    allowed_tools = None
+    if os.environ.get("SKILLOPT_SKILL_DIR", "").strip():
+        allowed_tools = "Read,Bash,Skill"
     return run_target_exec(
         work_dir=work_dir,
         prompt=prompt,
         model=model,
         timeout=timeout,
+        allowed_tools=allowed_tools,
         allow_file_edits=True,
     )
 
