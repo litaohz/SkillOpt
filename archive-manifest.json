@@ -1,0 +1,146 @@
+{
+  "adapters/graft_18/adapter_config.json": {
+    "bytes": 1235,
+    "sha256": "dc4150e9bdc5b5ad7744e923253f4f4fdf1ccd331ff975ee70b2e01f92fef19d"
+  },
+  "adapters/graft_18/adapter_model.safetensors": {
+    "bytes": 129934416,
+    "sha256": "503ed75574879a80bbf943fa1691b7372187c16e4c1061d3e1b9b69fed25eacf"
+  },
+  "adapters/idea_b2_sft_top2_zero/adapter_config.json": {
+    "bytes": 1235,
+    "sha256": "dc4150e9bdc5b5ad7744e923253f4f4fdf1ccd331ff975ee70b2e01f92fef19d"
+  },
+  "adapters/idea_b2_sft_top2_zero/adapter_model.safetensors": {
+    "bytes": 129934416,
+    "sha256": "d09e20cb18444861bef418d2e25c6523de3237c68c2efa18616cede86bae025a"
+  },
+  "adapters/svd_blend_50_50/adapter_config.json": {
+    "bytes": 1235,
+    "sha256": "dc4150e9bdc5b5ad7744e923253f4f4fdf1ccd331ff975ee70b2e01f92fef19d"
+  },
+  "adapters/svd_blend_50_50/adapter_model.safetensors": {
+    "bytes": 129934416,
+    "sha256": "a6d5c3ac005770696289923fdb46693acdab2f79d071254fcdec903c7e4132d9"
+  },
+  "eval_surgical_r1.log": {
+    "bytes": 3492,
+    "sha256": "dae5df7cec8c040dda5e1439a9125eb79231972dd494aff93e7282a45956dd0f"
+  },
+  "FINAL_REPORT.md": {
+    "bytes": 13185,
+    "sha256": "b3014a8f71cb2cc5ba2361911b78abe841ab096bf01277816e377949fafc37ef"
+  },
+  "index.html": {
+    "bytes": 203466,
+    "sha256": "4eb717a9d4afa46c66b6a4fc1013b944f72e3fe16351f9fed6de1574d7681071"
+  },
+  "launch_surgical_r1.py": {
+    "bytes": 8480,
+    "sha256": "8e61b1f171a0caa929e9e5cd9f580ae3ca3260c1b00ce78ed0c5bdc55448d2bf"
+  },
+  "paper/figures/fig1_weight_space_heatmap.pdf": {
+    "bytes": 92793,
+    "sha256": "7fdc6d14386d72be255eecb2bb7defd1f619ecfaf88102bf9401979c5641072f"
+  },
+  "paper/figures/fig1_weight_space_heatmap.png": {
+    "bytes": 1022718,
+    "sha256": "02eb7f1416ca434c7e313ed5408b51ed10711058b4060bb30c373f9f67ef3eb4"
+  },
+  "paper/figures/fig2_neurons_and_pareto.pdf": {
+    "bytes": 46867,
+    "sha256": "f373f970d2e5a2d0b36c1a922407a0ee7d54ee5fb25dcf2377d97c15629cd58f"
+  },
+  "paper/figures/fig2_neurons_and_pareto.png": {
+    "bytes": 550542,
+    "sha256": "ee1f185f41460223e0d9244e1d327d1515ce1fb9c585154a6ab869fc60ede76c"
+  },
+  "paper/main.aux": {
+    "bytes": 5947,
+    "sha256": "1f4e479de5d1d3ecc7b3946020053428be20ed1931452cb22997ab795a0818cc"
+  },
+  "paper/main.log": {
+    "bytes": 22058,
+    "sha256": "ba3e64880381adab24278ec061aeedf8cc9fbee1efc593fc8d1cbe83735446e9"
+  },
+  "paper/main.out": {
+    "bytes": 2574,
+    "sha256": "28a71d63120311f9eaa3a078b730f5079d385218919e75fbd8775d4958a8e15d"
+  },
+  "paper/main.pdf": {
+    "bytes": 420128,
+    "sha256": "db03dd8eb5f5c2dc645e6b84b1292ce9fd97c0926ddbe0f59bd4dd451755ffda"
+  },
+  "paper/main.tex": {
+    "bytes": 24103,
+    "sha256": "f52135efac6058d1051dfd7fc154b95e654db1e6b884e67af786c3d50b164d97"
+  },
+  "parent-adapters/qwen3_5-4b-opd9b-step150/adapter_config.json": {
+    "bytes": 1235,
+    "sha256": "6ed64a2fdbd25f50fb5b35ec434b1fdffb4a1d7fa8ee2fe529704874ce8420e3"
+  },
+  "parent-adapters/qwen3_5-4b-opd9b-step150/adapter_model.safetensors": {
+    "bytes": 129934448,
+    "sha256": "079c923fc05c4ed840fa0d2d0b00c36c909735d0f8b2d60dccd0af033af81f15"
+  },
+  "parent-adapters/qwen3_5-4b-opd9b-step150/README.md": {
+    "bytes": 5390,
+    "sha256": "6f71270786f296ce7d3cb3329db279d3721ad08549f7764dd318027504b5e2d2"
+  },
+  "parent-adapters/qwen3_5-4b-opsd-astra-step150/adapter_config.json": {
+    "bytes": 1235,
+    "sha256": "dc4150e9bdc5b5ad7744e923253f4f4fdf1ccd331ff975ee70b2e01f92fef19d"
+  },
+  "parent-adapters/qwen3_5-4b-opsd-astra-step150/adapter_model.safetensors": {
+    "bytes": 129934448,
+    "sha256": "d8dc4d17db60e6299f65b6d0bc6bef2235efe657f8463ee89a9695562a3bf8f3"
+  },
+  "parent-adapters/qwen3_5-4b-opsd-astra-step150/README.md": {
+    "bytes": 5390,
+    "sha256": "6f71270786f296ce7d3cb3329db279d3721ad08549f7764dd318027504b5e2d2"
+  },
+  "parent-adapters/qwen3_5-4b-sft-astra-step150/adapter_config.json": {
+    "bytes": 1235,
+    "sha256": "293d278b3d48c103d6023746e7507eebff1553146b0cd1a02aa422245ee58b82"
+  },
+  "parent-adapters/qwen3_5-4b-sft-astra-step150/adapter_model.safetensors": {
+    "bytes": 129934448,
+    "sha256": "9009083b59f128bbc0aab77914682a94155ee07483ff6f34319d528a24464ed6"
+  },
+  "parent-adapters/qwen3_5-4b-sft-astra-step150/README.md": {
+    "bytes": 5390,
+    "sha256": "6f71270786f296ce7d3cb3329db279d3721ad08549f7764dd318027504b5e2d2"
+  },
+  "parent-adapters/qwen3_5-4b-sft2000/adapter_config.json": {
+    "bytes": 1235,
+    "sha256": "9b26dff7f43fd3ebb3352013ded0aa3f452027293ede220af56891e456e0c290"
+  },
+  "parent-adapters/qwen3_5-4b-sft2000/adapter_model.safetensors": {
+    "bytes": 129934448,
+    "sha256": "81821d6ecbeda6c702e5ba2bbe77b75a8b5cf0dbf1f941e515e6672fa681a575"
+  },
+  "parent-adapters/qwen3_5-4b-sft2000/README.md": {
+    "bytes": 5390,
+    "sha256": "6f71270786f296ce7d3cb3329db279d3721ad08549f7764dd318027504b5e2d2"
+  },
+  "run_abc_all.py": {
+    "bytes": 10503,
+    "sha256": "b027ebb7167a65ce20ae4c9dd6c2bc7733b319b0e04bdfb9a365c9909c19f9b2"
+  },
+  "run_surgical_probe2.py": {
+    "bytes": 6478,
+    "sha256": "f5e6a206b0c5ebadf5c60cd1b30802c85fd926d1dd8debad59378bbb0182d3d8"
+  },
+  "sol_weight_diagnosis.md": {
+    "bytes": 13689,
+    "sha256": "376828f854b5a58cf5b17b6b85c3cf92ccf46452883432237fd4d1dab864b181"
+  },
+  "weight-space-surgery-r1.csv": {
+    "bytes": 3559,
+    "sha256": "3c2910f377db055f1135a091f0696c467f52aec016a80e479eabe80908124e26"
+  },
+  "weight_space_dossier.json": {
+    "bytes": 123543,
+    "sha256": "6b608503816d9cb0d630697dd6ccefd6dd32b3e04e1fbdf5ca70893341e30b83"
+  }
+}

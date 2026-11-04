@@ -1,0 +1,23 @@
+Loaded datasets: {'v1': 45, 'v2.1': 16}
+
+=== Run-1 Reference Baselines (from cached records) ===
+0_sft2000                              | v1       (n=45) | Init P =  79.23% | Recall =  68.26%
+0_sft2000                              | v2.1     (n=16) | Init P =  58.33% | Recall =  45.71%
+1_opsd_astra                           | v1       (n=45) | Init P =  85.48% | Recall =  72.52%
+1_opsd_astra                           | v2.1     (n=16) | Init P =  69.09% | Recall =  59.36%
+2_sft_astra                            | v1       (n=45) | Init P =  79.55% | Recall =  64.19%
+2_sft_astra                            | v2.1     (n=16) | Init P =  65.08% | Recall =  60.25%
+The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+Loading weights:   0%|          | 0/723 [00:00<?, ?it/s]Loading weights:   0%|          | 1/723 [00:00<03:34,  3.37it/s]Loading weights:   6%|▌         | 42/723 [00:00<00:05, 126.78it/s]Loading weights:   9%|▉         | 67/723 [00:00<00:04, 160.72it/s]Loading weights:  13%|█▎        | 94/723 [00:00<00:03, 186.97it/s]Loading weights:  18%|█▊        | 128/723 [00:00<00:02, 216.19it/s]Loading weights:  21%|██        | 153/723 [00:00<00:02, 223.46it/s]Loading weights:  25%|██▌       | 184/723 [00:00<00:02, 244.01it/s]Loading weights:  29%|██▉       | 210/723 [00:01<00:02, 239.25it/s]Loading weights:  33%|███▎      | 235/723 [00:01<00:02, 242.23it/s]Loading weights:  36%|███▌      | 260/723 [00:01<00:01, 233.52it/s]Loading weights:  40%|████      | 291/723 [00:01<00:01, 250.09it/s]Loading weights:  44%|████▍     | 317/723 [00:01<00:01, 234.89it/s]Loading weights:  47%|████▋     | 341/723 [00:01<00:01, 229.02it/s]Loading weights:  50%|█████     | 365/723 [00:01<00:01, 224.50it/s]Loading weights:  54%|█████▍    | 393/723 [00:01<00:01, 235.07it/s]Loading weights:  58%|█████▊    | 417/723 [00:01<00:01, 224.81it/s]Loading weights:  83%|████████▎ | 602/723 [00:02<00:00, 669.68it/s]Loading weights: 100%|██████████| 723/723 [00:02<00:00, 335.78it/s]
+
+=== Evaluating 5 Zero-Training Surgical Candidates on Run-1 (45 v1 + 16 v2.1 = 61 cases) ===
+graft_14 (L0-13 SFT + L14-31 OPSD)     | v1       (n=45) | Init P =  83.33% | Recall =  68.37% | (183.9s)
+graft_14 (L0-13 SFT + L14-31 OPSD)     | v2.1     (n=16) | Init P =  66.10% | Recall =  60.33% | (303.5s)
+graft_18 (L0-17 SFT + L18-31 OPSD)     | v1       (n=45) | Init P =  82.87% | Recall =  69.19% | (185.1s)
+graft_18 (L0-17 SFT + L18-31 OPSD)     | v2.1     (n=16) | Init P =  69.84% | Recall =  64.52% | (307.6s)
+graft_22 (L0-21 SFT + L22-31 OPSD)     | v1       (n=45) | Init P =  80.77% | Recall =  68.26% | (185.0s)
+graft_22 (L0-21 SFT + L22-31 OPSD)     | v2.1     (n=16) | Init P =  65.62% | Recall =  61.82% | (307.8s)
+rev_graft_18 (L0-17 OPSD + L18-31 SFT) | v1       (n=45) | Init P =  82.78% | Recall =  67.48% | (183.4s)
+rev_graft_18 (L0-17 OPSD + L18-31 SFT) | v2.1     (n=16) | Init P =  67.86% | Recall =  59.81% | (302.1s)
+svd_blend_50_50 (0.5 OPSD + 0.5 SFT)   | v1       (n=45) | Init P =  82.61% | Recall =  69.37% | (185.0s)
+svd_blend_50_50 (0.5 OPSD + 0.5 SFT)   | v2.1     (n=16) | Init P =  72.41% | Recall =  64.42% | (305.8s)

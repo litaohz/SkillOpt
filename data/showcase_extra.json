@@ -1,0 +1,936 @@
+{
+  "neuron_spectrum": {
+    "L26": {
+      "top_newline_cols": [
+        {
+          "col": 916,
+          "score": 0.0874
+        },
+        {
+          "col": 2579,
+          "score": 0.0839
+        },
+        {
+          "col": 572,
+          "score": 0.0646
+        },
+        {
+          "col": 249,
+          "score": 0.0631
+        },
+        {
+          "col": 805,
+          "score": 0.0495
+        },
+        {
+          "col": 1212,
+          "score": 0.0468
+        },
+        {
+          "col": 8449,
+          "score": 0.0424
+        },
+        {
+          "col": 1583,
+          "score": 0.0421
+        },
+        {
+          "col": 451,
+          "score": 0.0349
+        },
+        {
+          "col": 1419,
+          "score": 0.033
+        },
+        {
+          "col": 2952,
+          "score": 0.0286
+        },
+        {
+          "col": 449,
+          "score": 0.0271
+        },
+        {
+          "col": 408,
+          "score": 0.0261
+        },
+        {
+          "col": 2199,
+          "score": 0.0248
+        },
+        {
+          "col": 3889,
+          "score": 0.023
+        },
+        {
+          "col": 490,
+          "score": 0.0223
+        }
+      ],
+      "top_comma_cols": [
+        {
+          "col": 945,
+          "score": -0.0953
+        },
+        {
+          "col": 2873,
+          "score": -0.0885
+        },
+        {
+          "col": 2525,
+          "score": -0.0599
+        },
+        {
+          "col": 313,
+          "score": -0.0531
+        },
+        {
+          "col": 2303,
+          "score": -0.0528
+        },
+        {
+          "col": 2543,
+          "score": -0.0449
+        },
+        {
+          "col": 552,
+          "score": -0.0435
+        },
+        {
+          "col": 41,
+          "score": -0.0363
+        },
+        {
+          "col": 642,
+          "score": -0.0299
+        },
+        {
+          "col": 2728,
+          "score": -0.0276
+        },
+        {
+          "col": 2345,
+          "score": -0.0266
+        },
+        {
+          "col": 1801,
+          "score": -0.0261
+        },
+        {
+          "col": 444,
+          "score": -0.0245
+        },
+        {
+          "col": 1984,
+          "score": -0.0241
+        },
+        {
+          "col": 31,
+          "score": -0.0238
+        },
+        {
+          "col": 211,
+          "score": -0.0228
+        }
+      ]
+    },
+    "L27": {
+      "top_newline_cols": [
+        {
+          "col": 2491,
+          "score": 0.1136
+        },
+        {
+          "col": 1483,
+          "score": 0.0715
+        },
+        {
+          "col": 1666,
+          "score": 0.0714
+        },
+        {
+          "col": 325,
+          "score": 0.0697
+        },
+        {
+          "col": 16,
+          "score": 0.0509
+        },
+        {
+          "col": 323,
+          "score": 0.0479
+        },
+        {
+          "col": 6717,
+          "score": 0.0449
+        },
+        {
+          "col": 140,
+          "score": 0.0429
+        },
+        {
+          "col": 1931,
+          "score": 0.0423
+        },
+        {
+          "col": 885,
+          "score": 0.0403
+        },
+        {
+          "col": 1540,
+          "score": 0.0352
+        },
+        {
+          "col": 58,
+          "score": 0.034
+        },
+        {
+          "col": 758,
+          "score": 0.0324
+        },
+        {
+          "col": 33,
+          "score": 0.0323
+        },
+        {
+          "col": 2134,
+          "score": 0.0263
+        },
+        {
+          "col": 3154,
+          "score": 0.0256
+        }
+      ],
+      "top_comma_cols": [
+        {
+          "col": 25,
+          "score": -0.1087
+        },
+        {
+          "col": 943,
+          "score": -0.0967
+        },
+        {
+          "col": 296,
+          "score": -0.0783
+        },
+        {
+          "col": 1087,
+          "score": -0.0659
+        },
+        {
+          "col": 252,
+          "score": -0.0628
+        },
+        {
+          "col": 231,
+          "score": -0.0553
+        },
+        {
+          "col": 2058,
+          "score": -0.0411
+        },
+        {
+          "col": 2063,
+          "score": -0.0395
+        },
+        {
+          "col": 47,
+          "score": -0.0372
+        },
+        {
+          "col": 527,
+          "score": -0.0342
+        },
+        {
+          "col": 640,
+          "score": -0.0309
+        },
+        {
+          "col": 74,
+          "score": -0.0303
+        },
+        {
+          "col": 453,
+          "score": -0.0301
+        },
+        {
+          "col": 719,
+          "score": -0.0299
+        },
+        {
+          "col": 404,
+          "score": -0.0291
+        },
+        {
+          "col": 312,
+          "score": -0.0288
+        }
+      ]
+    },
+    "L28": {
+      "top_newline_cols": [
+        {
+          "col": 156,
+          "score": 0.1233
+        },
+        {
+          "col": 151,
+          "score": 0.1016
+        },
+        {
+          "col": 3444,
+          "score": 0.0955
+        },
+        {
+          "col": 483,
+          "score": 0.0938
+        },
+        {
+          "col": 288,
+          "score": 0.0927
+        },
+        {
+          "col": 831,
+          "score": 0.0915
+        },
+        {
+          "col": 258,
+          "score": 0.0805
+        },
+        {
+          "col": 115,
+          "score": 0.0701
+        },
+        {
+          "col": 750,
+          "score": 0.0624
+        },
+        {
+          "col": 325,
+          "score": 0.06
+        },
+        {
+          "col": 84,
+          "score": 0.0581
+        },
+        {
+          "col": 14,
+          "score": 0.0566
+        },
+        {
+          "col": 1098,
+          "score": 0.0481
+        },
+        {
+          "col": 852,
+          "score": 0.0445
+        },
+        {
+          "col": 1544,
+          "score": 0.0415
+        },
+        {
+          "col": 3574,
+          "score": 0.0373
+        }
+      ],
+      "top_comma_cols": [
+        {
+          "col": 5273,
+          "score": -0.1329
+        },
+        {
+          "col": 1775,
+          "score": -0.1171
+        },
+        {
+          "col": 1240,
+          "score": -0.1102
+        },
+        {
+          "col": 3321,
+          "score": -0.106
+        },
+        {
+          "col": 76,
+          "score": -0.0682
+        },
+        {
+          "col": 932,
+          "score": -0.0662
+        },
+        {
+          "col": 461,
+          "score": -0.0545
+        },
+        {
+          "col": 179,
+          "score": -0.0536
+        },
+        {
+          "col": 1045,
+          "score": -0.0519
+        },
+        {
+          "col": 2339,
+          "score": -0.0505
+        },
+        {
+          "col": 2452,
+          "score": -0.0402
+        },
+        {
+          "col": 68,
+          "score": -0.04
+        },
+        {
+          "col": 420,
+          "score": -0.0337
+        },
+        {
+          "col": 5862,
+          "score": -0.032
+        },
+        {
+          "col": 251,
+          "score": -0.0297
+        },
+        {
+          "col": 751,
+          "score": -0.0296
+        }
+      ]
+    },
+    "L29": {
+      "top_newline_cols": [
+        {
+          "col": 3397,
+          "score": 0.1426
+        },
+        {
+          "col": 397,
+          "score": 0.1329
+        },
+        {
+          "col": 4334,
+          "score": 0.1173
+        },
+        {
+          "col": 1489,
+          "score": 0.0984
+        },
+        {
+          "col": 2822,
+          "score": 0.0952
+        },
+        {
+          "col": 3824,
+          "score": 0.0947
+        },
+        {
+          "col": 122,
+          "score": 0.0899
+        },
+        {
+          "col": 619,
+          "score": 0.0895
+        },
+        {
+          "col": 135,
+          "score": 0.0855
+        },
+        {
+          "col": 3236,
+          "score": 0.0811
+        },
+        {
+          "col": 3437,
+          "score": 0.0728
+        },
+        {
+          "col": 2130,
+          "score": 0.0677
+        },
+        {
+          "col": 203,
+          "score": 0.0619
+        },
+        {
+          "col": 8,
+          "score": 0.0616
+        },
+        {
+          "col": 730,
+          "score": 0.0599
+        },
+        {
+          "col": 2293,
+          "score": 0.0588
+        }
+      ],
+      "top_comma_cols": [
+        {
+          "col": 2857,
+          "score": -0.1411
+        },
+        {
+          "col": 2612,
+          "score": -0.1396
+        },
+        {
+          "col": 399,
+          "score": -0.0913
+        },
+        {
+          "col": 921,
+          "score": -0.0867
+        },
+        {
+          "col": 753,
+          "score": -0.072
+        },
+        {
+          "col": 498,
+          "score": -0.0715
+        },
+        {
+          "col": 1517,
+          "score": -0.0715
+        },
+        {
+          "col": 755,
+          "score": -0.0697
+        },
+        {
+          "col": 1095,
+          "score": -0.0665
+        },
+        {
+          "col": 4697,
+          "score": -0.0664
+        },
+        {
+          "col": 126,
+          "score": -0.0648
+        },
+        {
+          "col": 2565,
+          "score": -0.0587
+        },
+        {
+          "col": 2946,
+          "score": -0.0583
+        },
+        {
+          "col": 94,
+          "score": -0.0578
+        },
+        {
+          "col": 351,
+          "score": -0.0577
+        },
+        {
+          "col": 2156,
+          "score": -0.0534
+        }
+      ]
+    },
+    "L30": {
+      "top_newline_cols": [
+        {
+          "col": 2634,
+          "score": 0.1793
+        },
+        {
+          "col": 3836,
+          "score": 0.1784
+        },
+        {
+          "col": 1318,
+          "score": 0.1698
+        },
+        {
+          "col": 2632,
+          "score": 0.1589
+        },
+        {
+          "col": 5003,
+          "score": 0.1582
+        },
+        {
+          "col": 2288,
+          "score": 0.1505
+        },
+        {
+          "col": 2118,
+          "score": 0.149
+        },
+        {
+          "col": 1513,
+          "score": 0.1311
+        },
+        {
+          "col": 466,
+          "score": 0.1236
+        },
+        {
+          "col": 3346,
+          "score": 0.108
+        },
+        {
+          "col": 1431,
+          "score": 0.1067
+        },
+        {
+          "col": 981,
+          "score": 0.0993
+        },
+        {
+          "col": 1975,
+          "score": 0.0922
+        },
+        {
+          "col": 3805,
+          "score": 0.0889
+        },
+        {
+          "col": 4461,
+          "score": 0.086
+        },
+        {
+          "col": 1306,
+          "score": 0.0824
+        }
+      ],
+      "top_comma_cols": [
+        {
+          "col": 217,
+          "score": -0.2048
+        },
+        {
+          "col": 2001,
+          "score": -0.2045
+        },
+        {
+          "col": 6553,
+          "score": -0.1997
+        },
+        {
+          "col": 2920,
+          "score": -0.1742
+        },
+        {
+          "col": 2999,
+          "score": -0.1589
+        },
+        {
+          "col": 1334,
+          "score": -0.1511
+        },
+        {
+          "col": 748,
+          "score": -0.1494
+        },
+        {
+          "col": 296,
+          "score": -0.1466
+        },
+        {
+          "col": 3379,
+          "score": -0.1383
+        },
+        {
+          "col": 3426,
+          "score": -0.13
+        },
+        {
+          "col": 2318,
+          "score": -0.1251
+        },
+        {
+          "col": 3168,
+          "score": -0.1228
+        },
+        {
+          "col": 2381,
+          "score": -0.1171
+        },
+        {
+          "col": 2354,
+          "score": -0.1168
+        },
+        {
+          "col": 623,
+          "score": -0.1165
+        },
+        {
+          "col": 847,
+          "score": -0.1129
+        }
+      ]
+    },
+    "L31": {
+      "top_newline_cols": [
+        {
+          "col": 3684,
+          "score": 0.2566
+        },
+        {
+          "col": 311,
+          "score": 0.1932
+        },
+        {
+          "col": 109,
+          "score": 0.1644
+        },
+        {
+          "col": 4489,
+          "score": 0.1563
+        },
+        {
+          "col": 154,
+          "score": 0.1471
+        },
+        {
+          "col": 3059,
+          "score": 0.1411
+        },
+        {
+          "col": 117,
+          "score": 0.1328
+        },
+        {
+          "col": 908,
+          "score": 0.1324
+        },
+        {
+          "col": 588,
+          "score": 0.1134
+        },
+        {
+          "col": 859,
+          "score": 0.1107
+        },
+        {
+          "col": 1287,
+          "score": 0.1036
+        },
+        {
+          "col": 1969,
+          "score": 0.0919
+        },
+        {
+          "col": 4171,
+          "score": 0.0914
+        },
+        {
+          "col": 533,
+          "score": 0.091
+        },
+        {
+          "col": 219,
+          "score": 0.0909
+        },
+        {
+          "col": 2214,
+          "score": 0.0892
+        }
+      ],
+      "top_comma_cols": [
+        {
+          "col": 192,
+          "score": -0.2173
+        },
+        {
+          "col": 182,
+          "score": -0.1794
+        },
+        {
+          "col": 107,
+          "score": -0.175
+        },
+        {
+          "col": 91,
+          "score": -0.1717
+        },
+        {
+          "col": 70,
+          "score": -0.166
+        },
+        {
+          "col": 2370,
+          "score": -0.1627
+        },
+        {
+          "col": 4459,
+          "score": -0.1518
+        },
+        {
+          "col": 306,
+          "score": -0.1468
+        },
+        {
+          "col": 197,
+          "score": -0.1345
+        },
+        {
+          "col": 1891,
+          "score": -0.1337
+        },
+        {
+          "col": 340,
+          "score": -0.133
+        },
+        {
+          "col": 360,
+          "score": -0.1218
+        },
+        {
+          "col": 920,
+          "score": -0.1136
+        },
+        {
+          "col": 250,
+          "score": -0.1122
+        },
+        {
+          "col": 712,
+          "score": -0.1105
+        },
+        {
+          "col": 152,
+          "score": -0.1099
+        }
+      ]
+    }
+  },
+  "showcase_runs": {
+    "graft_18": {
+      "service-18-53ff1cc26ac3": {
+        "precision": 50.0,
+        "recall": 50.0,
+        "prediction": "Edge Team Metrics: 1, 4, 9, 10, 12\nTitan Web Dashboards: 2, 7\nShoe Shopping: 3, 8\nCoronavirus Information: 5, 13\nUngrouped: 6, 11"
+      },
+      "service-4-f43f114595c2": {
+        "precision": 66.67,
+        "recall": 66.67,
+        "prediction": "Travel: 2, 12\nEdge Features: 3, 4, 5, 6, 7, 8, 9, 13, 14, 19\nEdge Metrics: 10, 11, 15, 17, 18\nUngrouped: 1, 16"
+      },
+      "service-5-b48adde126b3": {
+        "precision": 100.0,
+        "recall": 50.0,
+        "prediction": "COVID-19: 1, 4\nEdge Development: 2, 6, 7, 12\nRide Sharing: 8, 9\nUngrouped: 3, 5, 10, 11, 13, 14"
+      },
+      "service-7-1c3a2d56655d": {
+        "precision": 66.67,
+        "recall": 66.67,
+        "prediction": "Portable Projectors: 1, 2\nEdge Chromium Source: 3, 4, 5, 6, 7, 10\nSpider-Man Miles Morales: 8, 9\nUngrouped: 11"
+      },
+      "JH02": {
+        "precision": 75.0,
+        "recall": 60.0,
+        "prediction": "Soccer Balls: 1, 6, 17, 23, 25\nGrok AI: 2, 4, 11, 13, 14, 20\nManchester City News: 5, 8, 9, 10, 12, 16, 19\nExploratory Data Analysis: 7, 18, 21, 22\nUngrouped: 3, 15, 24"
+      },
+      "JH11": {
+        "precision": 85.71,
+        "recall": 85.71,
+        "prediction": "Travel Luggage: 1, 5, 8, 25\nKimi AI Models: 2, 9, 11, 15, 16, 19, 24, 30\nSan Francisco Airbnb: 3, 10, 17, 31, 33\nAI Decision Making: 4, 18, 20, 26, 27\nCopium Slang: 6, 13, 14, 22\nNBA 2K26: 7, 12, 28, 29\nNBA Players: 23, 32\nUngrouped: 21"
+      },
+      "JH12": {
+        "precision": 66.67,
+        "recall": 50.0,
+        "prediction": "NYC Travel: 1, 4, 6, 12, 15\nStocks and Funds: 2, 7, 10, 11, 19, 20, 23, 24\nHome Appliances: 3, 5, 8, 13, 14, 16, 17, 21, 22\nUngrouped: 9, 18"
+      },
+      "JH16": {
+        "precision": 75.0,
+        "recall": 75.0,
+        "prediction": "Minecraft Resources: 2, 3, 10, 11, 12, 13\nKhan Academy: 4, 5\nLanguage Teaching: 7, 8\nElyon Christian School: 6, 9\nUngrouped: 1"
+      }
+    },
+    "svd_blend_50_50": {
+      "service-18-53ff1cc26ac3": {
+        "precision": 50.0,
+        "recall": 50.0,
+        "prediction": "Edge Team Metrics: 1, 4, 9, 10, 12\nTitan Web Dashboards: 2, 7\nShoe Shopping: 3, 8\nCoronavirus Information: 5, 13\nUngrouped: 6, 11"
+      },
+      "service-4-f43f114595c2": {
+        "precision": 50.0,
+        "recall": 50.0,
+        "prediction": "Travel: 2, 12\nSkype: 3, 6\nEdge Features: 4, 5, 7, 8, 9, 13, 14, 19\nEdge Metrics: 10, 11, 15, 17, 18\nUngrouped: 1, 16"
+      },
+      "service-5-b48adde126b3": {
+        "precision": 100.0,
+        "recall": 50.0,
+        "prediction": "COVID-19: 1, 4\nEdge Development: 2, 6, 7, 12\nRide Sharing: 8, 9\nUngrouped: 3, 5, 10, 11, 13, 14"
+      },
+      "service-7-1c3a2d56655d": {
+        "precision": 66.67,
+        "recall": 66.67,
+        "prediction": "Portable Projectors: 1, 2\nEdge Chromium Source: 3, 4, 5, 6, 7, 10\nSpider-Man Miles Morales: 8, 9\nUngrouped: 11"
+      },
+      "JH02": {
+        "precision": 75.0,
+        "recall": 60.0,
+        "prediction": "Soccer Balls: 1, 6, 17, 23, 25\nGrok AI: 2, 4, 11, 13, 14, 20\nManchester City: 5, 8, 9, 10, 12, 16, 19\nExploratory Data Analysis: 7, 18, 21, 22\nUngrouped: 3, 15, 24"
+      },
+      "JH11": {
+        "precision": 85.71,
+        "recall": 85.71,
+        "prediction": "Travel Luggage: 1, 5, 8, 25\nKimi AI: 2, 9, 11, 15, 16, 19, 24, 30\nSan Francisco Airbnb: 3, 10, 17, 31, 33\nAI Decision Making: 4, 18, 20, 26, 27\nCopium Slang: 6, 13, 14, 22\nNBA 2K26: 7, 12, 28, 29\nNBA Players: 23, 32\nUngrouped: 21"
+      },
+      "JH12": {
+        "precision": 66.67,
+        "recall": 50.0,
+        "prediction": "Travel: 1, 4, 6, 12\nStocks: 2, 7, 10, 11, 19, 20, 23, 24\nCleaning: 3, 5, 13, 14, 16, 17, 21, 22\nUngrouped: 8, 9, 15, 18"
+      },
+      "JH16": {
+        "precision": 66.67,
+        "recall": 50.0,
+        "prediction": "Minecraft: 2, 3, 10, 11, 12, 13\nKhan Academy: 4, 5\nLanguage Stuff: 7, 8\nUngrouped: 1, 6, 9"
+      }
+    },
+    "idea_b2_sft_top2_zero": {
+      "service-18-53ff1cc26ac3": {
+        "precision": 50.0,
+        "recall": 50.0,
+        "prediction": "Edge Team Metrics: 1, 4, 9, 10, 12\nTitan Web Dashboards: 2, 7\nShoe Shopping: 3, 8\nCoronavirus Info: 5, 13\nUngrouped: 6, 11"
+      },
+      "service-4-f43f114595c2": {
+        "precision": 66.67,
+        "recall": 66.67,
+        "prediction": "Travel: 2, 12\nEdge Features: 3, 4, 5, 6, 7, 8, 9, 13, 14, 19\nEdge Metrics: 10, 11, 15, 17, 18\nUngrouped: 1, 16"
+      },
+      "service-5-b48adde126b3": {
+        "precision": 100.0,
+        "recall": 50.0,
+        "prediction": "COVID-19: 1, 4\nEdge Development: 2, 6, 7, 12\nRide Sharing: 8, 9\nUngrouped: 3, 5, 10, 11, 13, 14"
+      },
+      "service-7-1c3a2d56655d": {
+        "precision": 66.67,
+        "recall": 66.67,
+        "prediction": "Portable Projectors: 1, 2\nEdge Chromium Source: 3, 4, 5, 6, 7, 10\nSpider-Man Miles Morales: 8, 9\nUngrouped: 11"
+      },
+      "JH02": {
+        "precision": 75.0,
+        "recall": 60.0,
+        "prediction": "Football Equipment: 1, 6, 17, 23, 25\nGrok AI Research: 2, 3, 4, 11, 13, 14, 20\nManchester City News: 5, 8, 9, 10, 12, 16, 19\nExploratory Data Analysis: 7, 18, 21, 22\nUngrouped: none"
+      },
+      "JH11": {
+        "precision": 85.71,
+        "recall": 85.71,
+        "prediction": "Travel Luggage: 1, 5, 8, 25\nKimi AI Models: 2, 9, 11, 15, 16, 19, 24, 30\nSan Francisco Airbnb: 3, 10, 17, 31, 33\nAI Decision Making: 4, 18, 20, 26, 27\nCopium Slang: 6, 13, 14, 22\nNBA 2K26: 7, 12, 28, 29\nNBA Players: 23, 32\nUngrouped: 21"
+      },
+      "JH12": {
+        "precision": 66.67,
+        "recall": 50.0,
+        "prediction": "NYC Travel: 1, 4, 6, 12, 15\nStocks & Funds: 2, 7, 10, 11, 19, 20, 23, 24\nHome Appliances: 3, 5, 8, 13, 14, 16, 17, 21, 22\nUngrouped: 9, 18"
+      },
+      "JH16": {
+        "precision": 75.0,
+        "recall": 75.0,
+        "prediction": "Minecraft Resources: 2, 3, 10, 11, 12, 13\nKhan Academy: 4, 5\nLanguage Teaching: 7, 8\nElyon Christian School: 6, 9\nUngrouped: 1"
+      }
+    }
+  }
+}

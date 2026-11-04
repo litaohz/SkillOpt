@@ -1,0 +1,959 @@
+{
+  "idea_b1_sigma1_zero": {
+    "v1": {
+      "init_p": 80.34,
+      "recall": 65.74,
+      "cases": {
+        "service-1-c1150b7d661e": {
+          "precision": 100.0,
+          "recall": 66.67,
+          "prediction": "Microsoft Features: 1, 3, 7, 8, 11, 15, 17, 19\nCoronavirus: 2, 10\nSkype Account: 5, 16\nStreaming: 9, 12, 20\nShoes: 13, 14\nUngrouped: 4, 6, 18"
+        },
+        "service-10-6c36ebad017c": {
+          "precision": 100.0,
+          "recall": 75.0,
+          "prediction": "Tech News: 1, 7\nTravel: 2, 6\nWork Metrics: 4, 5, 9, 10, 11, 12, 13\nUngrouped: 3, 8"
+        },
+        "service-11-92f1d2d12596": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Edge Development: 1, 4, 7, 10\nSpider-Man Game: 2, 9, 11\nTurkey Recipes: 3, 8\nChocolate Bars: 5, 6\nUngrouped: none"
+        },
+        "service-12-9812dacd2c7d": {
+          "precision": 100.0,
+          "recall": 80.0,
+          "prediction": "Chocolate: 3, 11\nCollege Football: 2, 6\nGaming: 4, 7, 10\nShoes: 5, 8\nUngrouped: 1, 9"
+        },
+        "service-13-8add0c75098e": {
+          "precision": 33.33,
+          "recall": 33.33,
+          "prediction": "Terraria Weapons: 1, 10\nEdge Metrics: 3, 4, 5, 7, 9\nTitan Dashboards: 6, 8\nUngrouped: 2, 11"
+        },
+        "service-14-2fbb8890e520": {
+          "precision": 100.0,
+          "recall": 75.0,
+          "prediction": "Edge Work: 1, 2, 4, 7, 9, 10\nStar Trek: 5, 6\nChrono Trigger: 8, 11\nUngrouped: 3, 12"
+        },
+        "service-15-9e3c1507594f": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Black Friday Shopping: 1, 4, 11\nTurkey Preparation: 2, 5\nElden Ring: 3, 8\nAbove & Beyond Music: 6, 7\nArt Museums: 9, 10\nUngrouped: none"
+        },
+        "service-16-a0e3fd6311de": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Chocolate: 1, 9\nWork: 2, 4, 5, 6, 7, 8, 13\nCar Customizer: 3, 11\nChrono Trigger: 10, 12\nUngrouped: none"
+        },
+        "service-17-9bdd36367d79": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Car Customization: 1, 8\nReal Estate: 2, 11\nStar Trek: 3, 6\nRide Sharing: 4, 9\nNews: 5, 7\nTurkey Recipes: 10, 12\nUngrouped: none"
+        },
+        "service-18-53ff1cc26ac3": {
+          "precision": 50.0,
+          "recall": 50.0,
+          "prediction": "Edge Team Metrics: 1, 4, 9, 10, 12\nTitan Web Dashboards: 2, 7\nShoe Shopping: 3, 8\nCoronavirus Info: 5, 13\nUngrouped: 6, 11"
+        },
+        "service-19-527f7f76d3f6": {
+          "precision": 80.0,
+          "recall": 66.67,
+          "prediction": "Terraria: 1, 3\nSpider-Man: 2, 7\nReal Estate: 5, 9\nCollege Football: 8, 10\nElden Ring: 11, 12\nUngrouped: 4, 6, 13"
+        },
+        "service-2-06452be07e3d": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Weather: 1, 12\nShopping: 2, 9\nRide Sharing: 3, 6\nEdge Development: 4, 5, 8, 11\nCollege Football: 7, 10\nUngrouped: none"
+        },
+        "service-20-945bdfad3f24": {
+          "precision": 50.0,
+          "recall": 50.0,
+          "prediction": "Job Search: 1, 5, 6\nTurkey Recipes: 2, 9\nSpider-Man Game: 3, 4\nSeattle Weather: 7, 8\nUngrouped: 10, 11"
+        },
+        "service-21-d5e3d45d5626": {
+          "precision": 80.0,
+          "recall": 80.0,
+          "prediction": "TV Shopping: 2, 7\nJob Search: 3, 4, 10\nReal Estate: 5, 6\nTravel: 8, 12\nPortable Projector: 9, 11\nUngrouped: 1"
+        },
+        "service-22-e8a23c7b7304": {
+          "precision": 33.33,
+          "recall": 20.0,
+          "prediction": "Travel: 1, 5, 6, 11\nShopping: 2, 3, 4, 7, 10\nCar Customization: 8, 9\nUngrouped: none"
+        },
+        "service-23-63b8675a63e8": {
+          "precision": 75.0,
+          "recall": 60.0,
+          "prediction": "Edge Experiments: 4, 5, 6, 8, 13, 14, 15, 19\nEdge Queries: 7, 9, 11, 12, 18\nShopping: 2, 10\nSports: 3, 20\nUngrouped: 1, 16, 17"
+        },
+        "service-24-745caf1da026": {
+          "precision": 75.0,
+          "recall": 40.0,
+          "prediction": "Microsoft Edge Features: 3, 4, 6, 8, 10, 11, 18, 20\nCollege Football: 5, 7\nShopping: 1, 12, 13, 15, 16\nThailand Travel: 9, 17\nUngrouped: 2, 14, 19"
+        },
+        "service-25-b234cac699ef": {
+          "precision": 75.0,
+          "recall": 75.0,
+          "prediction": "Edge Development: 1, 2, 3, 8\nPC Building: 5, 6, 9, 14\nStreaming: 7, 10, 11\nMovie Reviews: 12, 13\nUngrouped: 4"
+        },
+        "service-26-70d615d6a287": {
+          "precision": 100.0,
+          "recall": 75.0,
+          "prediction": "Edge Metrics: 1, 2, 4, 6, 9\nElden Ring: 3, 10\nCollege Football: 7, 8\nStar Trek: 11, 12\nUngrouped: 5, 13"
+        },
+        "service-27-fc7d4690a3bb": {
+          "precision": 75.0,
+          "recall": 60.0,
+          "prediction": "TV Shopping: 1, 14\nEdge Development: 3, 5, 6, 8, 12, 15\nSpider-Man Game: 4, 10\nTerraria Wiki: 9, 11\nUngrouped: 2, 7, 13"
+        },
+        "service-28-dc4667fe739f": {
+          "precision": 100.0,
+          "recall": 83.33,
+          "prediction": "Art Museums: 1, 8\nMicrosoft Edge Features: 3, 5, 12, 14, 15, 17, 18, 19\nStreaming Services: 4, 7, 9\nElden Ring: 6, 10\nThailand Travel: 11, 20\nUngrouped: 2, 13, 16"
+        },
+        "service-29-f3266287188d": {
+          "precision": 80.0,
+          "recall": 66.67,
+          "prediction": "France Travel: 1, 3, 4\nElden Ring: 2, 6\nChrono Trigger: 8, 9\nAmazon Shopping: 5, 7\nCasino Strategy: 11, 12\nUngrouped: 10"
+        },
+        "service-3-925864fd920a": {
+          "precision": 66.67,
+          "recall": 66.67,
+          "prediction": "Edge Development: 2, 5, 6, 7, 10, 12\nStreaming Services: 3, 9, 11\nThailand Travel: 4, 8\nUngrouped: 1"
+        },
+        "service-30-6165d26bc5bf": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "prediction": "Microsoft Edge Experiments: 1, 2, 3, 6, 9, 10, 11, 12\nSkype Sign-in: 4, 8\nUngrouped: 5, 7"
+        },
+        "service-31-e5632aebb30c": {
+          "precision": 100.0,
+          "recall": 66.67,
+          "prediction": "Black Friday Shopping: 1, 3, 8\nElden Ring: 4, 9\nThailand Travel: 6, 10\nDiablo II: 11, 12\nUngrouped: 2, 5, 7, 13"
+        },
+        "service-32-e8461609753b": {
+          "precision": 66.67,
+          "recall": 40.0,
+          "prediction": "Portable Projectors: 1, 4\nRide Sharing: 2, 5\nJob Search: 6, 7, 8\nUngrouped: 3, 9, 10, 11, 12"
+        },
+        "service-33-4996f381e33b": {
+          "precision": 66.67,
+          "recall": 40.0,
+          "prediction": "Shopping: 1, 5, 9, 10\nMusic: 3, 4\nNavigation: 2, 6\nUngrouped: 7, 8"
+        },
+        "service-34-2eaffeea03d8": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Edge Work: 1, 3, 5, 6, 7, 11\nTravel: 2, 8\nTV Shopping: 4, 10\nMusic: 9, 12\nUngrouped: none"
+        },
+        "service-35-dd43351d7f36": {
+          "precision": 75.0,
+          "recall": 60.0,
+          "prediction": "Weather: 1, 2\nNews: 3, 5\nBanking: 4, 11\nGaming Hardware: 7, 9, 12\nUngrouped: 6, 8, 10"
+        },
+        "service-36-c56e887ee973": {
+          "precision": 33.33,
+          "recall": 25.0,
+          "prediction": "Movie Streaming: 1, 6, 8, 9\nJob Search: 5, 7, 10\nElden Ring: 3, 12\nUngrouped: 2, 4, 11"
+        },
+        "service-37-a947291b6a29": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Real Estate: 1, 11\nComputer Hardware: 2, 5, 6, 12\nMusic: 4, 7\nNews: 8, 10\nTV Shopping: 3, 9\nUngrouped: none"
+        },
+        "service-38-3ee14d4200f1": {
+          "precision": 33.33,
+          "recall": 25.0,
+          "prediction": "Edge Work Queries: 1, 4, 7, 9, 11\nNews & Entertainment: 2, 3, 12\nTravel: 6, 10\nUngrouped: 5, 8"
+        },
+        "service-39-d3606670ecf9": {
+          "precision": 75.0,
+          "recall": 75.0,
+          "prediction": "Job Search: 1, 2, 5\nEdge Development: 3, 7, 8, 11\nCollege Football: 4, 6\nDiablo II: 10, 12\nUngrouped: 9"
+        },
+        "service-4-f43f114595c2": {
+          "precision": 66.67,
+          "recall": 66.67,
+          "prediction": "Travel: 2, 12\nEdge Features: 3, 4, 5, 6, 7, 8, 9, 13, 14, 19\nEdge Metrics: 10, 11, 15, 17, 18\nUngrouped: 1, 16"
+        },
+        "service-40-0ac0d3b11301": {
+          "precision": 50.0,
+          "recall": 50.0,
+          "prediction": "News: 1, 2\nCoding: 3, 4, 5, 7, 9, 12\nCasino: 6, 8\nJob Search: 10, 11\nUngrouped: none"
+        },
+        "service-41-fe383548775e": {
+          "precision": 75.0,
+          "recall": 60.0,
+          "prediction": "TV Shopping: 2, 6\nShoes Shopping: 3, 8\nChrono Trigger: 7, 12\nJob Search: 9, 10, 11\nUngrouped: 1, 4, 5"
+        },
+        "service-42-3a6f6f9c595f": {
+          "precision": 75.0,
+          "recall": 50.0,
+          "prediction": "Shopping: 1, 3, 4, 9\nBanking: 2, 6\nTech News: 7, 8\nRide Sharing: 11, 12\nUngrouped: 5, 10"
+        },
+        "service-43-a5a4cbdb864b": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Movies: 1, 7\nMusic: 2, 12\nChrono Trigger: 3, 10\nWeather: 4, 6\nMuseums: 5, 8\nNews: 9, 11\nUngrouped: none"
+        },
+        "service-44-e9342bdcc3f5": {
+          "precision": 50.0,
+          "recall": 40.0,
+          "prediction": "Tech News: 1, 2\nJob Search: 3, 9, 10\nWeather and Maps: 5, 6, 7, 11\nChocolate: 8, 12\nUngrouped: 4"
+        },
+        "service-45-36bd4d3881eb": {
+          "precision": 100.0,
+          "recall": 80.0,
+          "prediction": "Diablo II: 1, 7\nTech News: 2, 3\nPC Building: 4, 8, 11, 12\nWeather: 5, 10\nUngrouped: 6, 9"
+        },
+        "service-5-b48adde126b3": {
+          "precision": 100.0,
+          "recall": 50.0,
+          "prediction": "COVID-19: 1, 4\nEdge Development: 2, 6, 7, 12\nRide Sharing: 8, 9\nUngrouped: 3, 5, 10, 11, 13, 14"
+        },
+        "service-6-1259fc3f7165": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Elden Ring: 1, 4\nMuseums: 2, 12\nStar Trek: 5, 8\nMusic Streaming: 6, 10\nReal Estate: 9, 11\nUngrouped: 3, 7"
+        },
+        "service-7-1c3a2d56655d": {
+          "precision": 66.67,
+          "recall": 66.67,
+          "prediction": "Portable Projectors: 1, 2\nEdge Chromium Source: 3, 4, 5, 6, 7, 10\nSpider-Man Miles Morales: 8, 9\nUngrouped: 11"
+        },
+        "service-8-f3d82c41a5f4": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Diablo 2: 1, 2\nEdge Dev: 3, 4, 6, 7, 8, 10\nMuseums: 5, 12\nRide Sharing: 9, 11\nUngrouped: none"
+        },
+        "service-9-66e28b77ec10": {
+          "precision": 66.67,
+          "recall": 40.0,
+          "prediction": "COVID-19: 1, 6\nVideo Games: 2, 7, 12\nBlack Friday Deals: 8, 9, 10, 11\nUngrouped: 3, 4, 5"
+        }
+      }
+    },
+    "v2.1": {
+      "init_p": 65.57,
+      "recall": 58.69,
+      "cases": {
+        "JH01": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "prediction": "Bike Shopping: 1, 4, 5, 6, 10, 15, 16, 17, 19, 20, 21, 22, 24, 25\nLLM Inference: 2, 3, 7, 11, 12, 14\nOverwatch 2: 8, 9, 13, 18, 23\nUngrouped: none"
+        },
+        "JH02": {
+          "precision": 75.0,
+          "recall": 60.0,
+          "prediction": "Football Equipment: 1, 6, 17, 23, 25\nGrok AI Research: 2, 3, 4, 11, 13, 14, 20\nManchester City News: 5, 8, 9, 10, 12, 16, 19\nExploratory Data Analysis: 7, 18, 21, 22\nUngrouped: none"
+        },
+        "JH03": {
+          "precision": 40.0,
+          "recall": 66.67,
+          "prediction": "Climavorism: 1, 9, 14, 15, 16\nGEO Guides: 2, 8, 11, 12, 13\nLLM Reasoning: 3, 4, 7, 10, 20, 21, 22\nPricing: 5, 6\nGEO Blogs: 17, 18\nUngrouped: 19"
+        },
+        "JH04": {
+          "precision": 60.0,
+          "recall": 50.0,
+          "prediction": "World Cup: 1, 8, 16, 23\nNasdaq 100: 2, 3, 11, 14, 20\nGPU Selection: 4, 6, 15, 21\nTrading Strategies: 5, 13, 19\nVision-Language Models: 9, 12, 22\nUngrouped: 7, 10, 17, 18"
+        },
+        "JH05": {
+          "precision": 50.0,
+          "recall": 50.0,
+          "prediction": "China Travel: 1, 2, 3, 5, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 27, 28, 29, 31, 32, 33\nNCAA Basketball: 4, 6, 8, 10, 26, 30\nUngrouped: 7, 9"
+        },
+        "JH06": {
+          "precision": 100.0,
+          "recall": 83.33,
+          "prediction": "GitHub Copilot CLI: 1, 3, 11, 19, 20, 22, 23, 27\nNotepad++: 2, 6, 7, 10, 13, 14, 18, 25, 28, 29\nPodcasts: 4, 9, 30\nLunar Data Center: 8, 15, 26\nMicrosoft Azure Data Center: 16, 17, 24\nUngrouped: 5, 12, 21"
+        },
+        "JH07": {
+          "precision": 25.0,
+          "recall": 10.0,
+          "prediction": "Statistics: 1, 29\nEnglish Learning: 3, 4, 5, 6, 12, 15, 16, 23, 33\nLighting: 7, 11, 32, 36\nCosmology: 9, 30\nUngrouped: 2, 8, 10, 13, 14, 17, 18, 19, 20, 21, 24, 25, 26, 27, 31, 34, 35, 37, 38, 39, 40"
+        },
+        "JH08": {
+          "precision": 66.67,
+          "recall": 50.0,
+          "prediction": "Stainless Steel Cookware: 1, 3, 5, 11\nElectric Cookers: 2, 4, 9, 10, 13\nBedside Tables: 6, 7, 8, 14\nUngrouped: 12"
+        },
+        "JH09": {
+          "precision": 50.0,
+          "recall": 50.0,
+          "prediction": "Spring Travel: 1, 5, 8\nNBA News: 2, 4, 9, 19\nTV Drama Characters: 3, 11, 13, 14, 18, 22, 26, 28\nPremier League News: 6, 10, 12, 15, 16, 17, 20, 21, 24, 27\nUngrouped: 7, 23, 25"
+        },
+        "JH10": {
+          "precision": 66.67,
+          "recall": 66.67,
+          "prediction": "Deep Agents: 1, 2, 3, 4, 7, 8, 12, 13, 15, 18, 20, 23, 25\nAI Agent Frameworks: 5, 14, 17, 21\nQingtuan Recipes: 6, 9, 10, 11, 16, 19, 22\nUngrouped: none"
+        },
+        "JH11": {
+          "precision": 85.71,
+          "recall": 85.71,
+          "prediction": "Travel Luggage: 1, 5, 8, 25\nKimi AI Models: 2, 9, 11, 15, 16, 19, 24, 30\nSan Francisco Airbnb: 3, 10, 17, 31, 33\nAI Decision Making: 4, 18, 20, 26, 27\nCopium Slang: 6, 13, 14, 22\nNBA 2K26: 7, 12, 28, 29\nNBA Players: 23, 32\nUngrouped: 21"
+        },
+        "JH12": {
+          "precision": 66.67,
+          "recall": 50.0,
+          "prediction": "NYC Travel: 1, 4, 6, 12, 15\nStocks & Funds: 2, 7, 10, 11, 19, 20, 23, 24\nHome Appliances: 3, 5, 8, 13, 14, 16, 17, 21, 22\nUngrouped: 9, 18"
+        },
+        "JH13": {
+          "precision": 66.67,
+          "recall": 66.67,
+          "prediction": "Health Information: 1, 3, 6, 9\nTravel Health: 4, 5, 8, 10\nDoctor Directory: 7, 11, 12, 13\nUngrouped: 2"
+        },
+        "JH14": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Office Space: 1, 5\nOntario Real Estate: 2, 3, 8, 9, 10, 12\nSteel Erectors: 4, 11\nSecurity Systems: 6, 7\nUngrouped: none"
+        },
+        "JH15": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Maui Vacation Rentals: 1, 5, 7, 8, 9\nTimeshare Marketplace: 2, 3, 6\nFlight Search: 4, 10\nUngrouped: none"
+        },
+        "JH16": {
+          "precision": 66.67,
+          "recall": 50.0,
+          "prediction": "Minecraft Resources: 2, 3, 10, 11, 12, 13\nKhan Academy: 4, 5\nLanguage Teaching: 7, 8\nUngrouped: 1, 6, 9"
+        }
+      }
+    }
+  },
+  "idea_a_64neurons_sft2000": {
+    "v1": {
+      "init_p": 79.79,
+      "recall": 69.7,
+      "cases": {
+        "service-1-c1150b7d661e": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Microsoft Experiments: 1, 3, 7, 8, 11, 15, 17, 19\nCoronavirus: 2, 10\nSkype: 5, 16\nEntertainment: 9, 12, 20\nShopping: 4, 13, 14\nWeather: 6, 18\nUngrouped: none"
+        },
+        "service-10-6c36ebad017c": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Tech News: 1, 7\nTravel: 2, 6\nShopping: 3, 8\nWork: 4, 5, 9, 10, 11, 12, 13\nUngrouped: none"
+        },
+        "service-11-92f1d2d12596": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Work: 1, 4, 7, 10\nGaming: 2, 9, 11\nCooking: 3, 8\nChocolate: 5, 6\nUngrouped: none"
+        },
+        "service-12-9812dacd2c7d": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Weather: 1, 9\nSports: 2, 6\nChocolate: 3, 11\nGaming: 4, 7, 10\nShopping: 5, 8\nUngrouped: none"
+        },
+        "service-13-8add0c75098e": {
+          "precision": 50.0,
+          "recall": 66.67,
+          "prediction": "Terraria: 1, 10\nTech News: 2, 11\nEdge Team: 3, 4, 5, 7, 9\nTitan Web: 6, 8\nUngrouped: none"
+        },
+        "service-14-2fbb8890e520": {
+          "precision": 66.67,
+          "recall": 50.0,
+          "prediction": "Work: 1, 2, 3, 4, 7, 9, 10\nEntertainment: 5, 6\nGaming: 8, 11\nUngrouped: 12"
+        },
+        "service-15-9e3c1507594f": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Shopping: 1, 4, 11\nCooking: 2, 5\nGaming: 3, 8\nMusic: 6, 7\nArt: 9, 10\nUngrouped: none"
+        },
+        "service-16-a0e3fd6311de": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Chocolate: 1, 9\nWork: 2, 4, 5, 6, 7, 8, 13\nCar: 3, 11\nGame: 10, 12\nUngrouped: none"
+        },
+        "service-17-9bdd36367d79": {
+          "precision": 80.0,
+          "recall": 66.67,
+          "prediction": "Cars: 1, 4, 8, 9\nNews: 5, 7\nTV Shows: 3, 6\nCooking: 10, 12\nReal Estate: 2, 11\nUngrouped: none"
+        },
+        "service-18-53ff1cc26ac3": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Work: 1, 2, 4, 7, 9, 10, 12\nShopping: 3, 8\nNews: 6, 11\nHealth: 5, 13\nUngrouped: none"
+        },
+        "service-19-527f7f76d3f6": {
+          "precision": 83.33,
+          "recall": 83.33,
+          "prediction": "Terraria: 1, 3\nSpider-Man: 2, 7\nNews: 4, 13\nReal Estate: 5, 9\nFootball: 8, 10\nElden Ring: 11, 12\nUngrouped: 6"
+        },
+        "service-2-06452be07e3d": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Weather: 1, 12\nShopping: 2, 9\nRide Sharing: 3, 6\nDevelopment: 4, 5, 8, 11\nSports: 7, 10\nUngrouped: none"
+        },
+        "service-20-945bdfad3f24": {
+          "precision": 75.0,
+          "recall": 75.0,
+          "prediction": "LinkedIn: 1, 5\nYouTube: 2, 9\nSteam: 3, 4, 10\nWeather: 7, 8\nUngrouped: 6, 11"
+        },
+        "service-21-d5e3d45d5626": {
+          "precision": 80.0,
+          "recall": 80.0,
+          "prediction": "TV Shopping: 2, 7\nJob Search: 3, 4, 10\nReal Estate: 5, 6\nTravel: 8, 12\nProjector Shopping: 9, 11\nUngrouped: 1"
+        },
+        "service-22-e8a23c7b7304": {
+          "precision": 75.0,
+          "recall": 60.0,
+          "prediction": "Travel: 1, 6\nShopping: 2, 3, 4, 7, 10\nArt: 5, 11\nCars: 8, 9\nUngrouped: none"
+        },
+        "service-23-63b8675a63e8": {
+          "precision": 75.0,
+          "recall": 60.0,
+          "prediction": "Skype: 1, 16\nAmazon: 2, 10\nMicrosoft: 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 17, 18, 19\nSports: 3, 20\nUngrouped: none"
+        },
+        "service-24-745caf1da026": {
+          "precision": 75.0,
+          "recall": 60.0,
+          "prediction": "Microsoft: 3, 4, 6, 8, 10, 11, 18, 20\nSports: 5, 7\nShopping: 12, 15, 16\nTravel: 9, 13, 14, 17\nUngrouped: 1, 2, 19"
+        },
+        "service-25-b234cac699ef": {
+          "precision": 75.0,
+          "recall": 66.67,
+          "prediction": "Microsoft: 1, 2, 3, 8\nShopping: 4, 5, 6, 9, 14\nStreaming: 7, 10, 11\nMovies: 12, 13\nUngrouped: none"
+        },
+        "service-26-70d615d6a287": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Edge Team: 1, 2, 4, 6, 9\nElden Ring: 3, 10\nTitan Web: 5, 13\nCollege Football: 7, 8\nStar Trek: 11, 12\nUngrouped: none"
+        },
+        "service-27-fc7d4690a3bb": {
+          "precision": 100.0,
+          "recall": 80.0,
+          "prediction": "TVs: 1, 14\nGaming: 2, 4, 10\nCoding: 3, 5, 6, 8, 12, 15\nTerraria: 9, 11\nUngrouped: 7, 13"
+        },
+        "service-28-dc4667fe739f": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Art: 1, 8\nSkype: 2, 16\nMicrosoft: 3, 5, 12, 14, 15, 17, 18, 19\nStreaming: 4, 7, 9\nGaming: 6, 10\nTravel: 11, 20\nUngrouped: 13"
+        },
+        "service-29-f3266287188d": {
+          "precision": 75.0,
+          "recall": 33.33,
+          "prediction": "Travel: 1, 3, 4\nGaming: 2, 6, 8, 9\nShopping: 5, 7\nCasino: 11, 12\nUngrouped: 10"
+        },
+        "service-3-925864fd920a": {
+          "precision": 66.67,
+          "recall": 66.67,
+          "prediction": "Coding: 2, 5, 6, 7, 10, 12\nEntertainment: 3, 9, 11\nTravel: 4, 8\nUngrouped: 1"
+        },
+        "service-30-6165d26bc5bf": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "prediction": "Microsoft Exp: 1, 2, 3, 6, 9, 10, 11, 12\nSkype: 4, 8\nUngrouped: 5, 7"
+        },
+        "service-31-e5632aebb30c": {
+          "precision": 80.0,
+          "recall": 66.67,
+          "prediction": "Black Friday Deals: 1, 3, 8\nMaps: 2, 7\nGaming: 4, 9, 11, 12\nNews: 5, 13\nTravel: 6, 10\nUngrouped: none"
+        },
+        "service-32-e8461609753b": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "prediction": "Travel: 2, 3, 4, 5\nJob Search: 6, 7, 8\nEntertainment: 9, 10, 11\nUngrouped: 1, 12"
+        },
+        "service-33-4996f381e33b": {
+          "precision": 66.67,
+          "recall": 40.0,
+          "prediction": "Shopping: 1, 5, 9, 10\nMusic: 3, 4\nMaps: 2, 6\nUngrouped: 7, 8"
+        },
+        "service-34-2eaffeea03d8": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Visual Studio: 1, 3, 5, 6, 7, 11\nTravel: 2, 8\nTVs: 4, 10\nMusic: 9, 12\nUngrouped: none"
+        },
+        "service-35-dd43351d7f36": {
+          "precision": 75.0,
+          "recall": 60.0,
+          "prediction": "Weather: 1, 2\nNews: 3, 5\nBanking: 4, 11\nGaming: 7, 9, 12\nUngrouped: 6, 8, 10"
+        },
+        "service-36-c56e887ee973": {
+          "precision": 25.0,
+          "recall": 25.0,
+          "prediction": "Movies: 1, 4, 6, 8, 9\nProgramming: 2, 7\nGaming: 3, 12\nJob Search: 5, 10\nUngrouped: 11"
+        },
+        "service-37-a947291b6a29": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Real Estate: 1, 11\nComputer Hardware: 2, 5, 6, 12\nTV Shopping: 3, 9\nMusic: 4, 7\nNews: 8, 10\nUngrouped: none"
+        },
+        "service-38-3ee14d4200f1": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Work: 1, 4, 7, 8, 9, 11\nEntertainment: 2, 5\nNews: 3, 12\nTravel: 6, 10\nUngrouped: none"
+        },
+        "service-39-d3606670ecf9": {
+          "precision": 50.0,
+          "recall": 50.0,
+          "prediction": "Job Search: 1, 2, 5\nCoding: 3, 7, 8, 9\nSports: 4, 6\nGaming: 10, 12\nUngrouped: 11"
+        },
+        "service-4-f43f114595c2": {
+          "precision": 50.0,
+          "recall": 33.33,
+          "prediction": "Work: 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19\nTravel: 2, 12\nUngrouped: none"
+        },
+        "service-40-0ac0d3b11301": {
+          "precision": 66.67,
+          "recall": 50.0,
+          "prediction": "News: 1, 2\nWork: 3, 4, 5, 7, 9, 10, 11\nGaming: 6, 8\nUngrouped: 12"
+        },
+        "service-41-fe383548775e": {
+          "precision": 40.0,
+          "recall": 40.0,
+          "prediction": "Banking: 1, 5\nShopping: 3, 6, 8\nProgramming: 4, 9\nGaming: 7, 12\nJob Search: 10, 11\nUngrouped: 2"
+        },
+        "service-42-3a6f6f9c595f": {
+          "precision": 50.0,
+          "recall": 33.33,
+          "prediction": "Shopping: 1, 3, 4\nBanking: 2, 6\nTechnology: 7, 8\nTravel: 10, 11, 12\nUngrouped: 5, 9"
+        },
+        "service-43-a5a4cbdb864b": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Movies: 1, 7\nMusic: 2, 12\nGames: 3, 10\nWeather: 4, 6\nArt: 5, 8\nNews: 9, 11\nUngrouped: none"
+        },
+        "service-44-e9342bdcc3f5": {
+          "precision": 75.0,
+          "recall": 60.0,
+          "prediction": "News: 1, 2\nJob Search: 3, 9, 10\nWeather: 5, 6\nChocolate: 8, 12\nUngrouped: 4, 7, 11"
+        },
+        "service-45-36bd4d3881eb": {
+          "precision": 100.0,
+          "recall": 80.0,
+          "prediction": "Tech News: 2, 3\nGaming: 4, 8, 11, 12\nWeather: 5, 10\nMovies: 6, 9\nUngrouped: 1, 7"
+        },
+        "service-5-b48adde126b3": {
+          "precision": 100.0,
+          "recall": 83.33,
+          "prediction": "COVID-19: 1, 4\nCoding: 2, 6, 7, 12\nMaps: 3, 5\nRide Sharing: 8, 9\nShopping: 11, 13\nUngrouped: 10, 14"
+        },
+        "service-6-1259fc3f7165": {
+          "precision": 75.0,
+          "recall": 60.0,
+          "prediction": "Gaming: 1, 4\nArt: 2, 12\nEntertainment: 3, 5, 6, 7, 8\nReal Estate: 9, 11\nUngrouped: 10"
+        },
+        "service-7-1c3a2d56655d": {
+          "precision": 66.67,
+          "recall": 66.67,
+          "prediction": "Portable Projector: 1, 2\nEdge Development: 3, 4, 5, 6, 7, 10\nSpider-Man: 8, 9\nUngrouped: 11"
+        },
+        "service-8-f3d82c41a5f4": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Diablo 2: 1, 2\nMicrosoft Edge: 3, 4, 6, 7, 8, 10\nMuseums: 5, 12\nRide Sharing: 9, 11\nUngrouped: none"
+        },
+        "service-9-66e28b77ec10": {
+          "precision": 50.0,
+          "recall": 40.0,
+          "prediction": "COVID-19: 1, 6\nVideo Games: 2, 7, 12\nTechnology: 4, 9, 11\nShopping: 8, 10\nUngrouped: 3, 5"
+        }
+      }
+    },
+    "v2.1": {
+      "init_p": 61.29,
+      "recall": 57.93,
+      "cases": {
+        "JH01": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "prediction": "Bikes: 1, 4, 5, 6, 9, 10, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25\nFlashInfer: 2, 3, 7, 12, 14\nOverwatch: 8, 13, 18\nUngrouped: 11"
+        },
+        "JH02": {
+          "precision": 75.0,
+          "recall": 60.0,
+          "prediction": "Amazon: 1, 6, 17, 23, 25\nGrok: 2, 3, 4, 11, 13, 14, 20\nManchester City: 5, 8, 9, 10, 12, 16, 19\nData Analysis: 7, 18, 21, 22\nUngrouped: 15, 24"
+        },
+        "JH03": {
+          "precision": 50.0,
+          "recall": 66.67,
+          "prediction": "Climavorism: 1, 9, 14, 15, 16\nGenerative Engine Optimization: 2, 8, 11, 12, 13, 17, 18\nLarge Language Model Reasoning: 3, 4, 7, 10, 20, 21, 22\nPricing: 5, 6, 19\nUngrouped: none"
+        },
+        "JH04": {
+          "precision": 50.0,
+          "recall": 33.33,
+          "prediction": "World Cup: 1, 8, 16, 23\nStock Market: 2, 3, 5, 11, 13, 14, 19, 20\nMachine Learning: 4, 6, 9, 12, 15, 17, 21, 22\nGold Investment: 7, 10\nUngrouped: 18"
+        },
+        "JH05": {
+          "precision": 50.0,
+          "recall": 50.0,
+          "prediction": "China Tours: 1, 2, 3, 5, 7, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 27, 28, 29, 31, 32, 33\nNCAA: 4, 6, 8, 10, 26, 30\nUngrouped: none"
+        },
+        "JH06": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "GitHub Copilot CLI: 1, 3, 11, 19, 20, 22, 23, 27\nNotepad++: 2, 6, 7, 10, 13, 14, 18, 25, 28, 29\nPodcasts: 4, 9, 30\nElectromagnetic Launch System: 5, 12\nLunar Data Center: 8, 15, 26\nMicrosoft Azure Data Center: 16, 17, 24\nUngrouped: 21"
+        },
+        "JH07": {
+          "precision": 33.33,
+          "recall": 30.0,
+          "prediction": "Statistics: 1, 29\nControl Barrier Function: 2, 13\nEnglish Learning: 3, 4, 5, 6, 12, 15, 16, 23, 33\nLighting: 7, 11, 32, 36\nPhysics: 8, 9, 18, 26, 30, 31, 35, 38\nMathematics: 10, 14\nComputer Science: 19, 20\nEconomics: 21, 37\nFurniture: 22, 25\nUngrouped: 24, 27, 28, 34, 39, 40"
+        },
+        "JH08": {
+          "precision": 66.67,
+          "recall": 50.0,
+          "prediction": "Stainless Steel Cookware: 1, 3, 5, 11\nCooking Appliances: 2, 4, 9, 10, 13\nBedside Tables: 6, 7, 8, 14\nUngrouped: 12"
+        },
+        "JH09": {
+          "precision": 75.0,
+          "recall": 75.0,
+          "prediction": "Spring Travel: 1, 5, 8\nNBA: 2, 4, 9, 19\nTV Drama: 3, 11, 13, 14, 18, 22, 26, 28\nSoccer: 6, 10, 12, 15, 16, 17, 20, 21, 24, 25, 27\nUngrouped: 7, 23"
+        },
+        "JH10": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Deep Agents: 1, 2, 3, 4, 5, 7, 8, 12, 13, 14, 15, 17, 18, 20, 21, 23, 24, 25\nQingtuan: 6, 9, 10, 11, 16, 19, 22\nUngrouped: none"
+        },
+        "JH11": {
+          "precision": 50.0,
+          "recall": 28.57,
+          "prediction": "Travel: 1, 3, 5, 8, 10, 17, 21, 31, 33\nAI: 2, 4, 9, 11, 15, 16, 19, 20, 24, 26, 27, 30\nSlang: 6, 13, 14, 22\nSports: 7, 12, 23, 28, 29, 32\nUngrouped: 18, 25"
+        },
+        "JH12": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "prediction": "Travel: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12\nShopping: 13, 14, 15, 16, 17, 18, 19, 20, 21, 22\nFinance: 23, 24\nUngrouped: none"
+        },
+        "JH13": {
+          "precision": 33.33,
+          "recall": 33.33,
+          "prediction": "Health: 1, 2, 3, 6, 7, 9\nTravel Health: 4, 5, 8, 10\nPediatric Pulmonology: 11, 12, 13\nUngrouped: none"
+        },
+        "JH14": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Office For Lease: 1, 5\nOntario Real Estate: 2, 3, 8, 9, 10, 12\nMid-State Steel Erectors: 4, 11\nHoneyguard Security: 6, 7\nUngrouped: none"
+        },
+        "JH15": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Maui Vacation Rentals: 1, 5, 7, 8, 9\nTimeshare Marketplace: 2, 3, 6\nFlight Search: 4, 10\nUngrouped: none"
+        },
+        "JH16": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Teaching Resources: 1, 7, 8\nMinecraft: 2, 3, 10, 11, 12, 13\nKhan Academy: 4, 5\nElyon Christian School: 6, 9\nUngrouped: none"
+        }
+      }
+    }
+  },
+  "idea_c_qnorm135_sft2000": {
+    "v1": {
+      "init_p": 79.89,
+      "recall": 70.37,
+      "cases": {
+        "service-1-c1150b7d661e": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Microsoft Experiments: 1, 3, 7, 8, 11, 15, 17, 19\nCoronavirus: 2, 10\nSkype: 5, 16\nWeather: 6, 18\nEntertainment: 9, 12, 20\nShopping: 4, 13, 14\nUngrouped: none"
+        },
+        "service-10-6c36ebad017c": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Tech News: 1, 7\nTravel: 2, 6\nShopping: 3, 8\nWork: 4, 5, 9, 10, 11, 12, 13\nUngrouped: none"
+        },
+        "service-11-92f1d2d12596": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Work: 1, 4, 7, 10\nGaming: 2, 9, 11\nCooking: 3, 8\nChocolate: 5, 6\nUngrouped: none"
+        },
+        "service-12-9812dacd2c7d": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Weather: 1, 9\nSports: 2, 6\nChocolate: 3, 11\nGaming: 4, 7, 10\nShopping: 5, 8\nUngrouped: none"
+        },
+        "service-13-8add0c75098e": {
+          "precision": 50.0,
+          "recall": 66.67,
+          "prediction": "Terraria: 1, 10\nTech News: 2, 11\nEdge Team: 3, 4, 5, 7, 9\nTitan Web: 6, 8\nUngrouped: none"
+        },
+        "service-14-2fbb8890e520": {
+          "precision": 50.0,
+          "recall": 33.33,
+          "prediction": "Work: 1, 2, 3, 4, 7, 9, 10\nEntertainment: 5, 6, 8, 11\nUngrouped: 12"
+        },
+        "service-15-9e3c1507594f": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Shopping: 1, 4, 11\nCooking: 2, 5\nGaming: 3, 8\nMusic: 6, 7\nArt: 9, 10\nUngrouped: none"
+        },
+        "service-16-a0e3fd6311de": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Chocolate: 1, 9\nWork: 2, 4, 5, 6, 7, 8, 13\nCar: 3, 11\nGame: 10, 12\nUngrouped: none"
+        },
+        "service-17-9bdd36367d79": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Cars: 1, 8\nReal Estate: 2, 11\nTV Shows: 3, 6\nRide Sharing: 4, 9\nNews: 5, 7\nCooking: 10, 12\nUngrouped: none"
+        },
+        "service-18-53ff1cc26ac3": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Work: 1, 2, 4, 7, 9, 10, 12\nShopping: 3, 8\nNews: 6, 11\nHealth: 5, 13\nUngrouped: none"
+        },
+        "service-19-527f7f76d3f6": {
+          "precision": 83.33,
+          "recall": 83.33,
+          "prediction": "Terraria: 1, 3\nSpider-Man: 2, 7\nNews: 4, 13\nReal Estate: 5, 9\nFootball: 8, 10\nElden Ring: 11, 12\nUngrouped: 6"
+        },
+        "service-2-06452be07e3d": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Weather: 1, 12\nShopping: 2, 9\nRide Sharing: 3, 6\nDevelopment: 4, 5, 8, 11\nSports: 7, 10\nUngrouped: none"
+        },
+        "service-20-945bdfad3f24": {
+          "precision": 75.0,
+          "recall": 75.0,
+          "prediction": "Social: 1, 5\nCooking: 2, 9\nGaming: 3, 4, 10\nWeather: 7, 8\nUngrouped: 6, 11"
+        },
+        "service-21-d5e3d45d5626": {
+          "precision": 80.0,
+          "recall": 80.0,
+          "prediction": "TVs: 2, 7\nJobs: 3, 4, 10\nReal Estate: 5, 6\nTravel: 8, 12\nProjector: 9, 11\nUngrouped: 1"
+        },
+        "service-22-e8a23c7b7304": {
+          "precision": 75.0,
+          "recall": 60.0,
+          "prediction": "Travel: 1, 6\nShopping: 2, 3, 4, 7, 10\nArt: 5, 11\nCars: 8, 9\nUngrouped: none"
+        },
+        "service-23-63b8675a63e8": {
+          "precision": 75.0,
+          "recall": 60.0,
+          "prediction": "Skype: 1, 16\nAmazon: 2, 10\nMichigan Football: 3, 20\nMicrosoft Edge: 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 17, 18, 19\nUngrouped: none"
+        },
+        "service-24-745caf1da026": {
+          "precision": 75.0,
+          "recall": 60.0,
+          "prediction": "Microsoft: 3, 4, 6, 8, 10, 11, 18, 20\nSports: 5, 7\nTravel: 9, 13, 14, 17\nShopping: 12, 15, 16\nUngrouped: 1, 2, 19"
+        },
+        "service-25-b234cac699ef": {
+          "precision": 75.0,
+          "recall": 66.67,
+          "prediction": "Microsoft: 1, 2, 3, 8\nShopping: 4, 5, 6, 9, 14\nStreaming: 7, 10, 11\nMovies: 12, 13\nUngrouped: none"
+        },
+        "service-26-70d615d6a287": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Edge Team: 1, 2, 4, 6, 9\nElden Ring: 3, 10\nTitan Web: 5, 13\nCollege Football: 7, 8\nStar Trek: 11, 12\nUngrouped: none"
+        },
+        "service-27-fc7d4690a3bb": {
+          "precision": 75.0,
+          "recall": 60.0,
+          "prediction": "TVs: 1, 14\nGaming: 2, 4, 10\nCoding: 3, 5, 6, 8, 12, 15\nHiking: 7, 9, 11\nUngrouped: 13"
+        },
+        "service-28-dc4667fe739f": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Art: 1, 8\nSkype: 2, 16\nMicrosoft: 3, 5, 12, 14, 15, 17, 18, 19\nStreaming: 4, 7, 9\nGaming: 6, 10\nTravel: 11, 20\nUngrouped: 13"
+        },
+        "service-29-f3266287188d": {
+          "precision": 75.0,
+          "recall": 33.33,
+          "prediction": "Travel: 1, 3, 4\nGaming: 2, 6, 8, 9\nShopping: 5, 7\nCasino: 11, 12\nUngrouped: 10"
+        },
+        "service-3-925864fd920a": {
+          "precision": 66.67,
+          "recall": 66.67,
+          "prediction": "Coding: 2, 5, 6, 7, 10, 12\nEntertainment: 3, 9, 11\nTravel: 4, 8\nUngrouped: 1"
+        },
+        "service-30-6165d26bc5bf": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "prediction": "Microsoft Exp: 1, 2, 3, 6, 9, 10, 11, 12\nSkype: 4, 8\nUngrouped: 5, 7"
+        },
+        "service-31-e5632aebb30c": {
+          "precision": 60.0,
+          "recall": 50.0,
+          "prediction": "Black Friday Deals: 1, 3, 8\nMaps: 2, 7, 9\nNews: 5, 13\nTravel: 6, 10\nGaming: 4, 11, 12\nUngrouped: none"
+        },
+        "service-32-e8461609753b": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "prediction": "Travel: 2, 3, 5\nJob Search: 6, 7, 8\nEntertainment: 9, 10, 11\nUngrouped: 1, 4, 12"
+        },
+        "service-33-4996f381e33b": {
+          "precision": 66.67,
+          "recall": 40.0,
+          "prediction": "Shopping: 1, 5, 9, 10\nMusic: 3, 4\nMaps: 2, 6\nUngrouped: 7, 8, 11"
+        },
+        "service-34-2eaffeea03d8": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Work: 1, 3, 5, 6, 7, 11\nTravel: 2, 8\nShopping: 4, 10\nMusic: 9, 12\nUngrouped: none"
+        },
+        "service-35-dd43351d7f36": {
+          "precision": 75.0,
+          "recall": 60.0,
+          "prediction": "Weather: 1, 2\nNews: 3, 5\nBanking: 4, 11\nGaming: 7, 9, 12\nUngrouped: 6, 8, 10"
+        },
+        "service-36-c56e887ee973": {
+          "precision": 33.33,
+          "recall": 25.0,
+          "prediction": "Movies: 1, 4, 6, 8, 9\nProgramming: 2, 7, 10\nGaming: 3, 12\nUngrouped: 5, 11"
+        },
+        "service-37-a947291b6a29": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Real Estate: 1, 11\nComputer Hardware: 2, 5, 6, 12\nMusic: 4, 7\nNews: 8, 10\nTVs: 3, 9\nUngrouped: none"
+        },
+        "service-38-3ee14d4200f1": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Work: 1, 4, 7, 8, 9, 11\nMovies: 2, 5\nNews: 3, 12\nTravel: 6, 10\nUngrouped: none"
+        },
+        "service-39-d3606670ecf9": {
+          "precision": 50.0,
+          "recall": 50.0,
+          "prediction": "Job Search: 1, 2, 5\nCoding: 3, 7, 8, 9, 11\nSports: 4, 6\nGaming: 10, 12\nUngrouped: none"
+        },
+        "service-4-f43f114595c2": {
+          "precision": 50.0,
+          "recall": 33.33,
+          "prediction": "Work: 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19\nTravel: 2, 12\nUngrouped: none"
+        },
+        "service-40-0ac0d3b11301": {
+          "precision": 66.67,
+          "recall": 50.0,
+          "prediction": "News: 1, 2\nWork: 3, 4, 5, 7, 9, 10, 11\nGaming: 6, 8\nUngrouped: 12"
+        },
+        "service-41-fe383548775e": {
+          "precision": 40.0,
+          "recall": 40.0,
+          "prediction": "Banking: 1, 5\nShopping: 3, 6, 8\nProgramming: 4, 9\nGaming: 7, 12\nJob Search: 10, 11\nUngrouped: 2"
+        },
+        "service-42-3a6f6f9c595f": {
+          "precision": 50.0,
+          "recall": 33.33,
+          "prediction": "Shopping: 1, 3, 4\nBanking: 2, 6\nTechnology: 7, 8\nTravel: 10, 11, 12\nUngrouped: 5, 9"
+        },
+        "service-43-a5a4cbdb864b": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Movies: 1, 7\nMusic: 2, 12\nVideo Games: 3, 10\nWeather: 4, 6\nMuseums: 5, 8\nNews: 9, 11\nUngrouped: none"
+        },
+        "service-44-e9342bdcc3f5": {
+          "precision": 80.0,
+          "recall": 80.0,
+          "prediction": "News: 1, 2\nJob: 3, 9, 10\nWeather: 5, 6\nChocolate: 8, 12\nMaps: 7, 11\nUngrouped: 4"
+        },
+        "service-45-36bd4d3881eb": {
+          "precision": 66.67,
+          "recall": 40.0,
+          "prediction": "Technology: 2, 3, 4, 8, 11, 12\nWeather: 5, 10\nMovies: 6, 9\nUngrouped: 1, 7"
+        },
+        "service-5-b48adde126b3": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "COVID-19: 1, 4\nWork: 2, 6, 7, 12\nMaps: 3, 5\nRide Sharing: 8, 9\nShopping: 11, 13\nMovies: 10, 14\nUngrouped: none"
+        },
+        "service-6-1259fc3f7165": {
+          "precision": 80.0,
+          "recall": 80.0,
+          "prediction": "Gaming: 1, 4\nArt: 2, 12\nEntertainment: 3, 5, 7, 8\nMusic: 6, 10\nReal Estate: 9, 11\nUngrouped: none"
+        },
+        "service-7-1c3a2d56655d": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Portable Projector: 1, 2\nCode Review: 3, 4, 5, 6, 7, 10\nVideo Games: 8, 9, 11\nUngrouped: none"
+        },
+        "service-8-f3d82c41a5f4": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Diablo 2: 1, 2\nMicrosoft Edge: 3, 4, 6, 7, 8, 10\nMuseums: 5, 12\nRide Sharing: 9, 11\nUngrouped: none"
+        },
+        "service-9-66e28b77ec10": {
+          "precision": 50.0,
+          "recall": 40.0,
+          "prediction": "COVID-19: 1, 6\nVideo Games: 2, 7, 12\nTechnology: 4, 9, 11\nShopping: 8, 10\nUngrouped: 3, 5"
+        }
+      }
+    },
+    "v2.1": {
+      "init_p": 59.26,
+      "recall": 51.96,
+      "cases": {
+        "JH01": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "prediction": "Bike: 1, 4, 5, 6, 9, 10, 15, 16, 17, 19, 20, 21, 22, 24, 25\nFlashInfer: 2, 3, 7, 12, 14\nOverwatch: 8, 13, 18, 23\nUngrouped: 11"
+        },
+        "JH02": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "prediction": "Soccer: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25\nUngrouped: none"
+        },
+        "JH03": {
+          "precision": 66.67,
+          "recall": 66.67,
+          "prediction": "Climavorism: 1, 9, 14, 15, 16\nGenerative Engine Optimization: 2, 8, 11, 12, 13, 17, 18, 19\nLarge Language Model Reasoning: 3, 4, 7, 10, 20, 21, 22\nUngrouped: 5, 6"
+        },
+        "JH04": {
+          "precision": 60.0,
+          "recall": 50.0,
+          "prediction": "World Cup: 1, 8, 16, 23\nNasdaq 100: 2, 3, 11, 14, 20\nGPU: 4, 6, 15, 21\nTrading: 5, 13, 19\nVision-Language Models: 9, 12, 22\nUngrouped: 7, 10, 17, 18"
+        },
+        "JH05": {
+          "precision": 33.33,
+          "recall": 50.0,
+          "prediction": "China Tours: 1, 2, 3, 5, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 25, 27, 29, 31, 32, 33\nNCAA: 4, 6, 8, 10, 26, 30\nHong Kong Weather: 17, 22\nUngrouped: 7, 9"
+        },
+        "JH06": {
+          "precision": 66.67,
+          "recall": 66.67,
+          "prediction": "GitHub Copilot CLI: 1, 3, 11, 19, 20, 22, 23, 27\nNotepad++: 2, 6, 7, 10, 13, 14, 18, 25, 28, 29\nPodcasts: 4, 9, 30\nElectromagnetic Launch System: 5, 12, 26\nMoon Data Center: 8, 15\nMicrosoft Azure Data Center: 16, 17, 24\nUngrouped: none"
+        },
+        "JH07": {
+          "precision": 20.0,
+          "recall": 11.11,
+          "prediction": "Statistics: 1, 29\nPhysics: 8, 9, 18, 26, 30, 31, 35, 37, 38, 40\nEnglish: 3, 4, 5, 6, 12, 15, 16, 17, 23, 33\nLighting: 7, 11, 22, 25, 32, 36\nComputer Science: 13, 19, 20\nUngrouped: 2, 10, 14, 21, 24, 27, 28, 34, 39"
+        },
+        "JH08": {
+          "precision": 66.67,
+          "recall": 50.0,
+          "prediction": "Stainless Steel Cookware: 1, 3, 5, 11\nCooking Appliances: 2, 4, 9, 10, 13\nBedside Tables: 6, 7, 8, 14\nUngrouped: 12"
+        },
+        "JH09": {
+          "precision": 75.0,
+          "recall": 75.0,
+          "prediction": "Spring Travel: 1, 5, 8\nNBA: 2, 4, 9, 19\nTV Drama: 3, 11, 13, 14, 18, 22, 26, 28\nSoccer: 6, 10, 12, 15, 16, 17, 20, 21, 24, 25, 27\nUngrouped: 7, 23"
+        },
+        "JH10": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Deep Agents: 1, 2, 3, 4, 5, 7, 8, 12, 13, 14, 15, 17, 18, 20, 21, 23, 24, 25\nQingtuan: 6, 9, 10, 11, 16, 19, 22\nUngrouped: none"
+        },
+        "JH11": {
+          "precision": 50.0,
+          "recall": 28.57,
+          "prediction": "Travel: 1, 3, 5, 8, 10, 17, 21, 31, 33\nAI: 2, 4, 9, 11, 15, 16, 19, 20, 24, 26, 27, 30\nSlang: 6, 13, 14, 22\nSports: 7, 12, 23, 28, 29, 32\nUngrouped: none"
+        },
+        "JH12": {
+          "precision": 66.67,
+          "recall": 50.0,
+          "prediction": "Travel: 1, 4, 6, 12, 15\nFinance: 2, 7, 10, 11, 19, 20, 23, 24\nShopping: 3, 5, 8, 9, 13, 14, 16, 17, 21, 22\nUngrouped: 18"
+        },
+        "JH13": {
+          "precision": 50.0,
+          "recall": 33.33,
+          "prediction": "Health: 1, 2, 3, 6, 7, 9, 11, 12, 13\nTravel Health: 4, 5, 8, 10\nUngrouped: none"
+        },
+        "JH14": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Office For Lease: 1, 5\nOntario Real Estate: 2, 3, 8, 9, 10, 12\nMid-State Steel Erectors: 4, 11\nHoneyguard Security: 6, 7\nUngrouped: none"
+        },
+        "JH15": {
+          "precision": 100.0,
+          "recall": 100.0,
+          "prediction": "Maui Vacation Rentals: 1, 5, 7, 8, 9\nTimeshare Marketplace: 2, 3, 6\nFlight Search: 4, 10\nUngrouped: none"
+        },
+        "JH16": {
+          "precision": 66.67,
+          "recall": 50.0,
+          "prediction": "Teaching Resources: 1, 7, 8\nMinecraft: 2, 3, 10, 11, 12, 13\nEducation: 4, 5, 6, 9\nUngrouped: none"
+        }
+      }
+    }
+  }
+}

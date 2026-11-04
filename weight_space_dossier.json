@@ -1,0 +1,4708 @@
+{
+  "layers": [
+    {
+      "layer": 0,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0744,
+          "norm_sft": 0.0843,
+          "norm_diff": 0.1035,
+          "cos_opsd_sft": 0.1528,
+          "top1_ratio_opsd": 0.1644,
+          "top1_ratio_sft": 0.1549
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0744,
+          "norm_sft": 0.0841,
+          "norm_diff": 0.1035,
+          "cos_opsd_sft": 0.1516,
+          "top1_ratio_opsd": 0.167,
+          "top1_ratio_sft": 0.142
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0468,
+          "norm_sft": 0.0535,
+          "norm_diff": 0.0648,
+          "cos_opsd_sft": 0.1693,
+          "top1_ratio_opsd": 0.1678,
+          "top1_ratio_sft": 0.168,
+          "vocab_proj_opsd": {
+            "newline": 0.00093,
+            "comma": 0.00069,
+            "colon": 0.00074,
+            "amp_space": 0.00066,
+            "U_ungrouped": 0.00092,
+            "ng_ungrouped": 0.00059,
+            "roup_ungrouped": 0.00107
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00119,
+            "comma": 0.00117,
+            "colon": 0.0009,
+            "amp_space": 0.00139,
+            "U_ungrouped": 0.00142,
+            "ng_ungrouped": 0.001,
+            "roup_ungrouped": 0.00115
+          },
+          "u1_opsd_top_pos": [
+            " defi",
+            "entr",
+            " Ha",
+            "});",
+            "牛油"
+          ],
+          "u1_opsd_top_neg": [
+            "念",
+            " nette",
+            "ergestellt",
+            "zii",
+            "чай"
+          ],
+          "u1_sft_top_pos": [
+            " oxid",
+            "undy",
+            "nios",
+            "inkin",
+            "旦"
+          ],
+          "u1_sft_top_neg": [
+            " نه",
+            "gerichts",
+            "ovol",
+            "道",
+            "奇"
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.0742,
+          "norm_sft": 0.0884,
+          "norm_diff": 0.1063,
+          "cos_opsd_sft": 0.1533,
+          "top1_ratio_opsd": 0.2798,
+          "top1_ratio_sft": 0.2677
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.0496,
+          "norm_sft": 0.056,
+          "norm_diff": 0.0693,
+          "cos_opsd_sft": 0.1423,
+          "top1_ratio_opsd": 0.2728,
+          "top1_ratio_sft": 0.2661
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.0435,
+          "norm_sft": 0.0519,
+          "norm_diff": 0.062,
+          "cos_opsd_sft": 0.1633,
+          "top1_ratio_opsd": 0.3754,
+          "top1_ratio_sft": 0.4546,
+          "vocab_proj_opsd": {
+            "newline": 0.00115,
+            "comma": 0.00133,
+            "colon": 0.00087,
+            "amp_space": 0.00055,
+            "U_ungrouped": 0.00136,
+            "ng_ungrouped": 0.00085,
+            "roup_ungrouped": 0.0009
+          },
+          "vocab_proj_sft": {
+            "newline": 0.0011,
+            "comma": 0.00077,
+            "colon": 0.00082,
+            "amp_space": 0.00084,
+            "U_ungrouped": 0.00186,
+            "ng_ungrouped": 0.00165,
+            "roup_ungrouped": 0.00136
+          },
+          "u1_opsd_top_pos": [
+            "拟",
+            " olev",
+            " os",
+            "Proj",
+            "乙"
+          ],
+          "u1_opsd_top_neg": [
+            "افت",
+            "LOTS",
+            "parts",
+            "ssp",
+            "est"
+          ],
+          "u1_sft_top_pos": [
+            " mirrored",
+            "...\\",
+            "san",
+            "期间的",
+            " mir"
+          ],
+          "u1_sft_top_neg": [
+            "iteration",
+            "ง",
+            "orta",
+            "那颗",
+            "anche"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 1,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0732,
+          "norm_sft": 0.0818,
+          "norm_diff": 0.1019,
+          "cos_opsd_sft": 0.1384,
+          "top1_ratio_opsd": 0.2019,
+          "top1_ratio_sft": 0.1813
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0739,
+          "norm_sft": 0.0831,
+          "norm_diff": 0.1029,
+          "cos_opsd_sft": 0.145,
+          "top1_ratio_opsd": 0.1758,
+          "top1_ratio_sft": 0.17
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0468,
+          "norm_sft": 0.0533,
+          "norm_diff": 0.0653,
+          "cos_opsd_sft": 0.1543,
+          "top1_ratio_opsd": 0.1916,
+          "top1_ratio_sft": 0.1924,
+          "vocab_proj_opsd": {
+            "newline": 0.00114,
+            "comma": 0.00094,
+            "colon": 0.00121,
+            "amp_space": 0.00086,
+            "U_ungrouped": 0.00079,
+            "ng_ungrouped": 0.00079,
+            "roup_ungrouped": 0.00113
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00111,
+            "comma": 0.00098,
+            "colon": 0.00094,
+            "amp_space": 0.00088,
+            "U_ungrouped": 0.00114,
+            "ng_ungrouped": 0.00133,
+            "roup_ungrouped": 0.00078
+          },
+          "u1_opsd_top_pos": [
+            "ram",
+            "auge",
+            "ingham",
+            "uit",
+            " san"
+          ],
+          "u1_opsd_top_neg": [
+            "luk",
+            "ersp",
+            " RESP",
+            "chl",
+            "bres"
+          ],
+          "u1_sft_top_pos": [
+            "haw",
+            "рать",
+            "TK",
+            "iken",
+            "Parts"
+          ],
+          "u1_sft_top_neg": [
+            " acom",
+            "云端",
+            "ulement",
+            "uttle",
+            "alaihi"
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.0727,
+          "norm_sft": 0.0829,
+          "norm_diff": 0.1026,
+          "cos_opsd_sft": 0.1357,
+          "top1_ratio_opsd": 0.363,
+          "top1_ratio_sft": 0.3822
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.0576,
+          "norm_sft": 0.0656,
+          "norm_diff": 0.0805,
+          "cos_opsd_sft": 0.1496,
+          "top1_ratio_opsd": 0.5923,
+          "top1_ratio_sft": 0.6036
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.0407,
+          "norm_sft": 0.0454,
+          "norm_diff": 0.0564,
+          "cos_opsd_sft": 0.1459,
+          "top1_ratio_opsd": 0.2099,
+          "top1_ratio_sft": 0.1894,
+          "vocab_proj_opsd": {
+            "newline": 0.00072,
+            "comma": 0.00104,
+            "colon": 0.00112,
+            "amp_space": 0.00051,
+            "U_ungrouped": 0.00073,
+            "ng_ungrouped": 0.00108,
+            "roup_ungrouped": 0.00079
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00073,
+            "comma": 0.00091,
+            "colon": 0.00102,
+            "amp_space": 0.00099,
+            "U_ungrouped": 0.00119,
+            "ng_ungrouped": 0.00082,
+            "roup_ungrouped": 0.00082
+          },
+          "u1_opsd_top_pos": [
+            "doc",
+            "展",
+            "ikas",
+            " thereof",
+            "ут"
+          ],
+          "u1_opsd_top_neg": [
+            "bbe",
+            "idar",
+            "birthdate",
+            "례",
+            "杈"
+          ],
+          "u1_sft_top_pos": [
+            "одно",
+            "汾",
+            "供图",
+            "geg",
+            "季后"
+          ],
+          "u1_sft_top_neg": [
+            "�",
+            "这些数据",
+            " Required",
+            "ello",
+            "更换"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 2,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0741,
+          "norm_sft": 0.0841,
+          "norm_diff": 0.1029,
+          "cos_opsd_sft": 0.1585,
+          "top1_ratio_opsd": 0.1862,
+          "top1_ratio_sft": 0.1673
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0745,
+          "norm_sft": 0.086,
+          "norm_diff": 0.104,
+          "cos_opsd_sft": 0.1659,
+          "top1_ratio_opsd": 0.1785,
+          "top1_ratio_sft": 0.1873
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0502,
+          "norm_sft": 0.0603,
+          "norm_diff": 0.0708,
+          "cos_opsd_sft": 0.1873,
+          "top1_ratio_opsd": 0.2837,
+          "top1_ratio_sft": 0.298,
+          "vocab_proj_opsd": {
+            "newline": 0.00096,
+            "comma": 0.00083,
+            "colon": 0.00066,
+            "amp_space": 0.00059,
+            "U_ungrouped": 0.00096,
+            "ng_ungrouped": 0.00103,
+            "roup_ungrouped": 0.00102
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00132,
+            "comma": 0.00094,
+            "colon": 0.00088,
+            "amp_space": 0.00195,
+            "U_ungrouped": 0.00135,
+            "ng_ungrouped": 0.00125,
+            "roup_ungrouped": 0.00115
+          },
+          "u1_opsd_top_pos": [
+            " Gem",
+            "ịa",
+            "dest",
+            "教训",
+            "ulf"
+          ],
+          "u1_opsd_top_neg": [
+            "aro",
+            "ార",
+            "url",
+            "gart",
+            " Pov"
+          ],
+          "u1_sft_top_pos": [
+            " mal",
+            "öv",
+            "fav",
+            " Guz",
+            "斧"
+          ],
+          "u1_sft_top_neg": [
+            "ض",
+            "l",
+            "atem",
+            "wi",
+            "acia"
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.0718,
+          "norm_sft": 0.082,
+          "norm_diff": 0.1013,
+          "cos_opsd_sft": 0.1372,
+          "top1_ratio_opsd": 0.2864,
+          "top1_ratio_sft": 0.2833
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.0529,
+          "norm_sft": 0.0619,
+          "norm_diff": 0.0748,
+          "cos_opsd_sft": 0.1582,
+          "top1_ratio_opsd": 0.3864,
+          "top1_ratio_sft": 0.4328
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.0401,
+          "norm_sft": 0.0462,
+          "norm_diff": 0.0557,
+          "cos_opsd_sft": 0.1713,
+          "top1_ratio_opsd": 0.1482,
+          "top1_ratio_sft": 0.1591,
+          "vocab_proj_opsd": {
+            "newline": 0.00077,
+            "comma": 0.00062,
+            "colon": 0.00068,
+            "amp_space": 0.00086,
+            "U_ungrouped": 0.00069,
+            "ng_ungrouped": 0.00085,
+            "roup_ungrouped": 0.00067
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00089,
+            "comma": 0.00071,
+            "colon": 0.00074,
+            "amp_space": 0.00101,
+            "U_ungrouped": 0.00072,
+            "ng_ungrouped": 0.00073,
+            "roup_ungrouped": 0.00074
+          },
+          "u1_opsd_top_pos": [
+            "又将",
+            "schau",
+            "堪",
+            "fri",
+            "EFR"
+          ],
+          "u1_opsd_top_neg": [
+            "iero",
+            "its",
+            "minster",
+            " cla",
+            "orm"
+          ],
+          "u1_sft_top_pos": [
+            "?f",
+            "령",
+            " tille",
+            "不走",
+            "走高"
+          ],
+          "u1_sft_top_neg": [
+            "دا",
+            "éz",
+            "ever",
+            "log",
+            "义词"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 3,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0759,
+          "norm_sft": 0.0937,
+          "norm_diff": 0.1106,
+          "cos_opsd_sft": 0.1632,
+          "top1_ratio_opsd": 0.2754,
+          "top1_ratio_sft": 0.3156
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0746,
+          "norm_sft": 0.0911,
+          "norm_diff": 0.107,
+          "cos_opsd_sft": 0.1777,
+          "top1_ratio_opsd": 0.1372,
+          "top1_ratio_sft": 0.2053
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0475,
+          "norm_sft": 0.0641,
+          "norm_diff": 0.0716,
+          "cos_opsd_sft": 0.2039,
+          "top1_ratio_opsd": 0.195,
+          "top1_ratio_sft": 0.2737,
+          "vocab_proj_opsd": {
+            "newline": 0.00139,
+            "comma": 0.00097,
+            "colon": 0.00093,
+            "amp_space": 0.00113,
+            "U_ungrouped": 0.00089,
+            "ng_ungrouped": 0.00067,
+            "roup_ungrouped": 0.00104
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00184,
+            "comma": 0.00139,
+            "colon": 0.00106,
+            "amp_space": 0.00117,
+            "U_ungrouped": 0.00193,
+            "ng_ungrouped": 0.00074,
+            "roup_ungrouped": 0.00107
+          },
+          "u1_opsd_top_pos": [
+            "amble",
+            "ablemente",
+            "тім",
+            "arité",
+            "rete"
+          ],
+          "u1_opsd_top_neg": [
+            "ugg",
+            "各项工作",
+            "Go",
+            "一般的",
+            " separ"
+          ],
+          "u1_sft_top_pos": [
+            "gv",
+            "Ui",
+            "حي",
+            "apesh",
+            "覧"
+          ],
+          "u1_sft_top_neg": [
+            " seas",
+            "待",
+            "rick",
+            "�",
+            "oldem"
+          ]
+        },
+        "self_attn.q_proj": {
+          "norm_opsd": 0.0695,
+          "norm_sft": 0.082,
+          "norm_diff": 0.099,
+          "cos_opsd_sft": 0.154,
+          "top1_ratio_opsd": 0.2021,
+          "top1_ratio_sft": 0.2074
+        },
+        "self_attn.k_proj": {
+          "norm_opsd": 0.0251,
+          "norm_sft": 0.03,
+          "norm_diff": 0.0356,
+          "cos_opsd_sft": 0.1764,
+          "top1_ratio_opsd": 0.2943,
+          "top1_ratio_sft": 0.3317
+        },
+        "self_attn.v_proj": {
+          "norm_opsd": 0.0301,
+          "norm_sft": 0.0425,
+          "norm_diff": 0.0455,
+          "cos_opsd_sft": 0.252,
+          "top1_ratio_opsd": 0.5904,
+          "top1_ratio_sft": 0.7244
+        },
+        "self_attn.o_proj": {
+          "norm_opsd": 0.042,
+          "norm_sft": 0.0516,
+          "norm_diff": 0.06,
+          "cos_opsd_sft": 0.1899,
+          "top1_ratio_opsd": 0.3267,
+          "top1_ratio_sft": 0.305,
+          "vocab_proj_opsd": {
+            "newline": 0.00076,
+            "comma": 0.00066,
+            "colon": 0.00077,
+            "amp_space": 0.00055,
+            "U_ungrouped": 0.00062,
+            "ng_ungrouped": 0.00073,
+            "roup_ungrouped": 0.00094
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00135,
+            "comma": 0.0012,
+            "colon": 0.00071,
+            "amp_space": 0.00093,
+            "U_ungrouped": 0.00105,
+            "ng_ungrouped": 0.00074,
+            "roup_ungrouped": 0.00102
+          },
+          "u1_opsd_top_pos": [
+            "cit",
+            "不可思议",
+            " разбира",
+            "堂的",
+            "蒐"
+          ],
+          "u1_opsd_top_neg": [
+            "�",
+            "ếp",
+            "amo",
+            "яс",
+            " Schne"
+          ],
+          "u1_sft_top_pos": [
+            "ingly",
+            "ive",
+            "ikel",
+            "脳",
+            " lung"
+          ],
+          "u1_sft_top_neg": [
+            " fok",
+            " kindly",
+            " dank",
+            "被",
+            "arend"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 4,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0793,
+          "norm_sft": 0.0969,
+          "norm_diff": 0.1137,
+          "cos_opsd_sft": 0.1786,
+          "top1_ratio_opsd": 0.3639,
+          "top1_ratio_sft": 0.3753
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0747,
+          "norm_sft": 0.0948,
+          "norm_diff": 0.1092,
+          "cos_opsd_sft": 0.1867,
+          "top1_ratio_opsd": 0.2106,
+          "top1_ratio_sft": 0.2973
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.047,
+          "norm_sft": 0.065,
+          "norm_diff": 0.0716,
+          "cos_opsd_sft": 0.2134,
+          "top1_ratio_opsd": 0.1914,
+          "top1_ratio_sft": 0.2994,
+          "vocab_proj_opsd": {
+            "newline": 0.00114,
+            "comma": 0.00091,
+            "colon": 0.00082,
+            "amp_space": 0.00092,
+            "U_ungrouped": 0.00083,
+            "ng_ungrouped": 0.00088,
+            "roup_ungrouped": 0.00115
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00192,
+            "comma": 0.00121,
+            "colon": 0.00109,
+            "amp_space": 0.00167,
+            "U_ungrouped": 0.00131,
+            "ng_ungrouped": 0.00138,
+            "roup_ungrouped": 0.00105
+          },
+          "u1_opsd_top_pos": [
+            "titles",
+            "vision",
+            "شهد",
+            "zept",
+            " cor"
+          ],
+          "u1_opsd_top_neg": [
+            "该项",
+            "露天",
+            "这四个",
+            "cent",
+            "—which"
+          ],
+          "u1_sft_top_pos": [
+            " accompagne",
+            "acre",
+            "�",
+            "acet",
+            "iac"
+          ],
+          "u1_sft_top_neg": [
+            "isle",
+            "ogie",
+            "联盟",
+            "假的",
+            "ала"
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.0702,
+          "norm_sft": 0.0865,
+          "norm_diff": 0.1023,
+          "cos_opsd_sft": 0.1597,
+          "top1_ratio_opsd": 0.2903,
+          "top1_ratio_sft": 0.2822
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.0529,
+          "norm_sft": 0.0655,
+          "norm_diff": 0.0764,
+          "cos_opsd_sft": 0.1809,
+          "top1_ratio_opsd": 0.4116,
+          "top1_ratio_sft": 0.4477
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.0408,
+          "norm_sft": 0.0531,
+          "norm_diff": 0.0607,
+          "cos_opsd_sft": 0.1855,
+          "top1_ratio_opsd": 0.1999,
+          "top1_ratio_sft": 0.2744,
+          "vocab_proj_opsd": {
+            "newline": 0.0007,
+            "comma": 0.00063,
+            "colon": 0.00057,
+            "amp_space": 0.00075,
+            "U_ungrouped": 0.00079,
+            "ng_ungrouped": 0.00068,
+            "roup_ungrouped": 0.00051
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00127,
+            "comma": 0.00077,
+            "colon": 0.00081,
+            "amp_space": 0.00165,
+            "U_ungrouped": 0.00156,
+            "ng_ungrouped": 0.00077,
+            "roup_ungrouped": 0.00098
+          },
+          "u1_opsd_top_pos": [
+            " manifest",
+            "oda",
+            " fol",
+            "�",
+            " Gara"
+          ],
+          "u1_opsd_top_neg": [
+            "之星",
+            "三环",
+            "继",
+            "新进",
+            "再说了"
+          ],
+          "u1_sft_top_pos": [
+            "aurus",
+            "((",
+            "撒",
+            "对方",
+            "ذين"
+          ],
+          "u1_sft_top_neg": [
+            "bul",
+            "环境影响",
+            "utin",
+            "phan",
+            " karenanya"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 5,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0769,
+          "norm_sft": 0.0992,
+          "norm_diff": 0.1126,
+          "cos_opsd_sft": 0.2021,
+          "top1_ratio_opsd": 0.2348,
+          "top1_ratio_sft": 0.2708
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0773,
+          "norm_sft": 0.1035,
+          "norm_diff": 0.1151,
+          "cos_opsd_sft": 0.2156,
+          "top1_ratio_opsd": 0.262,
+          "top1_ratio_sft": 0.3547
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0491,
+          "norm_sft": 0.0703,
+          "norm_diff": 0.0751,
+          "cos_opsd_sft": 0.2482,
+          "top1_ratio_opsd": 0.2387,
+          "top1_ratio_sft": 0.3159,
+          "vocab_proj_opsd": {
+            "newline": 0.00107,
+            "comma": 0.00104,
+            "colon": 0.00112,
+            "amp_space": 0.0007,
+            "U_ungrouped": 0.00093,
+            "ng_ungrouped": 0.00108,
+            "roup_ungrouped": 0.00089
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00143,
+            "comma": 0.00199,
+            "colon": 0.00123,
+            "amp_space": 0.00102,
+            "U_ungrouped": 0.0011,
+            "ng_ungrouped": 0.00108,
+            "roup_ungrouped": 0.00105
+          },
+          "u1_opsd_top_pos": [
+            "û",
+            "明",
+            "aq",
+            "ступа",
+            "Q"
+          ],
+          "u1_opsd_top_neg": [
+            "�",
+            " Hairst",
+            "chino",
+            " Maus",
+            "系统设计"
+          ],
+          "u1_sft_top_pos": [
+            "сихо",
+            "ady",
+            " itself",
+            " ourselves",
+            "เปล่า"
+          ],
+          "u1_sft_top_neg": [
+            "ze",
+            "layer",
+            "豪宅",
+            "升职",
+            "形态"
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.0746,
+          "norm_sft": 0.0947,
+          "norm_diff": 0.1093,
+          "cos_opsd_sft": 0.1831,
+          "top1_ratio_opsd": 0.3584,
+          "top1_ratio_sft": 0.4109
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.0536,
+          "norm_sft": 0.0687,
+          "norm_diff": 0.0773,
+          "cos_opsd_sft": 0.2188,
+          "top1_ratio_opsd": 0.3795,
+          "top1_ratio_sft": 0.4097
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.0417,
+          "norm_sft": 0.0567,
+          "norm_diff": 0.0625,
+          "cos_opsd_sft": 0.2213,
+          "top1_ratio_opsd": 0.2508,
+          "top1_ratio_sft": 0.2514,
+          "vocab_proj_opsd": {
+            "newline": 0.00077,
+            "comma": 0.00081,
+            "colon": 0.00086,
+            "amp_space": 0.00065,
+            "U_ungrouped": 0.00072,
+            "ng_ungrouped": 0.00066,
+            "roup_ungrouped": 0.00055
+          },
+          "vocab_proj_sft": {
+            "newline": 0.0011,
+            "comma": 0.00092,
+            "colon": 0.00089,
+            "amp_space": 0.00111,
+            "U_ungrouped": 0.00151,
+            "ng_ungrouped": 0.00139,
+            "roup_ungrouped": 0.00088
+          },
+          "u1_opsd_top_pos": [
+            "atch",
+            "atches",
+            "edia",
+            "vang",
+            "EDIA"
+          ],
+          "u1_opsd_top_neg": [
+            "ew",
+            " w",
+            "ोजना",
+            "TeV",
+            "�"
+          ],
+          "u1_sft_top_pos": [
+            "六",
+            "rita",
+            "成为",
+            "ち",
+            "攻击"
+          ],
+          "u1_sft_top_neg": [
+            "emes",
+            "utti",
+            " Moments",
+            "ijin",
+            "atars"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 6,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0792,
+          "norm_sft": 0.1041,
+          "norm_diff": 0.1146,
+          "cos_opsd_sft": 0.2413,
+          "top1_ratio_opsd": 0.4016,
+          "top1_ratio_sft": 0.4335
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0757,
+          "norm_sft": 0.1026,
+          "norm_diff": 0.1127,
+          "cos_opsd_sft": 0.2298,
+          "top1_ratio_opsd": 0.2355,
+          "top1_ratio_sft": 0.2764
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0497,
+          "norm_sft": 0.0693,
+          "norm_diff": 0.073,
+          "cos_opsd_sft": 0.2819,
+          "top1_ratio_opsd": 0.2511,
+          "top1_ratio_sft": 0.248,
+          "vocab_proj_opsd": {
+            "newline": 0.00073,
+            "comma": 0.00112,
+            "colon": 0.00135,
+            "amp_space": 0.00076,
+            "U_ungrouped": 0.00131,
+            "ng_ungrouped": 0.00104,
+            "roup_ungrouped": 0.00064
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00146,
+            "comma": 0.00146,
+            "colon": 0.00117,
+            "amp_space": 0.00144,
+            "U_ungrouped": 0.00171,
+            "ng_ungrouped": 0.00135,
+            "roup_ungrouped": 0.0014
+          },
+          "u1_opsd_top_pos": [
+            "heat",
+            " بيد",
+            "-educated",
+            "isnan",
+            "计算公式"
+          ],
+          "u1_opsd_top_neg": [
+            "engo",
+            "oko",
+            " okay",
+            " floppy",
+            "ikan"
+          ],
+          "u1_sft_top_pos": [
+            "pong",
+            "ificare",
+            "极了",
+            "腐",
+            "側"
+          ],
+          "u1_sft_top_neg": [
+            "oko",
+            "okay",
+            " okay",
+            "lis",
+            " d"
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.0772,
+          "norm_sft": 0.106,
+          "norm_diff": 0.1134,
+          "cos_opsd_sft": 0.2648,
+          "top1_ratio_opsd": 0.4578,
+          "top1_ratio_sft": 0.5142
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.0534,
+          "norm_sft": 0.0724,
+          "norm_diff": 0.0785,
+          "cos_opsd_sft": 0.2489,
+          "top1_ratio_opsd": 0.3826,
+          "top1_ratio_sft": 0.4601
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.0423,
+          "norm_sft": 0.0583,
+          "norm_diff": 0.0624,
+          "cos_opsd_sft": 0.2634,
+          "top1_ratio_opsd": 0.3104,
+          "top1_ratio_sft": 0.3048,
+          "vocab_proj_opsd": {
+            "newline": 0.00115,
+            "comma": 0.00095,
+            "colon": 0.00095,
+            "amp_space": 0.00101,
+            "U_ungrouped": 0.00066,
+            "ng_ungrouped": 0.00056,
+            "roup_ungrouped": 0.00072
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00108,
+            "comma": 0.00153,
+            "colon": 0.00104,
+            "amp_space": 0.00247,
+            "U_ungrouped": 0.00093,
+            "ng_ungrouped": 0.0009,
+            "roup_ungrouped": 0.00059
+          },
+          "u1_opsd_top_pos": [
+            "�",
+            "-cent",
+            "료가",
+            "jen",
+            "ILED"
+          ],
+          "u1_opsd_top_neg": [
+            "elik",
+            "asher",
+            "columnName",
+            "sik",
+            "alam"
+          ],
+          "u1_sft_top_pos": [
+            "zie",
+            " kir",
+            "追",
+            " &",
+            " Millet"
+          ],
+          "u1_sft_top_neg": [
+            "riers",
+            "edad",
+            "گار",
+            "gemäß",
+            "adah"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 7,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0815,
+          "norm_sft": 0.1072,
+          "norm_diff": 0.117,
+          "cos_opsd_sft": 0.2538,
+          "top1_ratio_opsd": 0.4839,
+          "top1_ratio_sft": 0.4756
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0776,
+          "norm_sft": 0.11,
+          "norm_diff": 0.1179,
+          "cos_opsd_sft": 0.2479,
+          "top1_ratio_opsd": 0.2442,
+          "top1_ratio_sft": 0.3337
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0524,
+          "norm_sft": 0.0816,
+          "norm_diff": 0.0848,
+          "cos_opsd_sft": 0.2584,
+          "top1_ratio_opsd": 0.3212,
+          "top1_ratio_sft": 0.3369,
+          "vocab_proj_opsd": {
+            "newline": 0.00093,
+            "comma": 0.00085,
+            "colon": 0.00117,
+            "amp_space": 0.00094,
+            "U_ungrouped": 0.00129,
+            "ng_ungrouped": 0.00143,
+            "roup_ungrouped": 0.00083
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00155,
+            "comma": 0.00107,
+            "colon": 0.00162,
+            "amp_space": 0.00216,
+            "U_ungrouped": 0.00166,
+            "ng_ungrouped": 0.00164,
+            "roup_ungrouped": 0.00143
+          },
+          "u1_opsd_top_pos": [
+            "體系",
+            "ৈ",
+            "期",
+            " tract",
+            " totalité"
+          ],
+          "u1_opsd_top_neg": [
+            "应变",
+            "strain",
+            "âm",
+            " Str",
+            "joy"
+          ],
+          "u1_sft_top_pos": [
+            "高等",
+            "inho",
+            "陷阱",
+            "ститу",
+            "iban"
+          ],
+          "u1_sft_top_neg": [
+            "配",
+            "icy",
+            "omie",
+            "peg",
+            "quist"
+          ]
+        },
+        "self_attn.q_proj": {
+          "norm_opsd": 0.0736,
+          "norm_sft": 0.0991,
+          "norm_diff": 0.1071,
+          "cos_opsd_sft": 0.2572,
+          "top1_ratio_opsd": 0.3716,
+          "top1_ratio_sft": 0.4523
+        },
+        "self_attn.k_proj": {
+          "norm_opsd": 0.0258,
+          "norm_sft": 0.0326,
+          "norm_diff": 0.0364,
+          "cos_opsd_sft": 0.2407,
+          "top1_ratio_opsd": 0.2556,
+          "top1_ratio_sft": 0.2437
+        },
+        "self_attn.v_proj": {
+          "norm_opsd": 0.028,
+          "norm_sft": 0.0433,
+          "norm_diff": 0.0449,
+          "cos_opsd_sft": 0.2649,
+          "top1_ratio_opsd": 0.4819,
+          "top1_ratio_sft": 0.5764
+        },
+        "self_attn.o_proj": {
+          "norm_opsd": 0.0444,
+          "norm_sft": 0.0737,
+          "norm_diff": 0.078,
+          "cos_opsd_sft": 0.201,
+          "top1_ratio_opsd": 0.4893,
+          "top1_ratio_sft": 0.5088,
+          "vocab_proj_opsd": {
+            "newline": 0.00117,
+            "comma": 0.00062,
+            "colon": 0.0006,
+            "amp_space": 0.00049,
+            "U_ungrouped": 0.00049,
+            "ng_ungrouped": 0.00134,
+            "roup_ungrouped": 0.00104
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00089,
+            "comma": 0.00134,
+            "colon": 0.00086,
+            "amp_space": 0.00166,
+            "U_ungrouped": 0.00075,
+            "ng_ungrouped": 0.00088,
+            "roup_ungrouped": 0.00087
+          },
+          "u1_opsd_top_pos": [
+            "udge",
+            "illery",
+            "香氛",
+            "些什么",
+            "ulée"
+          ],
+          "u1_opsd_top_neg": [
+            "yre",
+            "�",
+            "iger",
+            "tier",
+            "unt"
+          ],
+          "u1_sft_top_pos": [
+            "格式",
+            "یش",
+            "obo",
+            "ibl",
+            "medi"
+          ],
+          "u1_sft_top_neg": [
+            " inh",
+            "zum",
+            " ròng",
+            "ピン",
+            "JC"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 8,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0822,
+          "norm_sft": 0.113,
+          "norm_diff": 0.1198,
+          "cos_opsd_sft": 0.2789,
+          "top1_ratio_opsd": 0.506,
+          "top1_ratio_sft": 0.5025
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0756,
+          "norm_sft": 0.1033,
+          "norm_diff": 0.1111,
+          "cos_opsd_sft": 0.2593,
+          "top1_ratio_opsd": 0.1788,
+          "top1_ratio_sft": 0.2045
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0486,
+          "norm_sft": 0.0767,
+          "norm_diff": 0.0784,
+          "cos_opsd_sft": 0.2818,
+          "top1_ratio_opsd": 0.2047,
+          "top1_ratio_sft": 0.2972,
+          "vocab_proj_opsd": {
+            "newline": 0.00114,
+            "comma": 0.00141,
+            "colon": 0.0013,
+            "amp_space": 0.00089,
+            "U_ungrouped": 0.00098,
+            "ng_ungrouped": 0.00088,
+            "roup_ungrouped": 0.00074
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00166,
+            "comma": 0.00207,
+            "colon": 0.0015,
+            "amp_space": 0.00259,
+            "U_ungrouped": 0.00118,
+            "ng_ungrouped": 0.00132,
+            "roup_ungrouped": 0.00131
+          },
+          "u1_opsd_top_pos": [
+            " partial",
+            "\n\n",
+            "ASM",
+            " verd",
+            " Last"
+          ],
+          "u1_opsd_top_neg": [
+            "ulang",
+            "श्य",
+            "riqu",
+            "ubin",
+            "haut"
+          ],
+          "u1_sft_top_pos": [
+            "ียด",
+            "zor",
+            "akil",
+            "este",
+            "чком"
+          ],
+          "u1_sft_top_neg": [
+            " vs",
+            "ล",
+            " relationship",
+            "aż",
+            " "
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.0781,
+          "norm_sft": 0.1193,
+          "norm_diff": 0.1188,
+          "cos_opsd_sft": 0.3346,
+          "top1_ratio_opsd": 0.3967,
+          "top1_ratio_sft": 0.494
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.0644,
+          "norm_sft": 0.0941,
+          "norm_diff": 0.095,
+          "cos_opsd_sft": 0.327,
+          "top1_ratio_opsd": 0.667,
+          "top1_ratio_sft": 0.7026
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.0417,
+          "norm_sft": 0.0651,
+          "norm_diff": 0.067,
+          "cos_opsd_sft": 0.2738,
+          "top1_ratio_opsd": 0.2056,
+          "top1_ratio_sft": 0.2276,
+          "vocab_proj_opsd": {
+            "newline": 0.00071,
+            "comma": 0.00094,
+            "colon": 0.00074,
+            "amp_space": 0.00086,
+            "U_ungrouped": 0.00104,
+            "ng_ungrouped": 0.00086,
+            "roup_ungrouped": 0.00096
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00163,
+            "comma": 0.00154,
+            "colon": 0.00135,
+            "amp_space": 0.0023,
+            "U_ungrouped": 0.00135,
+            "ng_ungrouped": 0.00108,
+            "roup_ungrouped": 0.00082
+          },
+          "u1_opsd_top_pos": [
+            "超前",
+            "pla",
+            "对象",
+            "之于",
+            "ERAL"
+          ],
+          "u1_opsd_top_neg": [
+            " tw",
+            " Wan",
+            "流",
+            "破浪",
+            " neither"
+          ],
+          "u1_sft_top_pos": [
+            "eral",
+            "uster",
+            "道理",
+            " ratios",
+            "дав"
+          ],
+          "u1_sft_top_neg": [
+            " Warsz",
+            "umba",
+            "人受伤",
+            "edig",
+            "该项"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 9,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0801,
+          "norm_sft": 0.1106,
+          "norm_diff": 0.1159,
+          "cos_opsd_sft": 0.2953,
+          "top1_ratio_opsd": 0.4265,
+          "top1_ratio_sft": 0.412
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0759,
+          "norm_sft": 0.1108,
+          "norm_diff": 0.116,
+          "cos_opsd_sft": 0.273,
+          "top1_ratio_opsd": 0.223,
+          "top1_ratio_sft": 0.2972
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0504,
+          "norm_sft": 0.0795,
+          "norm_diff": 0.0797,
+          "cos_opsd_sft": 0.3125,
+          "top1_ratio_opsd": 0.2302,
+          "top1_ratio_sft": 0.2105,
+          "vocab_proj_opsd": {
+            "newline": 0.0008,
+            "comma": 0.00096,
+            "colon": 0.00075,
+            "amp_space": 0.00075,
+            "U_ungrouped": 0.00116,
+            "ng_ungrouped": 0.00088,
+            "roup_ungrouped": 0.00093
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00086,
+            "comma": 0.00095,
+            "colon": 0.00131,
+            "amp_space": 0.00153,
+            "U_ungrouped": 0.00129,
+            "ng_ungrouped": 0.00089,
+            "roup_ungrouped": 0.00073
+          },
+          "u1_opsd_top_pos": [
+            "vid",
+            "gh",
+            "援",
+            "ialis",
+            "与李"
+          ],
+          "u1_opsd_top_neg": [
+            "uvent",
+            "enner",
+            "unct",
+            "bland",
+            "amax"
+          ],
+          "u1_sft_top_pos": [
+            "际",
+            "了自己",
+            "izr",
+            "吸",
+            "论"
+          ],
+          "u1_sft_top_neg": [
+            "orsch",
+            "toire",
+            "恕",
+            " Vend",
+            "oblin"
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.0753,
+          "norm_sft": 0.1176,
+          "norm_diff": 0.1173,
+          "cos_opsd_sft": 0.3243,
+          "top1_ratio_opsd": 0.3425,
+          "top1_ratio_sft": 0.3738
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.056,
+          "norm_sft": 0.0873,
+          "norm_diff": 0.0864,
+          "cos_opsd_sft": 0.3367,
+          "top1_ratio_opsd": 0.4345,
+          "top1_ratio_sft": 0.4238
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.0434,
+          "norm_sft": 0.066,
+          "norm_diff": 0.0661,
+          "cos_opsd_sft": 0.3244,
+          "top1_ratio_opsd": 0.2921,
+          "top1_ratio_sft": 0.3367,
+          "vocab_proj_opsd": {
+            "newline": 0.00135,
+            "comma": 0.00087,
+            "colon": 0.00117,
+            "amp_space": 0.001,
+            "U_ungrouped": 0.00105,
+            "ng_ungrouped": 0.00065,
+            "roup_ungrouped": 0.00074
+          },
+          "vocab_proj_sft": {
+            "newline": 0.001,
+            "comma": 0.00078,
+            "colon": 0.00101,
+            "amp_space": 0.00175,
+            "U_ungrouped": 0.00132,
+            "ng_ungrouped": 0.00102,
+            "roup_ungrouped": 0.00083
+          },
+          "u1_opsd_top_pos": [
+            "ทั้งสิ้น",
+            "صر",
+            "-lang",
+            "mens",
+            "_INLINE"
+          ],
+          "u1_opsd_top_neg": [
+            "ke",
+            "phen",
+            "有效的",
+            " sufrido",
+            "�"
+          ],
+          "u1_sft_top_pos": [
+            "accia",
+            "不久的",
+            " pronto",
+            "tiqu",
+            "/latest"
+          ],
+          "u1_sft_top_neg": [
+            "orting",
+            "icom",
+            "este",
+            "istiche",
+            "imir"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 10,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0868,
+          "norm_sft": 0.1241,
+          "norm_diff": 0.1277,
+          "cos_opsd_sft": 0.308,
+          "top1_ratio_opsd": 0.5403,
+          "top1_ratio_sft": 0.5052
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.079,
+          "norm_sft": 0.1196,
+          "norm_diff": 0.1204,
+          "cos_opsd_sft": 0.3208,
+          "top1_ratio_opsd": 0.2151,
+          "top1_ratio_sft": 0.2592
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0497,
+          "norm_sft": 0.0752,
+          "norm_diff": 0.0765,
+          "cos_opsd_sft": 0.3056,
+          "top1_ratio_opsd": 0.2577,
+          "top1_ratio_sft": 0.2368,
+          "vocab_proj_opsd": {
+            "newline": 0.00087,
+            "comma": 0.00114,
+            "colon": 0.00126,
+            "amp_space": 0.00087,
+            "U_ungrouped": 0.00076,
+            "ng_ungrouped": 0.00075,
+            "roup_ungrouped": 0.00076
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00076,
+            "comma": 0.00112,
+            "colon": 0.00148,
+            "amp_space": 0.00165,
+            "U_ungrouped": 0.00149,
+            "ng_ungrouped": 0.0022,
+            "roup_ungrouped": 0.00114
+          },
+          "u1_opsd_top_pos": [
+            " pat",
+            "idon",
+            "ESC",
+            "表达的",
+            "生理"
+          ],
+          "u1_opsd_top_neg": [
+            "适当",
+            "anzas",
+            "erea",
+            " garam",
+            " Spears"
+          ],
+          "u1_sft_top_pos": [
+            "壮",
+            "狩",
+            "asting",
+            "壯",
+            "yen"
+          ],
+          "u1_sft_top_neg": [
+            "隐",
+            "嘶",
+            "efe",
+            "ู้",
+            "看到这里"
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.0798,
+          "norm_sft": 0.1382,
+          "norm_diff": 0.1278,
+          "cos_opsd_sft": 0.4135,
+          "top1_ratio_opsd": 0.4382,
+          "top1_ratio_sft": 0.4078
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.0602,
+          "norm_sft": 0.0942,
+          "norm_diff": 0.0891,
+          "cos_opsd_sft": 0.4029,
+          "top1_ratio_opsd": 0.566,
+          "top1_ratio_sft": 0.5193
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.044,
+          "norm_sft": 0.0765,
+          "norm_diff": 0.0739,
+          "cos_opsd_sft": 0.3445,
+          "top1_ratio_opsd": 0.2232,
+          "top1_ratio_sft": 0.3652,
+          "vocab_proj_opsd": {
+            "newline": 0.00071,
+            "comma": 0.00066,
+            "colon": 0.00073,
+            "amp_space": 0.00113,
+            "U_ungrouped": 0.00125,
+            "ng_ungrouped": 0.00088,
+            "roup_ungrouped": 0.00059
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00127,
+            "comma": 0.00108,
+            "colon": 0.00171,
+            "amp_space": 0.00235,
+            "U_ungrouped": 0.00097,
+            "ng_ungrouped": 0.00189,
+            "roup_ungrouped": 0.00135
+          },
+          "u1_opsd_top_pos": [
+            "充分",
+            " Stout",
+            "那边",
+            " Hydraulic",
+            " Thermal"
+          ],
+          "u1_opsd_top_neg": [
+            "صر",
+            "两种",
+            "lest",
+            "ضاء",
+            ".net"
+          ],
+          "u1_sft_top_pos": [
+            "apper",
+            "符",
+            "状",
+            "isen",
+            "egend"
+          ],
+          "u1_sft_top_neg": [
+            "uha",
+            "ucha",
+            "边走",
+            " Height",
+            " boil"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 11,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0827,
+          "norm_sft": 0.1303,
+          "norm_diff": 0.128,
+          "cos_opsd_sft": 0.3451,
+          "top1_ratio_opsd": 0.4693,
+          "top1_ratio_sft": 0.3846
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0786,
+          "norm_sft": 0.122,
+          "norm_diff": 0.121,
+          "cos_opsd_sft": 0.3347,
+          "top1_ratio_opsd": 0.21,
+          "top1_ratio_sft": 0.2037
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.05,
+          "norm_sft": 0.091,
+          "norm_diff": 0.0872,
+          "cos_opsd_sft": 0.3487,
+          "top1_ratio_opsd": 0.3267,
+          "top1_ratio_sft": 0.4915,
+          "vocab_proj_opsd": {
+            "newline": 0.00083,
+            "comma": 0.00057,
+            "colon": 0.00083,
+            "amp_space": 0.00101,
+            "U_ungrouped": 0.00112,
+            "ng_ungrouped": 0.00152,
+            "roup_ungrouped": 0.00115
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00176,
+            "comma": 0.00125,
+            "colon": 0.00195,
+            "amp_space": 0.00141,
+            "U_ungrouped": 0.0012,
+            "ng_ungrouped": 0.00167,
+            "roup_ungrouped": 0.00149
+          },
+          "u1_opsd_top_pos": [
+            "etat",
+            "aju",
+            "ais",
+            "inge",
+            "atcher"
+          ],
+          "u1_opsd_top_neg": [
+            "其他方式",
+            " Tow",
+            "理",
+            "克",
+            " Ná"
+          ],
+          "u1_sft_top_pos": [
+            "ertime",
+            "ress",
+            "IMS",
+            "iems",
+            "的外表"
+          ],
+          "u1_sft_top_neg": [
+            "etat",
+            "必",
+            "既有",
+            "Transition",
+            "Component"
+          ]
+        },
+        "self_attn.q_proj": {
+          "norm_opsd": 0.0752,
+          "norm_sft": 0.106,
+          "norm_diff": 0.1082,
+          "cos_opsd_sft": 0.3249,
+          "top1_ratio_opsd": 0.3245,
+          "top1_ratio_sft": 0.3569
+        },
+        "self_attn.k_proj": {
+          "norm_opsd": 0.027,
+          "norm_sft": 0.0409,
+          "norm_diff": 0.04,
+          "cos_opsd_sft": 0.361,
+          "top1_ratio_opsd": 0.3651,
+          "top1_ratio_sft": 0.3729
+        },
+        "self_attn.v_proj": {
+          "norm_opsd": 0.0287,
+          "norm_sft": 0.0475,
+          "norm_diff": 0.0447,
+          "cos_opsd_sft": 0.396,
+          "top1_ratio_opsd": 0.4303,
+          "top1_ratio_sft": 0.4847
+        },
+        "self_attn.o_proj": {
+          "norm_opsd": 0.0425,
+          "norm_sft": 0.075,
+          "norm_diff": 0.0743,
+          "cos_opsd_sft": 0.2999,
+          "top1_ratio_opsd": 0.2121,
+          "top1_ratio_sft": 0.3497,
+          "vocab_proj_opsd": {
+            "newline": 0.00087,
+            "comma": 0.0006,
+            "colon": 0.00057,
+            "amp_space": 0.00085,
+            "U_ungrouped": 0.00058,
+            "ng_ungrouped": 0.00076,
+            "roup_ungrouped": 0.00071
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00134,
+            "comma": 0.00071,
+            "colon": 0.00088,
+            "amp_space": 0.0014,
+            "U_ungrouped": 0.00071,
+            "ng_ungrouped": 0.001,
+            "roup_ungrouped": 0.00163
+          },
+          "u1_opsd_top_pos": [
+            "�",
+            "这个问题的",
+            "相关问题",
+            "arro",
+            "挽"
+          ],
+          "u1_opsd_top_neg": [
+            "Verb",
+            "fore",
+            "comb",
+            " fore",
+            "FORE"
+          ],
+          "u1_sft_top_pos": [
+            "allet",
+            "期中",
+            "uster",
+            "期",
+            "派出"
+          ],
+          "u1_sft_top_neg": [
+            "oblin",
+            "能给",
+            "遇",
+            "�",
+            "nation"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 12,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0832,
+          "norm_sft": 0.1249,
+          "norm_diff": 0.1251,
+          "cos_opsd_sft": 0.33,
+          "top1_ratio_opsd": 0.4074,
+          "top1_ratio_sft": 0.4369
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0808,
+          "norm_sft": 0.1262,
+          "norm_diff": 0.1267,
+          "cos_opsd_sft": 0.3142,
+          "top1_ratio_opsd": 0.2115,
+          "top1_ratio_sft": 0.3111
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0532,
+          "norm_sft": 0.0977,
+          "norm_diff": 0.0946,
+          "cos_opsd_sft": 0.3294,
+          "top1_ratio_opsd": 0.3867,
+          "top1_ratio_sft": 0.4106,
+          "vocab_proj_opsd": {
+            "newline": 0.00067,
+            "comma": 0.00075,
+            "colon": 0.00082,
+            "amp_space": 0.00144,
+            "U_ungrouped": 0.00107,
+            "ng_ungrouped": 0.00119,
+            "roup_ungrouped": 0.00096
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00191,
+            "comma": 0.00119,
+            "colon": 0.00182,
+            "amp_space": 0.00211,
+            "U_ungrouped": 0.00236,
+            "ng_ungrouped": 0.00134,
+            "roup_ungrouped": 0.00227
+          },
+          "u1_opsd_top_pos": [
+            "以身",
+            "及个人",
+            "otes",
+            "cco",
+            "柚"
+          ],
+          "u1_opsd_top_neg": [
+            "auc",
+            " patri",
+            "plat",
+            "pra",
+            " part"
+          ],
+          "u1_sft_top_pos": [
+            "令第",
+            "霖",
+            "ivat",
+            " ob",
+            "ifice"
+          ],
+          "u1_sft_top_neg": [
+            "奇异",
+            " forh",
+            "oggles",
+            " gobi",
+            "升初"
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.0801,
+          "norm_sft": 0.1544,
+          "norm_diff": 0.1441,
+          "cos_opsd_sft": 0.3837,
+          "top1_ratio_opsd": 0.3533,
+          "top1_ratio_sft": 0.376
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.0629,
+          "norm_sft": 0.1145,
+          "norm_diff": 0.1079,
+          "cos_opsd_sft": 0.3765,
+          "top1_ratio_opsd": 0.5904,
+          "top1_ratio_sft": 0.5069
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.0434,
+          "norm_sft": 0.072,
+          "norm_diff": 0.0724,
+          "cos_opsd_sft": 0.2907,
+          "top1_ratio_opsd": 0.1649,
+          "top1_ratio_sft": 0.2777,
+          "vocab_proj_opsd": {
+            "newline": 0.00082,
+            "comma": 0.00075,
+            "colon": 0.00072,
+            "amp_space": 0.00103,
+            "U_ungrouped": 0.0008,
+            "ng_ungrouped": 0.00064,
+            "roup_ungrouped": 0.00089
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00098,
+            "comma": 0.0011,
+            "colon": 0.00133,
+            "amp_space": 0.0018,
+            "U_ungrouped": 0.00116,
+            "ng_ungrouped": 0.00114,
+            "roup_ungrouped": 0.00078
+          },
+          "u1_opsd_top_pos": [
+            "apo",
+            " apo",
+            "apa",
+            " fore",
+            "递"
+          ],
+          "u1_opsd_top_neg": [
+            " linked",
+            "峰值扭矩",
+            "不过",
+            "utto",
+            "篡"
+          ],
+          "u1_sft_top_pos": [
+            " séqu",
+            " boils",
+            "蔻",
+            "duk",
+            "ฎ"
+          ],
+          "u1_sft_top_neg": [
+            "令第",
+            " ch",
+            " lap",
+            " 연",
+            "��"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 13,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0907,
+          "norm_sft": 0.1377,
+          "norm_diff": 0.1348,
+          "cos_opsd_sft": 0.3616,
+          "top1_ratio_opsd": 0.5511,
+          "top1_ratio_sft": 0.591
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0834,
+          "norm_sft": 0.1279,
+          "norm_diff": 0.1294,
+          "cos_opsd_sft": 0.3076,
+          "top1_ratio_opsd": 0.2618,
+          "top1_ratio_sft": 0.2802
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0597,
+          "norm_sft": 0.0914,
+          "norm_diff": 0.0944,
+          "cos_opsd_sft": 0.2763,
+          "top1_ratio_opsd": 0.4631,
+          "top1_ratio_sft": 0.3995,
+          "vocab_proj_opsd": {
+            "newline": 0.0008,
+            "comma": 0.00087,
+            "colon": 0.00074,
+            "amp_space": 0.00111,
+            "U_ungrouped": 0.00136,
+            "ng_ungrouped": 0.00174,
+            "roup_ungrouped": 0.00102
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00161,
+            "comma": 0.00126,
+            "colon": 0.00134,
+            "amp_space": 0.00155,
+            "U_ungrouped": 0.00192,
+            "ng_ungrouped": 0.00225,
+            "roup_ungrouped": 0.00126
+          },
+          "u1_opsd_top_pos": [
+            "adolu",
+            "apa",
+            "iat",
+            "的人和",
+            "osci"
+          ],
+          "u1_opsd_top_neg": [
+            "义",
+            "idium",
+            "义的",
+            "_arrow",
+            " vũ"
+          ],
+          "u1_sft_top_pos": [
+            "aget",
+            "进行操作",
+            "vert",
+            "应具有",
+            "刚落"
+          ],
+          "u1_sft_top_neg": [
+            "ovid",
+            "imes",
+            "empl",
+            "igli",
+            "工坊"
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.0806,
+          "norm_sft": 0.1341,
+          "norm_diff": 0.1294,
+          "cos_opsd_sft": 0.3573,
+          "top1_ratio_opsd": 0.3284,
+          "top1_ratio_sft": 0.36
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.0705,
+          "norm_sft": 0.1205,
+          "norm_diff": 0.1155,
+          "cos_opsd_sft": 0.3614,
+          "top1_ratio_opsd": 0.6863,
+          "top1_ratio_sft": 0.6021
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.0436,
+          "norm_sft": 0.0688,
+          "norm_diff": 0.0701,
+          "cos_opsd_sft": 0.2858,
+          "top1_ratio_opsd": 0.1653,
+          "top1_ratio_sft": 0.2328,
+          "vocab_proj_opsd": {
+            "newline": 0.00072,
+            "comma": 0.0007,
+            "colon": 0.00092,
+            "amp_space": 0.00093,
+            "U_ungrouped": 0.00108,
+            "ng_ungrouped": 0.00082,
+            "roup_ungrouped": 0.00093
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00128,
+            "comma": 0.00104,
+            "colon": 0.00127,
+            "amp_space": 0.00159,
+            "U_ungrouped": 0.00146,
+            "ng_ungrouped": 0.00126,
+            "roup_ungrouped": 0.00151
+          },
+          "u1_opsd_top_pos": [
+            "合理化",
+            "遍",
+            "辅",
+            "合理性",
+            "éz"
+          ],
+          "u1_opsd_top_neg": [
+            "纪",
+            "all",
+            "ALL",
+            "App",
+            " formats"
+          ],
+          "u1_sft_top_pos": [
+            "odial",
+            " ditar",
+            "看",
+            "lea",
+            "stå"
+          ],
+          "u1_sft_top_neg": [
+            "過去",
+            "�",
+            "hier",
+            "arat",
+            "кас"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 14,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0875,
+          "norm_sft": 0.1332,
+          "norm_diff": 0.1338,
+          "cos_opsd_sft": 0.3224,
+          "top1_ratio_opsd": 0.3789,
+          "top1_ratio_sft": 0.4284
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0889,
+          "norm_sft": 0.1421,
+          "norm_diff": 0.1393,
+          "cos_opsd_sft": 0.3441,
+          "top1_ratio_opsd": 0.3837,
+          "top1_ratio_sft": 0.4383
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0583,
+          "norm_sft": 0.0878,
+          "norm_diff": 0.093,
+          "cos_opsd_sft": 0.2391,
+          "top1_ratio_opsd": 0.5015,
+          "top1_ratio_sft": 0.4057,
+          "vocab_proj_opsd": {
+            "newline": 0.00072,
+            "comma": 0.0009,
+            "colon": 0.0011,
+            "amp_space": 0.00079,
+            "U_ungrouped": 0.00079,
+            "ng_ungrouped": 0.00053,
+            "roup_ungrouped": 0.00076
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00138,
+            "comma": 0.00112,
+            "colon": 0.00218,
+            "amp_space": 0.00238,
+            "U_ungrouped": 0.00087,
+            "ng_ungrouped": 0.00112,
+            "roup_ungrouped": 0.00156
+          },
+          "u1_opsd_top_pos": [
+            " întâl",
+            "itamente",
+            "mbH",
+            "arrants",
+            " 팩"
+          ],
+          "u1_opsd_top_neg": [
+            "基本",
+            " ru",
+            "时候",
+            "锭",
+            "ru"
+          ],
+          "u1_sft_top_pos": [
+            "ohl",
+            " сход",
+            "empl",
+            "adata",
+            "صد"
+          ],
+          "u1_sft_top_neg": [
+            "aget",
+            "вершенство",
+            "пати",
+            "三分",
+            " فرع"
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.0795,
+          "norm_sft": 0.1227,
+          "norm_diff": 0.1242,
+          "cos_opsd_sft": 0.3042,
+          "top1_ratio_opsd": 0.2417,
+          "top1_ratio_sft": 0.2461
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.0706,
+          "norm_sft": 0.1071,
+          "norm_diff": 0.1042,
+          "cos_opsd_sft": 0.3709,
+          "top1_ratio_opsd": 0.5201,
+          "top1_ratio_sft": 0.6066
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.045,
+          "norm_sft": 0.0694,
+          "norm_diff": 0.0715,
+          "cos_opsd_sft": 0.2764,
+          "top1_ratio_opsd": 0.2202,
+          "top1_ratio_sft": 0.2517,
+          "vocab_proj_opsd": {
+            "newline": 0.00057,
+            "comma": 0.00069,
+            "colon": 0.00058,
+            "amp_space": 0.00098,
+            "U_ungrouped": 0.00075,
+            "ng_ungrouped": 0.00079,
+            "roup_ungrouped": 0.00065
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00095,
+            "comma": 0.00108,
+            "colon": 0.0012,
+            "amp_space": 0.00115,
+            "U_ungrouped": 0.00069,
+            "ng_ungrouped": 0.00098,
+            "roup_ungrouped": 0.00129
+          },
+          "u1_opsd_top_pos": [
+            "go",
+            "ho",
+            "妾",
+            "acks",
+            "риз"
+          ],
+          "u1_opsd_top_neg": [
+            "-elements",
+            "ysi",
+            "immel",
+            "等基本",
+            "illi"
+          ],
+          "u1_sft_top_pos": [
+            "不如意",
+            " principals",
+            "Principal",
+            " próximo",
+            "放过"
+          ],
+          "u1_sft_top_neg": [
+            "aget",
+            "nach",
+            "发展阶段",
+            "姗",
+            "ahrenheit"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 15,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0887,
+          "norm_sft": 0.1474,
+          "norm_diff": 0.1475,
+          "cos_opsd_sft": 0.3001,
+          "top1_ratio_opsd": 0.5615,
+          "top1_ratio_sft": 0.5397
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0833,
+          "norm_sft": 0.1378,
+          "norm_diff": 0.1394,
+          "cos_opsd_sft": 0.2826,
+          "top1_ratio_opsd": 0.3065,
+          "top1_ratio_sft": 0.3646
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0547,
+          "norm_sft": 0.0939,
+          "norm_diff": 0.0945,
+          "cos_opsd_sft": 0.2796,
+          "top1_ratio_opsd": 0.2803,
+          "top1_ratio_sft": 0.3869,
+          "vocab_proj_opsd": {
+            "newline": 0.00077,
+            "comma": 0.00128,
+            "colon": 0.00097,
+            "amp_space": 0.00081,
+            "U_ungrouped": 0.00059,
+            "ng_ungrouped": 0.00088,
+            "roup_ungrouped": 0.00103
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00143,
+            "comma": 0.0012,
+            "colon": 0.00168,
+            "amp_space": 0.00327,
+            "U_ungrouped": 0.00149,
+            "ng_ungrouped": 0.00094,
+            "roup_ungrouped": 0.00164
+          },
+          "u1_opsd_top_pos": [
+            "韬",
+            "itr",
+            "ysz",
+            "窜",
+            "aku"
+          ],
+          "u1_opsd_top_neg": [
+            " avanzado",
+            "準",
+            "还是",
+            "੍",
+            " Still"
+          ],
+          "u1_sft_top_pos": [
+            "在使用过程中",
+            "深受广大",
+            "基地",
+            "irik",
+            "给用户"
+          ],
+          "u1_sft_top_neg": [
+            "fest",
+            "olor",
+            "ché",
+            " taped",
+            " toward"
+          ]
+        },
+        "self_attn.q_proj": {
+          "norm_opsd": 0.0774,
+          "norm_sft": 0.1126,
+          "norm_diff": 0.1178,
+          "cos_opsd_sft": 0.2743,
+          "top1_ratio_opsd": 0.4104,
+          "top1_ratio_sft": 0.452
+        },
+        "self_attn.k_proj": {
+          "norm_opsd": 0.0273,
+          "norm_sft": 0.0372,
+          "norm_diff": 0.0404,
+          "cos_opsd_sft": 0.2481,
+          "top1_ratio_opsd": 0.2818,
+          "top1_ratio_sft": 0.2949
+        },
+        "self_attn.v_proj": {
+          "norm_opsd": 0.028,
+          "norm_sft": 0.0489,
+          "norm_diff": 0.0488,
+          "cos_opsd_sft": 0.2877,
+          "top1_ratio_opsd": 0.4418,
+          "top1_ratio_sft": 0.5294
+        },
+        "self_attn.o_proj": {
+          "norm_opsd": 0.0441,
+          "norm_sft": 0.0822,
+          "norm_diff": 0.084,
+          "cos_opsd_sft": 0.2274,
+          "top1_ratio_opsd": 0.256,
+          "top1_ratio_sft": 0.5612,
+          "vocab_proj_opsd": {
+            "newline": 0.00066,
+            "comma": 0.00087,
+            "colon": 0.00069,
+            "amp_space": 0.00075,
+            "U_ungrouped": 0.00113,
+            "ng_ungrouped": 0.0008,
+            "roup_ungrouped": 0.00081
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00091,
+            "comma": 0.00056,
+            "colon": 0.00063,
+            "amp_space": 0.00252,
+            "U_ungrouped": 0.0007,
+            "ng_ungrouped": 0.00095,
+            "roup_ungrouped": 0.00123
+          },
+          "u1_opsd_top_pos": [
+            "五金交电",
+            "uri",
+            "aru",
+            "amo",
+            "aker"
+          ],
+          "u1_opsd_top_neg": [
+            "addock",
+            "凭",
+            "—who",
+            "iggers",
+            " Pact"
+          ],
+          "u1_sft_top_pos": [
+            "eon",
+            "allet",
+            "在使用过程中",
+            "aki",
+            "ilder"
+          ],
+          "u1_sft_top_neg": [
+            "bě",
+            "不如意",
+            "《",
+            "отор",
+            "备"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 16,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0934,
+          "norm_sft": 0.1567,
+          "norm_diff": 0.1566,
+          "cos_opsd_sft": 0.2983,
+          "top1_ratio_opsd": 0.546,
+          "top1_ratio_sft": 0.4934
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0817,
+          "norm_sft": 0.1368,
+          "norm_diff": 0.1406,
+          "cos_opsd_sft": 0.2514,
+          "top1_ratio_opsd": 0.2765,
+          "top1_ratio_sft": 0.4306
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0543,
+          "norm_sft": 0.0956,
+          "norm_diff": 0.1022,
+          "cos_opsd_sft": 0.1578,
+          "top1_ratio_opsd": 0.409,
+          "top1_ratio_sft": 0.3338,
+          "vocab_proj_opsd": {
+            "newline": 0.00099,
+            "comma": 0.00092,
+            "colon": 0.00087,
+            "amp_space": 0.001,
+            "U_ungrouped": 0.00111,
+            "ng_ungrouped": 0.00102,
+            "roup_ungrouped": 0.00095
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00102,
+            "comma": 0.00126,
+            "colon": 0.00151,
+            "amp_space": 0.00409,
+            "U_ungrouped": 0.00153,
+            "ng_ungrouped": 0.00128,
+            "roup_ungrouped": 0.00157
+          },
+          "u1_opsd_top_pos": [
+            "的安排",
+            "乍",
+            "oola",
+            "这个回答",
+            "lobby"
+          ],
+          "u1_opsd_top_neg": [
+            "心有",
+            "aviors",
+            "tores",
+            "étais",
+            "Tra"
+          ],
+          "u1_sft_top_pos": [
+            "効",
+            "izion",
+            "适",
+            "及相关",
+            "看待"
+          ],
+          "u1_sft_top_neg": [
+            "agi",
+            "按照规定",
+            "udi",
+            "什么呢",
+            "림"
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.0829,
+          "norm_sft": 0.1376,
+          "norm_diff": 0.1442,
+          "cos_opsd_sft": 0.2202,
+          "top1_ratio_opsd": 0.4083,
+          "top1_ratio_sft": 0.447
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.0738,
+          "norm_sft": 0.121,
+          "norm_diff": 0.1359,
+          "cos_opsd_sft": 0.0914,
+          "top1_ratio_opsd": 0.6222,
+          "top1_ratio_sft": 0.6071
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.045,
+          "norm_sft": 0.077,
+          "norm_diff": 0.0802,
+          "cos_opsd_sft": 0.2199,
+          "top1_ratio_opsd": 0.2284,
+          "top1_ratio_sft": 0.3347,
+          "vocab_proj_opsd": {
+            "newline": 0.00094,
+            "comma": 0.00084,
+            "colon": 0.00069,
+            "amp_space": 0.00105,
+            "U_ungrouped": 0.00106,
+            "ng_ungrouped": 0.00053,
+            "roup_ungrouped": 0.00051
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00067,
+            "comma": 0.00156,
+            "colon": 0.00167,
+            "amp_space": 0.00331,
+            "U_ungrouped": 0.00097,
+            "ng_ungrouped": 0.00096,
+            "roup_ungrouped": 0.00137
+          },
+          "u1_opsd_top_pos": [
+            "GL",
+            "方面",
+            "方面有",
+            "罗",
+            "omad"
+          ],
+          "u1_opsd_top_neg": [
+            "úc",
+            "最佳答案",
+            "inten",
+            "常識",
+            "Dating"
+          ],
+          "u1_sft_top_pos": [
+            "fest",
+            "izion",
+            "setUp",
+            "риз",
+            "xit"
+          ],
+          "u1_sft_top_neg": [
+            " vaz",
+            "พย",
+            "arit",
+            "铃",
+            "勾"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 17,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0865,
+          "norm_sft": 0.1453,
+          "norm_diff": 0.1479,
+          "cos_opsd_sft": 0.2669,
+          "top1_ratio_opsd": 0.3818,
+          "top1_ratio_sft": 0.4052
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.085,
+          "norm_sft": 0.1459,
+          "norm_diff": 0.1539,
+          "cos_opsd_sft": 0.1949,
+          "top1_ratio_opsd": 0.332,
+          "top1_ratio_sft": 0.3251
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0538,
+          "norm_sft": 0.0948,
+          "norm_diff": 0.1005,
+          "cos_opsd_sft": 0.1749,
+          "top1_ratio_opsd": 0.3864,
+          "top1_ratio_sft": 0.3815,
+          "vocab_proj_opsd": {
+            "newline": 0.0012,
+            "comma": 0.00125,
+            "colon": 0.00106,
+            "amp_space": 0.00089,
+            "U_ungrouped": 0.00086,
+            "ng_ungrouped": 0.00071,
+            "roup_ungrouped": 0.00129
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00103,
+            "comma": 0.00156,
+            "colon": 0.00168,
+            "amp_space": 0.00392,
+            "U_ungrouped": 0.00149,
+            "ng_ungrouped": 0.00141,
+            "roup_ungrouped": 0.00135
+          },
+          "u1_opsd_top_pos": [
+            "ende",
+            "-,",
+            "oping",
+            "uv",
+            "将它"
+          ],
+          "u1_opsd_top_neg": [
+            "ط",
+            "心地",
+            "变性",
+            "和丰富的",
+            "eway"
+          ],
+          "u1_sft_top_pos": [
+            "adv",
+            "akes",
+            "一聲",
+            " Suddenly",
+            "苑"
+          ],
+          "u1_sft_top_neg": [
+            "aleigh",
+            "erve",
+            "家喻",
+            "imens",
+            "一来"
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.0773,
+          "norm_sft": 0.1194,
+          "norm_diff": 0.1254,
+          "cos_opsd_sft": 0.244,
+          "top1_ratio_opsd": 0.1905,
+          "top1_ratio_sft": 0.2446
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.0669,
+          "norm_sft": 0.1192,
+          "norm_diff": 0.1282,
+          "cos_opsd_sft": 0.1412,
+          "top1_ratio_opsd": 0.6871,
+          "top1_ratio_sft": 0.5818
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.0502,
+          "norm_sft": 0.0808,
+          "norm_diff": 0.0835,
+          "cos_opsd_sft": 0.2554,
+          "top1_ratio_opsd": 0.3936,
+          "top1_ratio_sft": 0.515,
+          "vocab_proj_opsd": {
+            "newline": 0.00135,
+            "comma": 0.00105,
+            "colon": 0.00101,
+            "amp_space": 0.00108,
+            "U_ungrouped": 0.00094,
+            "ng_ungrouped": 0.0008,
+            "roup_ungrouped": 0.00062
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00146,
+            "comma": 0.00102,
+            "colon": 0.00095,
+            "amp_space": 0.00414,
+            "U_ungrouped": 0.00143,
+            "ng_ungrouped": 0.00105,
+            "roup_ungrouped": 0.00138
+          },
+          "u1_opsd_top_pos": [
+            "éia",
+            " performa",
+            "ște",
+            "技术研究",
+            "aviors"
+          ],
+          "u1_opsd_top_neg": [
+            "ende",
+            "oola",
+            "ju",
+            "-,",
+            " "
+          ],
+          "u1_sft_top_pos": [
+            "udou",
+            "按照规定",
+            "不肯",
+            "弥",
+            "什么呢"
+          ],
+          "u1_sft_top_neg": [
+            "防",
+            "olor",
+            "oard",
+            " entière",
+            "効"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 18,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.083,
+          "norm_sft": 0.1209,
+          "norm_diff": 0.1285,
+          "cos_opsd_sft": 0.2481,
+          "top1_ratio_opsd": 0.3571,
+          "top1_ratio_sft": 0.3571
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0827,
+          "norm_sft": 0.1238,
+          "norm_diff": 0.133,
+          "cos_opsd_sft": 0.2188,
+          "top1_ratio_opsd": 0.2769,
+          "top1_ratio_sft": 0.2738
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0525,
+          "norm_sft": 0.0807,
+          "norm_diff": 0.0866,
+          "cos_opsd_sft": 0.2102,
+          "top1_ratio_opsd": 0.3699,
+          "top1_ratio_sft": 0.448,
+          "vocab_proj_opsd": {
+            "newline": 0.00128,
+            "comma": 0.0011,
+            "colon": 0.001,
+            "amp_space": 0.0014,
+            "U_ungrouped": 0.00083,
+            "ng_ungrouped": 0.00092,
+            "roup_ungrouped": 0.00113
+          },
+          "vocab_proj_sft": {
+            "newline": 0.0013,
+            "comma": 0.00137,
+            "colon": 0.00114,
+            "amp_space": 0.00724,
+            "U_ungrouped": 0.00115,
+            "ng_ungrouped": 0.00112,
+            "roup_ungrouped": 0.0017
+          },
+          "u1_opsd_top_pos": [
+            "�",
+            "lessly",
+            "te",
+            "uvan",
+            "ule"
+          ],
+          "u1_opsd_top_neg": [
+            "тори",
+            "符",
+            "传",
+            "席",
+            "师的"
+          ],
+          "u1_sft_top_pos": [
+            " &",
+            "&",
+            "及各",
+            "及",
+            "&C"
+          ],
+          "u1_sft_top_neg": [
+            "使用中",
+            "鹃",
+            "什么呢",
+            "知之",
+            "ทร์"
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.0777,
+          "norm_sft": 0.1298,
+          "norm_diff": 0.1376,
+          "cos_opsd_sft": 0.1964,
+          "top1_ratio_opsd": 0.2106,
+          "top1_ratio_sft": 0.2428
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.0614,
+          "norm_sft": 0.0978,
+          "norm_diff": 0.1029,
+          "cos_opsd_sft": 0.2279,
+          "top1_ratio_opsd": 0.4166,
+          "top1_ratio_sft": 0.5573
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.0441,
+          "norm_sft": 0.0711,
+          "norm_diff": 0.0758,
+          "cos_opsd_sft": 0.2008,
+          "top1_ratio_opsd": 0.2176,
+          "top1_ratio_sft": 0.4761,
+          "vocab_proj_opsd": {
+            "newline": 0.00095,
+            "comma": 0.00085,
+            "colon": 0.00073,
+            "amp_space": 0.00118,
+            "U_ungrouped": 0.00078,
+            "ng_ungrouped": 0.00076,
+            "roup_ungrouped": 0.00079
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00105,
+            "comma": 0.00088,
+            "colon": 0.0009,
+            "amp_space": 0.00447,
+            "U_ungrouped": 0.00082,
+            "ng_ungrouped": 0.00104,
+            "roup_ungrouped": 0.00133
+          },
+          "u1_opsd_top_pos": [
+            "还被",
+            "accio",
+            "情况的",
+            "igno",
+            "资料的"
+          ],
+          "u1_opsd_top_neg": [
+            "劳",
+            "عم",
+            "直视",
+            " Liefer",
+            "ौ"
+          ],
+          "u1_sft_top_pos": [
+            " &",
+            "ton",
+            "olt",
+            "ירת",
+            "经验者优先"
+          ],
+          "u1_sft_top_neg": [
+            "ucr",
+            "oppen",
+            "ুষ",
+            "ebra",
+            "кви"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 19,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0826,
+          "norm_sft": 0.122,
+          "norm_diff": 0.1309,
+          "cos_opsd_sft": 0.2266,
+          "top1_ratio_opsd": 0.4755,
+          "top1_ratio_sft": 0.4774
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0783,
+          "norm_sft": 0.1105,
+          "norm_diff": 0.1206,
+          "cos_opsd_sft": 0.2188,
+          "top1_ratio_opsd": 0.2228,
+          "top1_ratio_sft": 0.2732
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0527,
+          "norm_sft": 0.0866,
+          "norm_diff": 0.0973,
+          "cos_opsd_sft": 0.0883,
+          "top1_ratio_opsd": 0.3376,
+          "top1_ratio_sft": 0.3862,
+          "vocab_proj_opsd": {
+            "newline": 0.00075,
+            "comma": 0.0008,
+            "colon": 0.00158,
+            "amp_space": 0.00112,
+            "U_ungrouped": 0.00124,
+            "ng_ungrouped": 0.00124,
+            "roup_ungrouped": 0.00083
+          },
+          "vocab_proj_sft": {
+            "newline": 0.0016,
+            "comma": 0.00097,
+            "colon": 0.00144,
+            "amp_space": 0.00419,
+            "U_ungrouped": 0.00301,
+            "ng_ungrouped": 0.00123,
+            "roup_ungrouped": 0.00092
+          },
+          "u1_opsd_top_pos": [
+            "落的",
+            "Pas",
+            "合同履行",
+            " SETT",
+            "闯"
+          ],
+          "u1_opsd_top_neg": [
+            "pell",
+            "yll",
+            "άλιστα",
+            "avana",
+            "гое"
+          ],
+          "u1_sft_top_pos": [
+            "oker",
+            "ей",
+            "电器",
+            "佑",
+            "bey"
+          ],
+          "u1_sft_top_neg": [
+            "ke",
+            " ke",
+            "itionally",
+            "探索和",
+            "ton"
+          ]
+        },
+        "self_attn.q_proj": {
+          "norm_opsd": 0.0746,
+          "norm_sft": 0.1003,
+          "norm_diff": 0.1118,
+          "cos_opsd_sft": 0.2095,
+          "top1_ratio_opsd": 0.3608,
+          "top1_ratio_sft": 0.5194
+        },
+        "self_attn.k_proj": {
+          "norm_opsd": 0.0257,
+          "norm_sft": 0.0357,
+          "norm_diff": 0.0397,
+          "cos_opsd_sft": 0.1958,
+          "top1_ratio_opsd": 0.2224,
+          "top1_ratio_sft": 0.3735
+        },
+        "self_attn.v_proj": {
+          "norm_opsd": 0.0269,
+          "norm_sft": 0.0397,
+          "norm_diff": 0.0431,
+          "cos_opsd_sft": 0.2076,
+          "top1_ratio_opsd": 0.2983,
+          "top1_ratio_sft": 0.3939
+        },
+        "self_attn.o_proj": {
+          "norm_opsd": 0.0448,
+          "norm_sft": 0.0685,
+          "norm_diff": 0.0737,
+          "cos_opsd_sft": 0.2068,
+          "top1_ratio_opsd": 0.2271,
+          "top1_ratio_sft": 0.4704,
+          "vocab_proj_opsd": {
+            "newline": 0.00092,
+            "comma": 0.00122,
+            "colon": 0.00063,
+            "amp_space": 0.00076,
+            "U_ungrouped": 0.00095,
+            "ng_ungrouped": 0.00096,
+            "roup_ungrouped": 0.00115
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00121,
+            "comma": 0.0015,
+            "colon": 0.00123,
+            "amp_space": 0.00519,
+            "U_ungrouped": 0.0009,
+            "ng_ungrouped": 0.00097,
+            "roup_ungrouped": 0.00157
+          },
+          "u1_opsd_top_pos": [
+            "gee",
+            " Gratuit",
+            "asikan",
+            "озна",
+            "amol"
+          ],
+          "u1_opsd_top_neg": [
+            " deport",
+            " arche",
+            "备",
+            "ippi",
+            "−"
+          ],
+          "u1_sft_top_pos": [
+            "什么",
+            " separator",
+            "有关",
+            "racia",
+            "天长"
+          ],
+          "u1_sft_top_neg": [
+            " &",
+            "ant",
+            "委",
+            "学习与",
+            "&"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 20,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0881,
+          "norm_sft": 0.1277,
+          "norm_diff": 0.1325,
+          "cos_opsd_sft": 0.2897,
+          "top1_ratio_opsd": 0.5061,
+          "top1_ratio_sft": 0.4336
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0799,
+          "norm_sft": 0.1217,
+          "norm_diff": 0.1326,
+          "cos_opsd_sft": 0.1852,
+          "top1_ratio_opsd": 0.3918,
+          "top1_ratio_sft": 0.3583
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0506,
+          "norm_sft": 0.0812,
+          "norm_diff": 0.0856,
+          "cos_opsd_sft": 0.2225,
+          "top1_ratio_opsd": 0.3124,
+          "top1_ratio_sft": 0.5021,
+          "vocab_proj_opsd": {
+            "newline": 0.00104,
+            "comma": 0.00108,
+            "colon": 0.00138,
+            "amp_space": 0.00058,
+            "U_ungrouped": 0.00106,
+            "ng_ungrouped": 0.00115,
+            "roup_ungrouped": 0.0012
+          },
+          "vocab_proj_sft": {
+            "newline": 0.0009,
+            "comma": 0.00112,
+            "colon": 0.00071,
+            "amp_space": 0.00708,
+            "U_ungrouped": 0.00136,
+            "ng_ungrouped": 0.0011,
+            "roup_ungrouped": 0.0016
+          },
+          "u1_opsd_top_pos": [
+            "垂",
+            "transport",
+            " tik",
+            " optics",
+            " spirituality"
+          ],
+          "u1_opsd_top_neg": [
+            "boljš",
+            "hurst",
+            "特征是",
+            " giornal",
+            "благо"
+          ],
+          "u1_sft_top_pos": [
+            " &",
+            "&",
+            "学习与",
+            "性及",
+            "&r"
+          ],
+          "u1_sft_top_neg": [
+            "trum",
+            "oker",
+            " punc",
+            "梅花",
+            "ordinator"
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.0825,
+          "norm_sft": 0.1381,
+          "norm_diff": 0.1355,
+          "cos_opsd_sft": 0.3297,
+          "top1_ratio_opsd": 0.5,
+          "top1_ratio_sft": 0.5824
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.0542,
+          "norm_sft": 0.0793,
+          "norm_diff": 0.0878,
+          "cos_opsd_sft": 0.1758,
+          "top1_ratio_opsd": 0.3337,
+          "top1_ratio_sft": 0.4932
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.0429,
+          "norm_sft": 0.064,
+          "norm_diff": 0.0717,
+          "cos_opsd_sft": 0.1445,
+          "top1_ratio_opsd": 0.2748,
+          "top1_ratio_sft": 0.4002,
+          "vocab_proj_opsd": {
+            "newline": 0.00051,
+            "comma": 0.00101,
+            "colon": 0.00076,
+            "amp_space": 0.00076,
+            "U_ungrouped": 0.00067,
+            "ng_ungrouped": 0.00085,
+            "roup_ungrouped": 0.0006
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00197,
+            "comma": 0.00165,
+            "colon": 0.00114,
+            "amp_space": 0.00702,
+            "U_ungrouped": 0.00094,
+            "ng_ungrouped": 0.00127,
+            "roup_ungrouped": 0.00122
+          },
+          "u1_opsd_top_pos": [
+            " нев",
+            "乌",
+            "令人",
+            "间的",
+            " pros"
+          ],
+          "u1_opsd_top_neg": [
+            "锦涛",
+            "стви",
+            "านั้น",
+            "edException",
+            "岁那年"
+          ],
+          "u1_sft_top_pos": [
+            " &",
+            "&",
+            "及",
+            "学习与",
+            "＆"
+          ],
+          "u1_sft_top_neg": [
+            "不回",
+            "增强体质",
+            "iau",
+            "alition",
+            "天时"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 21,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0813,
+          "norm_sft": 0.116,
+          "norm_diff": 0.1272,
+          "cos_opsd_sft": 0.2063,
+          "top1_ratio_opsd": 0.5059,
+          "top1_ratio_sft": 0.5243
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0776,
+          "norm_sft": 0.1128,
+          "norm_diff": 0.1268,
+          "cos_opsd_sft": 0.1522,
+          "top1_ratio_opsd": 0.2922,
+          "top1_ratio_sft": 0.3503
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0527,
+          "norm_sft": 0.0754,
+          "norm_diff": 0.0818,
+          "cos_opsd_sft": 0.2217,
+          "top1_ratio_opsd": 0.3068,
+          "top1_ratio_sft": 0.4411,
+          "vocab_proj_opsd": {
+            "newline": 0.00092,
+            "comma": 0.00096,
+            "colon": 0.00111,
+            "amp_space": 0.00094,
+            "U_ungrouped": 0.00125,
+            "ng_ungrouped": 0.00104,
+            "roup_ungrouped": 0.00081
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00108,
+            "comma": 0.00125,
+            "colon": 0.00177,
+            "amp_space": 0.00781,
+            "U_ungrouped": 0.00141,
+            "ng_ungrouped": 0.00128,
+            "roup_ungrouped": 0.00146
+          },
+          "u1_opsd_top_pos": [
+            "عان",
+            "工业协会",
+            " undermin",
+            "解消",
+            " jamin"
+          ],
+          "u1_opsd_top_neg": [
+            "itere",
+            "雪白的",
+            "ptes",
+            " “",
+            "spartner"
+          ],
+          "u1_sft_top_pos": [
+            " &",
+            "&",
+            " (&",
+            "学习与",
+            "&amp"
+          ],
+          "u1_sft_top_neg": [
+            "GG",
+            "trum",
+            "kers",
+            "iare",
+            "GY"
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.0853,
+          "norm_sft": 0.1517,
+          "norm_diff": 0.1519,
+          "cos_opsd_sft": 0.2791,
+          "top1_ratio_opsd": 0.4294,
+          "top1_ratio_sft": 0.3859
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.0585,
+          "norm_sft": 0.0901,
+          "norm_diff": 0.1033,
+          "cos_opsd_sft": 0.0818,
+          "top1_ratio_opsd": 0.4343,
+          "top1_ratio_sft": 0.358
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.0429,
+          "norm_sft": 0.0755,
+          "norm_diff": 0.0797,
+          "cos_opsd_sft": 0.1811,
+          "top1_ratio_opsd": 0.3997,
+          "top1_ratio_sft": 0.5918,
+          "vocab_proj_opsd": {
+            "newline": 0.00086,
+            "comma": 0.00105,
+            "colon": 0.00137,
+            "amp_space": 0.00054,
+            "U_ungrouped": 0.00092,
+            "ng_ungrouped": 0.00064,
+            "roup_ungrouped": 0.00067
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00117,
+            "comma": 0.00067,
+            "colon": 0.00153,
+            "amp_space": 0.00643,
+            "U_ungrouped": 0.00131,
+            "ng_ungrouped": 0.00114,
+            "roup_ungrouped": 0.00096
+          },
+          "u1_opsd_top_pos": [
+            "boljš",
+            "esub",
+            " downlo",
+            " docum",
+            "haupt"
+          ],
+          "u1_opsd_top_neg": [
+            "unge",
+            "垂",
+            " нев",
+            "elle",
+            "decorate"
+          ],
+          "u1_sft_top_pos": [
+            "学习与",
+            " &",
+            "性及",
+            "port",
+            "/screen"
+          ],
+          "u1_sft_top_neg": [
+            " nic",
+            " punc",
+            "ucky",
+            "usher",
+            "模式"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 22,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0845,
+          "norm_sft": 0.125,
+          "norm_diff": 0.1427,
+          "cos_opsd_sft": 0.1137,
+          "top1_ratio_opsd": 0.5121,
+          "top1_ratio_sft": 0.4055
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0742,
+          "norm_sft": 0.1048,
+          "norm_diff": 0.1195,
+          "cos_opsd_sft": 0.141,
+          "top1_ratio_opsd": 0.2148,
+          "top1_ratio_sft": 0.3128
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0477,
+          "norm_sft": 0.0704,
+          "norm_diff": 0.0771,
+          "cos_opsd_sft": 0.1905,
+          "top1_ratio_opsd": 0.2968,
+          "top1_ratio_sft": 0.3937,
+          "vocab_proj_opsd": {
+            "newline": 0.00081,
+            "comma": 0.00101,
+            "colon": 0.0009,
+            "amp_space": 0.0009,
+            "U_ungrouped": 0.00138,
+            "ng_ungrouped": 0.00068,
+            "roup_ungrouped": 0.00073
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00153,
+            "comma": 0.00132,
+            "colon": 0.00158,
+            "amp_space": 0.00895,
+            "U_ungrouped": 0.00163,
+            "ng_ungrouped": 0.00135,
+            "roup_ungrouped": 0.00129
+          },
+          "u1_opsd_top_pos": [
+            "epad",
+            "ächer",
+            "ھر",
+            "nader",
+            "臣"
+          ],
+          "u1_opsd_top_neg": [
+            ".si",
+            " BOTH",
+            " _______,",
+            "zus",
+            "集的"
+          ],
+          "u1_sft_top_pos": [
+            " &",
+            "&",
+            "学习与",
+            " (&",
+            "(&"
+          ],
+          "u1_sft_top_neg": [
+            "aminer",
+            "lator",
+            "trum",
+            "iciens",
+            "صار"
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.0743,
+          "norm_sft": 0.1099,
+          "norm_diff": 0.1202,
+          "cos_opsd_sft": 0.192,
+          "top1_ratio_opsd": 0.2936,
+          "top1_ratio_sft": 0.3803
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.0547,
+          "norm_sft": 0.0892,
+          "norm_diff": 0.0952,
+          "cos_opsd_sft": 0.1937,
+          "top1_ratio_opsd": 0.4738,
+          "top1_ratio_sft": 0.4568
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.0415,
+          "norm_sft": 0.0617,
+          "norm_diff": 0.0681,
+          "cos_opsd_sft": 0.1754,
+          "top1_ratio_opsd": 0.2481,
+          "top1_ratio_sft": 0.4046,
+          "vocab_proj_opsd": {
+            "newline": 0.00069,
+            "comma": 0.00087,
+            "colon": 0.00078,
+            "amp_space": 0.00082,
+            "U_ungrouped": 0.00072,
+            "ng_ungrouped": 0.00089,
+            "roup_ungrouped": 0.00078
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00115,
+            "comma": 0.00119,
+            "colon": 0.00139,
+            "amp_space": 0.00701,
+            "U_ungrouped": 0.00137,
+            "ng_ungrouped": 0.00103,
+            "roup_ungrouped": 0.00093
+          },
+          "u1_opsd_top_pos": [
+            "อยู่น",
+            "عان",
+            "かさ",
+            "方も多い",
+            "annot"
+          ],
+          "u1_opsd_top_neg": [
+            "au",
+            "何为",
+            "emp",
+            "orde",
+            "umpt"
+          ],
+          "u1_sft_top_pos": [
+            "lator",
+            "kers",
+            "parer",
+            "unica",
+            "tease"
+          ],
+          "u1_sft_top_neg": [
+            " &",
+            "&",
+            "学习与",
+            "及",
+            "性及"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 23,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0835,
+          "norm_sft": 0.1229,
+          "norm_diff": 0.1429,
+          "cos_opsd_sft": 0.0813,
+          "top1_ratio_opsd": 0.5575,
+          "top1_ratio_sft": 0.4864
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0738,
+          "norm_sft": 0.1024,
+          "norm_diff": 0.1162,
+          "cos_opsd_sft": 0.1616,
+          "top1_ratio_opsd": 0.1909,
+          "top1_ratio_sft": 0.2828
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0502,
+          "norm_sft": 0.0762,
+          "norm_diff": 0.0821,
+          "cos_opsd_sft": 0.2082,
+          "top1_ratio_opsd": 0.2905,
+          "top1_ratio_sft": 0.4006,
+          "vocab_proj_opsd": {
+            "newline": 0.00078,
+            "comma": 0.00109,
+            "colon": 0.0011,
+            "amp_space": 0.00102,
+            "U_ungrouped": 0.00108,
+            "ng_ungrouped": 0.00065,
+            "roup_ungrouped": 0.00108
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00106,
+            "comma": 0.00161,
+            "colon": 0.00153,
+            "amp_space": 0.01113,
+            "U_ungrouped": 0.00237,
+            "ng_ungrouped": 0.0016,
+            "roup_ungrouped": 0.00205
+          },
+          "u1_opsd_top_pos": [
+            " Grosso",
+            "埠",
+            " Adult",
+            "autom",
+            "amba"
+          ],
+          "u1_opsd_top_neg": [
+            "afir",
+            " cla",
+            " trav",
+            "andr",
+            "_',"
+          ],
+          "u1_sft_top_pos": [
+            " \"**",
+            "斌",
+            "icorn",
+            "\"',",
+            " cong"
+          ],
+          "u1_sft_top_neg": [
+            " &",
+            "&",
+            " (&",
+            "(&",
+            ".&"
+          ]
+        },
+        "self_attn.q_proj": {
+          "norm_opsd": 0.0761,
+          "norm_sft": 0.0907,
+          "norm_diff": 0.1062,
+          "cos_opsd_sft": 0.1985,
+          "top1_ratio_opsd": 0.3856,
+          "top1_ratio_sft": 0.4002
+        },
+        "self_attn.k_proj": {
+          "norm_opsd": 0.0267,
+          "norm_sft": 0.0333,
+          "norm_diff": 0.0384,
+          "cos_opsd_sft": 0.1932,
+          "top1_ratio_opsd": 0.2622,
+          "top1_ratio_sft": 0.2699
+        },
+        "self_attn.v_proj": {
+          "norm_opsd": 0.0248,
+          "norm_sft": 0.0315,
+          "norm_diff": 0.0367,
+          "cos_opsd_sft": 0.1659,
+          "top1_ratio_opsd": 0.1929,
+          "top1_ratio_sft": 0.1823
+        },
+        "self_attn.o_proj": {
+          "norm_opsd": 0.0411,
+          "norm_sft": 0.0572,
+          "norm_diff": 0.0646,
+          "cos_opsd_sft": 0.1685,
+          "top1_ratio_opsd": 0.1986,
+          "top1_ratio_sft": 0.3796,
+          "vocab_proj_opsd": {
+            "newline": 0.00079,
+            "comma": 0.00095,
+            "colon": 0.00069,
+            "amp_space": 0.00093,
+            "U_ungrouped": 0.00091,
+            "ng_ungrouped": 0.00089,
+            "roup_ungrouped": 0.00051
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00149,
+            "comma": 0.00128,
+            "colon": 0.001,
+            "amp_space": 0.00585,
+            "U_ungrouped": 0.0019,
+            "ng_ungrouped": 0.00098,
+            "roup_ungrouped": 0.00135
+          },
+          "u1_opsd_top_pos": [
+            " di",
+            " education",
+            "ready",
+            "教育是",
+            "right"
+          ],
+          "u1_opsd_top_neg": [
+            "ptime",
+            "恰",
+            "anos",
+            " cárcel",
+            " bấy"
+          ],
+          "u1_sft_top_pos": [
+            "学习与",
+            " &",
+            " management",
+            " Port",
+            " learning"
+          ],
+          "u1_sft_top_neg": [
+            "-services",
+            "services",
+            "asaki",
+            "anat",
+            "มิ"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 24,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0813,
+          "norm_sft": 0.1162,
+          "norm_diff": 0.1346,
+          "cos_opsd_sft": 0.1048,
+          "top1_ratio_opsd": 0.5139,
+          "top1_ratio_sft": 0.4299
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0745,
+          "norm_sft": 0.1085,
+          "norm_diff": 0.1236,
+          "cos_opsd_sft": 0.1256,
+          "top1_ratio_opsd": 0.2219,
+          "top1_ratio_sft": 0.3311
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0475,
+          "norm_sft": 0.0699,
+          "norm_diff": 0.0783,
+          "cos_opsd_sft": 0.1535,
+          "top1_ratio_opsd": 0.2692,
+          "top1_ratio_sft": 0.3839,
+          "vocab_proj_opsd": {
+            "newline": 0.00066,
+            "comma": 0.00058,
+            "colon": 0.00148,
+            "amp_space": 0.00117,
+            "U_ungrouped": 0.00124,
+            "ng_ungrouped": 0.00098,
+            "roup_ungrouped": 0.0011
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00146,
+            "comma": 0.00145,
+            "colon": 0.00178,
+            "amp_space": 0.01002,
+            "U_ungrouped": 0.00267,
+            "ng_ungrouped": 0.00106,
+            "roup_ungrouped": 0.00141
+          },
+          "u1_opsd_top_pos": [
+            "history",
+            "History",
+            " history",
+            " History",
+            " HISTORY"
+          ],
+          "u1_opsd_top_neg": [
+            "igm",
+            " Article",
+            "自动",
+            " View",
+            "剪"
+          ],
+          "u1_sft_top_pos": [
+            " &",
+            " learning",
+            "&",
+            " Learning",
+            "学习与"
+          ],
+          "u1_sft_top_neg": [
+            "lator",
+            " conviv",
+            "服务项目",
+            "صار",
+            " تماس"
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.0935,
+          "norm_sft": 0.1269,
+          "norm_diff": 0.157,
+          "cos_opsd_sft": 0.0084,
+          "top1_ratio_opsd": 0.524,
+          "top1_ratio_sft": 0.5139
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.0535,
+          "norm_sft": 0.0697,
+          "norm_diff": 0.0835,
+          "cos_opsd_sft": 0.1011,
+          "top1_ratio_opsd": 0.2554,
+          "top1_ratio_sft": 0.3119
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.0407,
+          "norm_sft": 0.0545,
+          "norm_diff": 0.0652,
+          "cos_opsd_sft": 0.0851,
+          "top1_ratio_opsd": 0.2336,
+          "top1_ratio_sft": 0.2862,
+          "vocab_proj_opsd": {
+            "newline": 0.0007,
+            "comma": 0.00079,
+            "colon": 0.00105,
+            "amp_space": 0.00063,
+            "U_ungrouped": 0.00129,
+            "ng_ungrouped": 0.00072,
+            "roup_ungrouped": 0.00086
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00141,
+            "comma": 0.00129,
+            "colon": 0.00181,
+            "amp_space": 0.00736,
+            "U_ungrouped": 0.00193,
+            "ng_ungrouped": 0.00127,
+            "roup_ungrouped": 0.00119
+          },
+          "u1_opsd_top_pos": [
+            "煮沸",
+            "kowych",
+            "ography",
+            "hurst",
+            "oul"
+          ],
+          "u1_opsd_top_neg": [
+            "udre",
+            " business",
+            "-\"",
+            " inde",
+            "stagram"
+          ],
+          "u1_sft_top_pos": [
+            "知之",
+            "StateException",
+            " lest",
+            " Patr",
+            "viso"
+          ],
+          "u1_sft_top_neg": [
+            " &",
+            "&",
+            "(&",
+            " (&",
+            "及"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 25,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0796,
+          "norm_sft": 0.1131,
+          "norm_diff": 0.132,
+          "cos_opsd_sft": 0.0938,
+          "top1_ratio_opsd": 0.4792,
+          "top1_ratio_sft": 0.4105
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0753,
+          "norm_sft": 0.1061,
+          "norm_diff": 0.1222,
+          "cos_opsd_sft": 0.126,
+          "top1_ratio_opsd": 0.2741,
+          "top1_ratio_sft": 0.3447
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0511,
+          "norm_sft": 0.0731,
+          "norm_diff": 0.0855,
+          "cos_opsd_sft": 0.0854,
+          "top1_ratio_opsd": 0.3632,
+          "top1_ratio_sft": 0.3843,
+          "vocab_proj_opsd": {
+            "newline": 0.00077,
+            "comma": 0.00093,
+            "colon": 0.00112,
+            "amp_space": 0.00124,
+            "U_ungrouped": 0.00214,
+            "ng_ungrouped": 0.00063,
+            "roup_ungrouped": 0.00086
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00136,
+            "comma": 0.00159,
+            "colon": 0.00152,
+            "amp_space": 0.00548,
+            "U_ungrouped": 0.00382,
+            "ng_ungrouped": 0.00108,
+            "roup_ungrouped": 0.00203
+          },
+          "u1_opsd_top_pos": [
+            "Basket",
+            "谓",
+            "iction",
+            " adult",
+            " Basket"
+          ],
+          "u1_opsd_top_neg": [
+            " web",
+            " cod",
+            "研究",
+            "web",
+            " studi"
+          ],
+          "u1_sft_top_pos": [
+            " learning",
+            " Learning",
+            "Learning",
+            "learning",
+            "的学习"
+          ],
+          "u1_sft_top_neg": [
+            "lator",
+            "rach",
+            "anat",
+            "服务项目",
+            "-comments"
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.0811,
+          "norm_sft": 0.1111,
+          "norm_diff": 0.1308,
+          "cos_opsd_sft": 0.1009,
+          "top1_ratio_opsd": 0.495,
+          "top1_ratio_sft": 0.5067
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.0625,
+          "norm_sft": 0.0836,
+          "norm_diff": 0.0988,
+          "cos_opsd_sft": 0.1087,
+          "top1_ratio_opsd": 0.6492,
+          "top1_ratio_sft": 0.6978
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.0403,
+          "norm_sft": 0.0598,
+          "norm_diff": 0.067,
+          "cos_opsd_sft": 0.1465,
+          "top1_ratio_opsd": 0.225,
+          "top1_ratio_sft": 0.4215,
+          "vocab_proj_opsd": {
+            "newline": 0.00062,
+            "comma": 0.00088,
+            "colon": 0.00083,
+            "amp_space": 0.00075,
+            "U_ungrouped": 0.00124,
+            "ng_ungrouped": 0.00063,
+            "roup_ungrouped": 0.00066
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00151,
+            "comma": 0.00165,
+            "colon": 0.0015,
+            "amp_space": 0.00809,
+            "U_ungrouped": 0.00172,
+            "ng_ungrouped": 0.0009,
+            "roup_ungrouped": 0.00104
+          },
+          "u1_opsd_top_pos": [
+            " Promise",
+            "教育的",
+            "гал",
+            "教育与",
+            " edu"
+          ],
+          "u1_opsd_top_neg": [
+            "rogen",
+            "生活垃圾",
+            "ennes",
+            "itta",
+            "不当"
+          ],
+          "u1_sft_top_pos": [
+            "เครือ",
+            "chestra",
+            "صار",
+            "服务项目",
+            " tarif"
+          ],
+          "u1_sft_top_neg": [
+            " &",
+            " learning",
+            " Learning",
+            "学习与",
+            " Port"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 26,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0832,
+          "norm_sft": 0.1052,
+          "norm_diff": 0.1273,
+          "cos_opsd_sft": 0.1025,
+          "top1_ratio_opsd": 0.526,
+          "top1_ratio_sft": 0.5143
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0739,
+          "norm_sft": 0.1037,
+          "norm_diff": 0.1172,
+          "cos_opsd_sft": 0.1617,
+          "top1_ratio_opsd": 0.256,
+          "top1_ratio_sft": 0.2769
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0505,
+          "norm_sft": 0.0737,
+          "norm_diff": 0.0872,
+          "cos_opsd_sft": 0.0517,
+          "top1_ratio_opsd": 0.3382,
+          "top1_ratio_sft": 0.2951,
+          "vocab_proj_opsd": {
+            "newline": 0.00107,
+            "comma": 0.00106,
+            "colon": 0.00117,
+            "amp_space": 0.00105,
+            "U_ungrouped": 0.00206,
+            "ng_ungrouped": 0.00064,
+            "roup_ungrouped": 0.00102
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00094,
+            "comma": 0.00121,
+            "colon": 0.00131,
+            "amp_space": 0.00746,
+            "U_ungrouped": 0.00438,
+            "ng_ungrouped": 0.0009,
+            "roup_ungrouped": 0.00198
+          },
+          "u1_opsd_top_pos": [
+            "ography",
+            "永和",
+            "eggi",
+            "ortal",
+            " Moi"
+          ],
+          "u1_opsd_top_neg": [
+            "ographics",
+            " Exhib",
+            "rans",
+            " uptime",
+            "strup"
+          ],
+          "u1_sft_top_pos": [
+            "osoph",
+            "iph",
+            "-items",
+            "laş",
+            "avis"
+          ],
+          "u1_sft_top_neg": [
+            " &",
+            "&",
+            " Port",
+            "Port",
+            "管理与"
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.0744,
+          "norm_sft": 0.1023,
+          "norm_diff": 0.1185,
+          "cos_opsd_sft": 0.1288,
+          "top1_ratio_opsd": 0.404,
+          "top1_ratio_sft": 0.469
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.051,
+          "norm_sft": 0.0683,
+          "norm_diff": 0.08,
+          "cos_opsd_sft": 0.1228,
+          "top1_ratio_opsd": 0.4021,
+          "top1_ratio_sft": 0.4022
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.0405,
+          "norm_sft": 0.0587,
+          "norm_diff": 0.0661,
+          "cos_opsd_sft": 0.1516,
+          "top1_ratio_opsd": 0.199,
+          "top1_ratio_sft": 0.3352,
+          "vocab_proj_opsd": {
+            "newline": 0.0007,
+            "comma": 0.00092,
+            "colon": 0.00127,
+            "amp_space": 0.00055,
+            "U_ungrouped": 0.00091,
+            "ng_ungrouped": 0.00099,
+            "roup_ungrouped": 0.00072
+          },
+          "vocab_proj_sft": {
+            "newline": 0.0011,
+            "comma": 0.00082,
+            "colon": 0.00156,
+            "amp_space": 0.00627,
+            "U_ungrouped": 0.00279,
+            "ng_ungrouped": 0.00102,
+            "roup_ungrouped": 0.0009
+          },
+          "u1_opsd_top_pos": [
+            "ders",
+            "mans",
+            "лли",
+            "วล",
+            "vals"
+          ],
+          "u1_opsd_top_neg": [
+            "Web",
+            "研究",
+            " web",
+            "研究和",
+            " Web"
+          ],
+          "u1_sft_top_pos": [
+            "azor",
+            "乐团",
+            " explic",
+            "rach",
+            "平台"
+          ],
+          "u1_sft_top_neg": [
+            " &",
+            " learning",
+            " Learning",
+            "学习与",
+            "Learning"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 27,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.1083,
+          "norm_sft": 0.1734,
+          "norm_diff": 0.1978,
+          "cos_opsd_sft": 0.0714,
+          "top1_ratio_opsd": 0.7278,
+          "top1_ratio_sft": 0.6705
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0761,
+          "norm_sft": 0.1039,
+          "norm_diff": 0.1214,
+          "cos_opsd_sft": 0.1158,
+          "top1_ratio_opsd": 0.3057,
+          "top1_ratio_sft": 0.2774
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0491,
+          "norm_sft": 0.0791,
+          "norm_diff": 0.0859,
+          "cos_opsd_sft": 0.1668,
+          "top1_ratio_opsd": 0.3524,
+          "top1_ratio_sft": 0.3781,
+          "vocab_proj_opsd": {
+            "newline": 0.00103,
+            "comma": 0.00122,
+            "colon": 0.0011,
+            "amp_space": 0.00163,
+            "U_ungrouped": 0.0027,
+            "ng_ungrouped": 0.00116,
+            "roup_ungrouped": 0.00171
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00108,
+            "comma": 0.0012,
+            "colon": 0.00262,
+            "amp_space": 0.00896,
+            "U_ungrouped": 0.00287,
+            "ng_ungrouped": 0.00145,
+            "roup_ungrouped": 0.00331
+          },
+          "u1_opsd_top_pos": [
+            " Browser",
+            "恶",
+            "B",
+            "Browser",
+            "合"
+          ],
+          "u1_opsd_top_neg": [
+            "rief",
+            "empa",
+            "agnol",
+            "elle",
+            "intValue"
+          ],
+          "u1_sft_top_pos": [
+            "work",
+            "Education",
+            " work",
+            " Education",
+            "-work"
+          ],
+          "u1_sft_top_neg": [
+            "学生学习",
+            "学生",
+            "Student",
+            "学生的学习",
+            " Student"
+          ]
+        },
+        "self_attn.q_proj": {
+          "norm_opsd": 0.072,
+          "norm_sft": 0.0928,
+          "norm_diff": 0.1062,
+          "cos_opsd_sft": 0.1892,
+          "top1_ratio_opsd": 0.2943,
+          "top1_ratio_sft": 0.3095
+        },
+        "self_attn.k_proj": {
+          "norm_opsd": 0.0257,
+          "norm_sft": 0.031,
+          "norm_diff": 0.0381,
+          "cos_opsd_sft": 0.1091,
+          "top1_ratio_opsd": 0.206,
+          "top1_ratio_sft": 0.2464
+        },
+        "self_attn.v_proj": {
+          "norm_opsd": 0.0285,
+          "norm_sft": 0.0446,
+          "norm_diff": 0.0503,
+          "cos_opsd_sft": 0.1065,
+          "top1_ratio_opsd": 0.4614,
+          "top1_ratio_sft": 0.4743
+        },
+        "self_attn.o_proj": {
+          "norm_opsd": 0.0416,
+          "norm_sft": 0.0635,
+          "norm_diff": 0.0702,
+          "cos_opsd_sft": 0.1585,
+          "top1_ratio_opsd": 0.2104,
+          "top1_ratio_sft": 0.3056,
+          "vocab_proj_opsd": {
+            "newline": 0.00058,
+            "comma": 0.00091,
+            "colon": 0.00115,
+            "amp_space": 0.00122,
+            "U_ungrouped": 0.00211,
+            "ng_ungrouped": 0.00061,
+            "roup_ungrouped": 0.001
+          },
+          "vocab_proj_sft": {
+            "newline": 0.0012,
+            "comma": 0.00091,
+            "colon": 0.00156,
+            "amp_space": 0.00866,
+            "U_ungrouped": 0.00475,
+            "ng_ungrouped": 0.00094,
+            "roup_ungrouped": 0.00182
+          },
+          "u1_opsd_top_pos": [
+            "榜",
+            "dings",
+            "喱",
+            " iota",
+            "écie"
+          ],
+          "u1_opsd_top_neg": [
+            " Work",
+            "工作",
+            " work",
+            "Work",
+            "work"
+          ],
+          "u1_sft_top_pos": [
+            "Grupo",
+            " Grupo",
+            " hiburan",
+            " entertained",
+            "娱"
+          ],
+          "u1_sft_top_neg": [
+            " &",
+            "&",
+            " Port",
+            ".&",
+            "(&"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 28,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.097,
+          "norm_sft": 0.1391,
+          "norm_diff": 0.1643,
+          "cos_opsd_sft": 0.0654,
+          "top1_ratio_opsd": 0.7353,
+          "top1_ratio_sft": 0.6432
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0787,
+          "norm_sft": 0.1108,
+          "norm_diff": 0.1273,
+          "cos_opsd_sft": 0.1307,
+          "top1_ratio_opsd": 0.4153,
+          "top1_ratio_sft": 0.4004
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0478,
+          "norm_sft": 0.0819,
+          "norm_diff": 0.0828,
+          "cos_opsd_sft": 0.2738,
+          "top1_ratio_opsd": 0.2142,
+          "top1_ratio_sft": 0.3841,
+          "vocab_proj_opsd": {
+            "newline": 0.00101,
+            "comma": 0.00108,
+            "colon": 0.00161,
+            "amp_space": 0.00097,
+            "U_ungrouped": 0.00183,
+            "ng_ungrouped": 0.00087,
+            "roup_ungrouped": 0.00186
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00169,
+            "comma": 0.00228,
+            "colon": 0.00397,
+            "amp_space": 0.00935,
+            "U_ungrouped": 0.00339,
+            "ng_ungrouped": 0.00166,
+            "roup_ungrouped": 0.00385
+          },
+          "u1_opsd_top_pos": [
+            "edy",
+            "Education",
+            "同",
+            "engin",
+            "eli"
+          ],
+          "u1_opsd_top_neg": [
+            "ایش",
+            "rances",
+            "Facebook",
+            "ț",
+            "ADOW"
+          ],
+          "u1_sft_top_pos": [
+            "Port",
+            "题",
+            " Port",
+            " administer",
+            "款"
+          ],
+          "u1_sft_top_neg": [
+            "grup",
+            "Grupo",
+            " Groupe",
+            "Grup",
+            " Grup"
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.0866,
+          "norm_sft": 0.1351,
+          "norm_diff": 0.1566,
+          "cos_opsd_sft": 0.052,
+          "top1_ratio_opsd": 0.4822,
+          "top1_ratio_sft": 0.4745
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.0595,
+          "norm_sft": 0.0806,
+          "norm_diff": 0.0947,
+          "cos_opsd_sft": 0.1111,
+          "top1_ratio_opsd": 0.5761,
+          "top1_ratio_sft": 0.5297
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.0416,
+          "norm_sft": 0.0595,
+          "norm_diff": 0.068,
+          "cos_opsd_sft": 0.1302,
+          "top1_ratio_opsd": 0.2608,
+          "top1_ratio_sft": 0.2045,
+          "vocab_proj_opsd": {
+            "newline": 0.00058,
+            "comma": 0.00071,
+            "colon": 0.0009,
+            "amp_space": 0.00086,
+            "U_ungrouped": 0.0023,
+            "ng_ungrouped": 0.00066,
+            "roup_ungrouped": 0.00114
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00131,
+            "comma": 0.00142,
+            "colon": 0.00262,
+            "amp_space": 0.00669,
+            "U_ungrouped": 0.00521,
+            "ng_ungrouped": 0.00113,
+            "roup_ungrouped": 0.00169
+          },
+          "u1_opsd_top_pos": [
+            "的一种",
+            "iris",
+            "quelle",
+            "LLL",
+            "春来"
+          ],
+          "u1_opsd_top_neg": [
+            "anzia",
+            "YouTube",
+            "�",
+            "还表示",
+            "ugh"
+          ],
+          "u1_sft_top_pos": [
+            " group",
+            "grup",
+            "Group",
+            "group",
+            " Group"
+          ],
+          "u1_sft_top_neg": [
+            " Port",
+            " &",
+            "work",
+            " work",
+            "&"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 29,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0785,
+          "norm_sft": 0.1095,
+          "norm_diff": 0.1261,
+          "cos_opsd_sft": 0.1322,
+          "top1_ratio_opsd": 0.5323,
+          "top1_ratio_sft": 0.4588
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0812,
+          "norm_sft": 0.1079,
+          "norm_diff": 0.1235,
+          "cos_opsd_sft": 0.1696,
+          "top1_ratio_opsd": 0.4479,
+          "top1_ratio_sft": 0.3533
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0494,
+          "norm_sft": 0.0779,
+          "norm_diff": 0.0822,
+          "cos_opsd_sft": 0.2296,
+          "top1_ratio_opsd": 0.2677,
+          "top1_ratio_sft": 0.3496,
+          "vocab_proj_opsd": {
+            "newline": 0.00136,
+            "comma": 0.00085,
+            "colon": 0.00159,
+            "amp_space": 0.00112,
+            "U_ungrouped": 0.00176,
+            "ng_ungrouped": 0.00121,
+            "roup_ungrouped": 0.00143
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00168,
+            "comma": 0.00166,
+            "colon": 0.00364,
+            "amp_space": 0.01223,
+            "U_ungrouped": 0.00409,
+            "ng_ungrouped": 0.00193,
+            "roup_ungrouped": 0.0022
+          },
+          "u1_opsd_top_pos": [
+            "Ch",
+            "ipers",
+            "ุ่ม",
+            "ajer",
+            "owns"
+          ],
+          "u1_opsd_top_neg": [
+            "History",
+            "Education",
+            " education",
+            "PDF",
+            " history"
+          ],
+          "u1_sft_top_pos": [
+            " &",
+            "&",
+            " learning",
+            " Learning",
+            "学习与"
+          ],
+          "u1_sft_top_neg": [
+            " platform",
+            "platform",
+            "平台",
+            "平台和",
+            "Platform"
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.0786,
+          "norm_sft": 0.1155,
+          "norm_diff": 0.1326,
+          "cos_opsd_sft": 0.1061,
+          "top1_ratio_opsd": 0.4948,
+          "top1_ratio_sft": 0.5411
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.0528,
+          "norm_sft": 0.078,
+          "norm_diff": 0.0908,
+          "cos_opsd_sft": 0.078,
+          "top1_ratio_opsd": 0.5261,
+          "top1_ratio_sft": 0.4607
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.0413,
+          "norm_sft": 0.0622,
+          "norm_diff": 0.0701,
+          "cos_opsd_sft": 0.1282,
+          "top1_ratio_opsd": 0.2719,
+          "top1_ratio_sft": 0.2486,
+          "vocab_proj_opsd": {
+            "newline": 0.00072,
+            "comma": 0.00074,
+            "colon": 0.00113,
+            "amp_space": 0.00072,
+            "U_ungrouped": 0.00232,
+            "ng_ungrouped": 0.00084,
+            "roup_ungrouped": 0.00119
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00083,
+            "comma": 0.00198,
+            "colon": 0.00273,
+            "amp_space": 0.0083,
+            "U_ungrouped": 0.00524,
+            "ng_ungrouped": 0.00114,
+            "roup_ungrouped": 0.00191
+          },
+          "u1_opsd_top_pos": [
+            "YouTube",
+            " YouTube",
+            "ья",
+            "政协副主席",
+            "其事"
+          ],
+          "u1_opsd_top_neg": [
+            "History",
+            " education",
+            " edge",
+            " history",
+            "Education"
+          ],
+          "u1_sft_top_pos": [
+            "Education",
+            "Grupo",
+            " Grupo",
+            "Grup",
+            " group"
+          ],
+          "u1_sft_top_neg": [
+            " &",
+            " learning",
+            " Learning",
+            "&",
+            " Port"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 30,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0756,
+          "norm_sft": 0.1049,
+          "norm_diff": 0.1219,
+          "cos_opsd_sft": 0.1172,
+          "top1_ratio_opsd": 0.4345,
+          "top1_ratio_sft": 0.4412
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0777,
+          "norm_sft": 0.1146,
+          "norm_diff": 0.1288,
+          "cos_opsd_sft": 0.1449,
+          "top1_ratio_opsd": 0.4555,
+          "top1_ratio_sft": 0.528
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0469,
+          "norm_sft": 0.0819,
+          "norm_diff": 0.0852,
+          "cos_opsd_sft": 0.2146,
+          "top1_ratio_opsd": 0.2115,
+          "top1_ratio_sft": 0.3551,
+          "vocab_proj_opsd": {
+            "newline": 0.00087,
+            "comma": 0.00131,
+            "colon": 0.00245,
+            "amp_space": 0.00142,
+            "U_ungrouped": 0.00212,
+            "ng_ungrouped": 0.00118,
+            "roup_ungrouped": 0.00069
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00286,
+            "comma": 0.00419,
+            "colon": 0.00891,
+            "amp_space": 0.01101,
+            "U_ungrouped": 0.00677,
+            "ng_ungrouped": 0.0022,
+            "roup_ungrouped": 0.00116
+          },
+          "u1_opsd_top_pos": [
+            "Business",
+            " Business",
+            "Basket",
+            "Programming",
+            " business"
+          ],
+          "u1_opsd_top_neg": [
+            " edge",
+            "edge",
+            "Edge",
+            " Edge",
+            "_edge"
+          ],
+          "u1_sft_top_pos": [
+            " Learning",
+            " &",
+            "Learning",
+            " learning",
+            "learning"
+          ],
+          "u1_sft_top_neg": [
+            ":",
+            " history",
+            "：",
+            "rio",
+            "h"
+          ]
+        },
+        "linear_attn.in_proj_qkv": {
+          "norm_opsd": 0.085,
+          "norm_sft": 0.1265,
+          "norm_diff": 0.1387,
+          "cos_opsd_sft": 0.1858,
+          "top1_ratio_opsd": 0.428,
+          "top1_ratio_sft": 0.4056
+        },
+        "linear_attn.in_proj_z": {
+          "norm_opsd": 0.0633,
+          "norm_sft": 0.081,
+          "norm_diff": 0.0916,
+          "cos_opsd_sft": 0.2119,
+          "top1_ratio_opsd": 0.5539,
+          "top1_ratio_sft": 0.6317
+        },
+        "linear_attn.out_proj": {
+          "norm_opsd": 0.0436,
+          "norm_sft": 0.0584,
+          "norm_diff": 0.0673,
+          "cos_opsd_sft": 0.1546,
+          "top1_ratio_opsd": 0.2563,
+          "top1_ratio_sft": 0.2701,
+          "vocab_proj_opsd": {
+            "newline": 0.0011,
+            "comma": 0.00078,
+            "colon": 0.00115,
+            "amp_space": 0.00062,
+            "U_ungrouped": 0.0026,
+            "ng_ungrouped": 0.00087,
+            "roup_ungrouped": 0.00117
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00164,
+            "comma": 0.00185,
+            "colon": 0.00274,
+            "amp_space": 0.00864,
+            "U_ungrouped": 0.00298,
+            "ng_ungrouped": 0.00109,
+            "roup_ungrouped": 0.00245
+          },
+          "u1_opsd_top_pos": [
+            "Programming",
+            "programming",
+            " Programming",
+            "Basket",
+            "ware"
+          ],
+          "u1_opsd_top_neg": [
+            "ugh",
+            "总署",
+            " итогам",
+            "ERP",
+            "的设计风格"
+          ],
+          "u1_sft_top_pos": [
+            " &",
+            "&",
+            ".&",
+            "＆",
+            "(&"
+          ],
+          "u1_sft_top_neg": [
+            " platform",
+            "Platform",
+            "平台和",
+            "platform",
+            "平台"
+          ]
+        }
+      }
+    },
+    {
+      "layer": 31,
+      "modules": {
+        "mlp.gate_proj": {
+          "norm_opsd": 0.0699,
+          "norm_sft": 0.0969,
+          "norm_diff": 0.1085,
+          "cos_opsd_sft": 0.1846,
+          "top1_ratio_opsd": 0.2914,
+          "top1_ratio_sft": 0.3719
+        },
+        "mlp.up_proj": {
+          "norm_opsd": 0.0688,
+          "norm_sft": 0.096,
+          "norm_diff": 0.1076,
+          "cos_opsd_sft": 0.1805,
+          "top1_ratio_opsd": 0.2044,
+          "top1_ratio_sft": 0.2646
+        },
+        "mlp.down_proj": {
+          "norm_opsd": 0.0395,
+          "norm_sft": 0.0699,
+          "norm_diff": 0.0726,
+          "cos_opsd_sft": 0.2143,
+          "top1_ratio_opsd": 0.3239,
+          "top1_ratio_sft": 0.4614,
+          "vocab_proj_opsd": {
+            "newline": 0.00688,
+            "comma": 0.00844,
+            "colon": 0.01194,
+            "amp_space": 0.00455,
+            "U_ungrouped": 0.011,
+            "ng_ungrouped": 0.00154,
+            "roup_ungrouped": 0.00291
+          },
+          "vocab_proj_sft": {
+            "newline": 0.01778,
+            "comma": 0.022,
+            "colon": 0.03715,
+            "amp_space": 0.01268,
+            "U_ungrouped": 0.02243,
+            "ng_ungrouped": 0.0018,
+            "roup_ungrouped": 0.00788
+          },
+          "u1_opsd_top_pos": [
+            " Leverkus",
+            "angeb",
+            "挖掘公司",
+            "芝加",
+            "引人入"
+          ],
+          "u1_opsd_top_neg": [
+            "B",
+            "U",
+            "S",
+            "P",
+            "A"
+          ],
+          "u1_sft_top_pos": [
+            ":",
+            " ",
+            ".",
+            ",",
+            "-"
+          ],
+          "u1_sft_top_neg": [
+            " .**",
+            "**–",
+            "–and",
+            "อย่างไม่ถูกต้อง",
+            " **.**"
+          ]
+        },
+        "self_attn.q_proj": {
+          "norm_opsd": 0.0743,
+          "norm_sft": 0.1075,
+          "norm_diff": 0.1241,
+          "cos_opsd_sft": 0.1054,
+          "top1_ratio_opsd": 0.4379,
+          "top1_ratio_sft": 0.5316
+        },
+        "self_attn.k_proj": {
+          "norm_opsd": 0.0248,
+          "norm_sft": 0.0387,
+          "norm_diff": 0.0448,
+          "cos_opsd_sft": 0.0574,
+          "top1_ratio_opsd": 0.2003,
+          "top1_ratio_sft": 0.3061
+        },
+        "self_attn.v_proj": {
+          "norm_opsd": 0.0284,
+          "norm_sft": 0.0408,
+          "norm_diff": 0.0459,
+          "cos_opsd_sft": 0.1539,
+          "top1_ratio_opsd": 0.4043,
+          "top1_ratio_sft": 0.3874
+        },
+        "self_attn.o_proj": {
+          "norm_opsd": 0.0415,
+          "norm_sft": 0.0654,
+          "norm_diff": 0.0733,
+          "cos_opsd_sft": 0.1133,
+          "top1_ratio_opsd": 0.4179,
+          "top1_ratio_sft": 0.4458,
+          "vocab_proj_opsd": {
+            "newline": 0.00213,
+            "comma": 0.00282,
+            "colon": 0.00367,
+            "amp_space": 0.00213,
+            "U_ungrouped": 0.00178,
+            "ng_ungrouped": 0.00076,
+            "roup_ungrouped": 0.00094
+          },
+          "vocab_proj_sft": {
+            "newline": 0.00359,
+            "comma": 0.00557,
+            "colon": 0.00882,
+            "amp_space": 0.01184,
+            "U_ungrouped": 0.00504,
+            "ng_ungrouped": 0.00129,
+            "roup_ungrouped": 0.00142
+          },
+          "u1_opsd_top_pos": [
+            "History",
+            "history",
+            " history",
+            " histories",
+            "-history"
+          ],
+          "u1_opsd_top_neg": [
+            ":",
+            " Ch",
+            ",",
+            " (",
+            " School"
+          ],
+          "u1_sft_top_pos": [
+            " &",
+            " learning",
+            " Learning",
+            "learning",
+            "学习与"
+          ],
+          "u1_sft_top_neg": [
+            ":",
+            ",",
+            " ",
+            ".",
+            " platform"
+          ]
+        }
+      }
+    }
+  ]
+}

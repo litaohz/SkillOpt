@@ -1,0 +1,25 @@
+model,category,edited_scope,dataset,runs,cases,initial_precision_pct,recall_pct,notes
+qwen3_5-4b-sft2000,Baseline,0,v1,run1,45,79.23,68.26,Base 2000-step SFT checkpoint
+qwen3_5-4b-sft2000,Baseline,0,v2.1,run1,16,58.33,45.71,Giant-bucket over-merging baseline
+qwen3_5-4b-opsd-astra-step150,Trained Parent,21.2M,v1,run1,45,85.48,72.52,On-Policy Self-Distillation (150 steps)
+qwen3_5-4b-opsd-astra-step150,Trained Parent,21.2M,v2.1,run1,16,69.09,59.36,On-Policy Self-Distillation (150 steps)
+qwen3_5-4b-sft-astra-step150,Trained Parent,21.2M,v1,run1,45,79.55,64.19,Standard SFT on 1200 Astra answers (-8.33pp v1 Recall drop)
+qwen3_5-4b-sft-astra-step150,Trained Parent,21.2M,v2.1,run1,16,65.08,60.25,Standard SFT on 1200 Astra answers
+idea-a-64neurons-sft2000,Single-Model Weight Edit (0 Train),64 cols/layer (0.69%),v1,run1,45,79.79,69.70,Scale top-64 newline/comma MLP cols in L26-31 of sft2000 (+1.44pp v1 R)
+idea-a-64neurons-sft2000,Single-Model Weight Edit (0 Train),64 cols/layer (0.69%),v2.1,run1,16,61.29,57.93,Scale top-64 newline/comma MLP cols in L26-31 of sft2000 (+12.22pp v2.1 R!)
+idea-c-qnorm135-sft2000,Single-Model Weight Edit (0 Train),4 scalars (L07-19),v1,run1,45,79.89,70.37,Scale Full-Attn q_norm * 1.35x on sft2000 (+2.11pp v1 R)
+idea-c-qnorm135-sft2000,Single-Model Weight Edit (0 Train),4 scalars (L07-19),v2.1,run1,16,59.26,51.96,Scale Full-Attn q_norm * 1.35x on sft2000 (+6.25pp v2.1 R)
+idea-b1-sigma1-zero,Single-Model Weight Edit (0 Train),1 scalar/mod (L18-31),v1,run1,45,80.34,65.74,Zero top-1 singular value of d_SFT in L18-31 (+1.55pp v1 R)
+idea-b1-sigma1-zero,Single-Model Weight Edit (0 Train),1 scalar/mod (L18-31),v2.1,run1,16,65.57,58.69,Zero top-1 singular value of d_SFT in L18-31
+idea-b2-sigma12-zero,Single-Model Weight Edit (0 Train),2 scalars/mod (L18-31),v1,run1,45,80.66,67.63,Zero top-2 singular values of d_SFT in L18-31 (+3.44pp v1 R)
+idea-b2-sigma12-zero,Single-Model Weight Edit (0 Train),2 scalars/mod (L18-31),v2.1,run1,16,66.13,60.25,Zero top-2 singular values of d_SFT in L18-31 (preserves 60.25% v2.1 R)
+surgical-graft-14,Dual-Adapter Surgery (0 Train),Layer cut @ L14,v1,run1,45,83.33,68.37,Zero-training L00-13 Astra-SFT + L14-31 OPSD
+surgical-graft-14,Dual-Adapter Surgery (0 Train),Layer cut @ L14,v2.1,run1,16,66.10,60.33,Zero-training L00-13 Astra-SFT + L14-31 OPSD
+surgical-graft-18,Dual-Adapter Surgery (0 Train),Layer cut @ L18,v1,run1,45,82.87,69.19,Zero-training L00-17 Astra-SFT + L18-31 OPSD (+5.00pp v1 R vs SFT)
+surgical-graft-18,Dual-Adapter Surgery (0 Train),Layer cut @ L18,v2.1,run1,16,69.84,64.52,Zero-training L00-17 Astra-SFT + L18-31 OPSD (+5.16pp v2.1 R vs OPSD!)
+surgical-graft-22,Dual-Adapter Surgery (0 Train),Layer cut @ L22,v1,run1,45,80.77,68.26,Zero-training L00-21 Astra-SFT + L22-31 OPSD
+surgical-graft-22,Dual-Adapter Surgery (0 Train),Layer cut @ L22,v2.1,run1,16,65.62,61.82,Zero-training L00-21 Astra-SFT + L22-31 OPSD
+surgical-rev-graft-18,Causal Control (0 Train),Reverse cut @ L18,v1,run1,45,82.78,67.48,Reverse control L00-17 OPSD + L18-31 Astra-SFT (-5.04pp v1 R vs OPSD)
+surgical-rev-graft-18,Causal Control (0 Train),Reverse cut @ L18,v2.1,run1,16,67.86,59.81,Reverse control L00-17 OPSD + L18-31 Astra-SFT
+surgical-svd-blend-50-50,Dual-Adapter Surgery (0 Train),Rank-16 QR-SVD,v1,run1,45,82.61,69.37,Zero-training Rank-16 Spectral Consensus (0.5 OPSD + 0.5 Astra-SFT)
+surgical-svd-blend-50-50,Dual-Adapter Surgery (0 Train),Rank-16 QR-SVD,v2.1,run1,16,72.41,64.42,Zero-training Rank-16 Spectral Consensus (highest P 72.41% & R 64.42%)
