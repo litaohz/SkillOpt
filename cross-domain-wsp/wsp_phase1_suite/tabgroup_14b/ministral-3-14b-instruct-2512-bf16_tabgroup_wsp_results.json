@@ -1,0 +1,182 @@
+{
+  "Step100 (Standard)": {
+    "v1": {
+      "init_p": 80.23,
+      "recall": 65.0,
+      "f1": 71.81,
+      "ARI": 70.31,
+      "NMI": 88.22,
+      "avg_gen_tokens": 64.1
+    },
+    "v2.1": {
+      "init_p": 70.77,
+      "recall": 64.72,
+      "f1": 67.61,
+      "ARI": 79.8,
+      "NMI": 88.65,
+      "avg_gen_tokens": 109.1
+    }
+  },
+  "Step100 + WSP_Valve (Idea_A, L34-39)": {
+    "v1": {
+      "init_p": 80.79,
+      "recall": 65.44,
+      "f1": 72.31,
+      "ARI": 70.48,
+      "NMI": 88.29,
+      "avg_gen_tokens": 63.9
+    },
+    "v2.1": {
+      "init_p": 70.77,
+      "recall": 64.72,
+      "f1": 67.61,
+      "ARI": 79.8,
+      "NMI": 88.65,
+      "avg_gen_tokens": 109.5
+    }
+  },
+  "Step100 + WSP_MidAttn (Idea_C, L09-24 q_proj*1.25x)": {
+    "v1": {
+      "init_p": 79.31,
+      "recall": 63.19,
+      "f1": 70.34,
+      "ARI": 69.45,
+      "NMI": 87.93,
+      "avg_gen_tokens": 63.9
+    },
+    "v2.1": {
+      "init_p": 68.25,
+      "recall": 60.86,
+      "f1": 64.35,
+      "ARI": 78.76,
+      "NMI": 87.61,
+      "avg_gen_tokens": 108.8
+    }
+  },
+  "Step100 + WSP_SpecNull (L22+ sigma1=0)": {
+    "v1": {
+      "init_p": 80.77,
+      "recall": 67.81,
+      "f1": 73.73,
+      "ARI": 72.57,
+      "NMI": 88.87,
+      "avg_gen_tokens": 64.7
+    },
+    "v2.1": {
+      "init_p": 71.88,
+      "recall": 64.4,
+      "f1": 67.94,
+      "ARI": 79.57,
+      "NMI": 88.28,
+      "avg_gen_tokens": 109.1
+    }
+  },
+  "Step100 + WSP_SpecNull_Late (L28+ sigma1=0)": {
+    "v1": {
+      "init_p": 81.11,
+      "recall": 67.19,
+      "f1": 73.49,
+      "ARI": 71.1,
+      "NMI": 88.42,
+      "avg_gen_tokens": 64.6
+    },
+    "v2.1": {
+      "init_p": 70.31,
+      "recall": 63.68,
+      "f1": 66.83,
+      "ARI": 79.48,
+      "NMI": 88.3,
+      "avg_gen_tokens": 108.8
+    }
+  },
+  "Step150 (Standard)": {
+    "v1": {
+      "init_p": 81.18,
+      "recall": 63.41,
+      "f1": 71.2,
+      "ARI": 68.04,
+      "NMI": 87.25,
+      "avg_gen_tokens": 64.2
+    },
+    "v2.1": {
+      "init_p": 67.74,
+      "recall": 61.12,
+      "f1": 64.26,
+      "ARI": 77.68,
+      "NMI": 87.59,
+      "avg_gen_tokens": 109.5
+    }
+  },
+  "Step150 + WSP_Valve (Idea_A, L34-39)": {
+    "v1": {
+      "init_p": 81.18,
+      "recall": 63.19,
+      "f1": 71.06,
+      "ARI": 68.08,
+      "NMI": 87.32,
+      "avg_gen_tokens": 64.2
+    },
+    "v2.1": {
+      "init_p": 68.85,
+      "recall": 61.12,
+      "f1": 64.75,
+      "ARI": 77.06,
+      "NMI": 87.3,
+      "avg_gen_tokens": 109.2
+    }
+  },
+  "Step150 + WSP_MidAttn (Idea_C, L09-24 q_proj*1.25x)": {
+    "v1": {
+      "init_p": 81.07,
+      "recall": 62.85,
+      "f1": 70.81,
+      "ARI": 67.68,
+      "NMI": 87.1,
+      "avg_gen_tokens": 64.1
+    },
+    "v2.1": {
+      "init_p": 65.57,
+      "recall": 57.99,
+      "f1": 61.55,
+      "ARI": 75.75,
+      "NMI": 86.11,
+      "avg_gen_tokens": 109.1
+    }
+  },
+  "Step150 + WSP_SpecNull (L22+ sigma1=0)": {
+    "v1": {
+      "init_p": 81.92,
+      "recall": 66.41,
+      "f1": 73.35,
+      "ARI": 72.99,
+      "NMI": 88.93,
+      "avg_gen_tokens": 64.9
+    },
+    "v2.1": {
+      "init_p": 69.35,
+      "recall": 62.53,
+      "f1": 65.77,
+      "ARI": 78.17,
+      "NMI": 87.88,
+      "avg_gen_tokens": 110.2
+    }
+  },
+  "Step150 + WSP_SpecNull_Late (L28+ sigma1=0)": {
+    "v1": {
+      "init_p": 81.71,
+      "recall": 65.93,
+      "f1": 72.98,
+      "ARI": 72.54,
+      "NMI": 88.73,
+      "avg_gen_tokens": 64.7
+    },
+    "v2.1": {
+      "init_p": 70.49,
+      "recall": 62.16,
+      "f1": 66.06,
+      "ARI": 78.25,
+      "NMI": 87.91,
+      "avg_gen_tokens": 109.2
+    }
+  }
+}
