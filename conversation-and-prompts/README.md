@@ -1,0 +1,22 @@
+# Sparks of Weight-Space Programming & TabGroup LoRA Surgery — Complete Session Package
+
+- **Interactive Conversation & Prompt Viewer**: Open `conversation_viewer.html` in any browser to browse the full 28-turn research dialogue, parallel mechanism Q&A, distilled skills, system prompt & memory, and `gpt-6.1-sol` weight-space diagnosis in one page.
+- **`01-conversation/`**:
+  - `main_dialogue_clean.md` — Clean chronological transcript of all 28 user & assistant turns.
+  - `main_full_trace_with_tools.md` — Complete trace including all 90+ tool calls and execution outputs.
+  - `side_session_graft18_explained.md` — Parallel thread explaining the `L0-17 SFT + L18-31 OPSD` layerwise grafting mechanism.
+  - `context_compaction_summary.md` — Context compaction summary generated at 502K tokens.
+  - `messages_full_dump.jsonl` — Full structured JSONL export of all session messages and tool calls.
+- **`02-prompts-and-memory/`**:
+  - `full_system_prompt.txt` — Complete system prompt and active research memory.
+  - `01_core_agent_instructions_and_skills_index.md` — Core agent instructions and available skills catalog.
+  - `02_memory_and_user_profile.md` — Active research memory and methodology standards.
+  - `03_gpt_6_1_sol_diagnosis_prompt_script.py` & `04_gpt_6_1_sol_diagnosis_response.md` — Exact prompt script and 13K-char mechanistic diagnosis from `gpt-6.1-sol (effort=max)`.
+- **`03-skills/`**:
+  - `on-policy-distillation/SKILL.md` & `references/weight-space-surgery.md` — Reusable skill and mathematical recipes distilled from this research.
+  - `paper-reading/SKILL.md` — Paper reading & mechanism verification skill.
+- **`04-research-artifacts/`**:
+  - `paper/main.pdf` & `paper/main.tex` — Compiled 6-page paper PDF and LaTeX source.
+  - `paper/figures/` — High-resolution Figure 1 (6-module weight-space anatomy heatmap) and Figure 2 (valve neuron spectrum & v2.1 Pareto/F1 progression).
+  - `index.html` — Interactive weight-space & case-level visualization dashboard.
+  - `FINAL_REPORT.md` & `weight-space-surgery-r1.csv` — Final metrics table and evaluation summary.

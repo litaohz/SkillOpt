@@ -5,6 +5,8 @@
 
 [![Paper PDF](https://img.shields.io/badge/Paper-PDF%20(6%20Pages)-ef4444?style=for-the-badge)](./Weight_Space_Surgery_Paper.pdf)
 [![LaTeX Source](https://img.shields.io/badge/LaTeX-main.tex-3b82f6?style=for-the-badge)](./paper/main.tex)
+[![GPT-6.1-sol WSP Prompts & Code](https://img.shields.io/badge/GPT--6.1--sol-WSP%20Prompts%20%26%20Code-f59e0b?style=for-the-badge)](./gpt-6.1-sol-wsp/)
+[![Full Conversation & Prompts](https://img.shields.io/badge/Archive-Conversation%20%26%20Prompts-06b6d4?style=for-the-badge)](./conversation-and-prompts/)
 [![Interactive Dashboard](https://img.shields.io/badge/Dashboard-index.html-10b981?style=for-the-badge)](./index.html)
 [![Chinese Report](https://img.shields.io/badge/Report-FINAL__REPORT.md-8b5cf6?style=for-the-badge)](./FINAL_REPORT.md)
 
@@ -69,7 +71,20 @@ Each Transformer layer in `Qwen3.5-4B` contains 6 core functional sub-modules (3
 
 ---
 
-## 5. Repository Structure
+## 5. `gpt-6.1-sol` Weight-Space Programming (WSP) Code & Prompts
+
+All code, 32-layer QR-SVD & vocabulary-projection scripts, exact rendered prompts sent to `gpt-6.1-sol` (`reasoning.effort = "xhigh"` / `"max"`), and verbatim mechanistic diagnosis responses are archived in [`./gpt-6.1-sol-wsp/`](./gpt-6.1-sol-wsp/):
+- [`gpt-6.1-sol-wsp/build_dossier.py`](./gpt-6.1-sol-wsp/build_dossier.py) — Exact 32-layer $\times$ 248-module Gauge-Invariant Reduced QR-SVD and RMSNorm-Unembedding projection script (`weight_space_dossier.json`).
+- [`gpt-6.1-sol-wsp/find_single_neurons.py`](./gpt-6.1-sol-wsp/find_single_neurons.py) — Projects `mlp.down_proj` columns ($[2560, 9216]$) onto $v_{\text{newline}} - v_{\text{comma}}$ to locate the 64 green split-valve and 64 red merge-valve neurons (**Idea A**).
+- [`gpt-6.1-sol-wsp/query_sol_xhigh.py`](./gpt-6.1-sol-wsp/query_sol_xhigh.py) & [`gpt-6.1-sol-wsp/query_sol_max_stream.py`](./gpt-6.1-sol-wsp/query_sol_max_stream.py) — Exact Python scripts used to query `gpt-6.1-sol` with the 32-layer weight-space SVD & vocabulary projection tables.
+- [`gpt-6.1-sol-wsp/rendered_prompt_to_gpt_6_1_sol_xhigh.md`](./gpt-6.1-sol-wsp/rendered_prompt_to_gpt_6_1_sol_xhigh.md) & [`gpt-6.1-sol-wsp/rendered_prompt_to_gpt_6_1_sol_248modules.md`](./gpt-6.1-sol-wsp/rendered_prompt_to_gpt_6_1_sol_248modules.md) — Exact rendered prompt text and tables fed to `gpt-6.1-sol`.
+- [`gpt-6.1-sol-wsp/sol_weight_diagnosis_response.md`](./gpt-6.1-sol-wsp/sol_weight_diagnosis_response.md) — Full 13.7 KB mechanistic diagnosis & 3 surgical edit formulations from `gpt-6.1-sol`.
+- [`conversation-and-prompts/`](./conversation-and-prompts/) — Complete 28-turn research dialogue, agent system prompts, distilled skills (`on-policy-distillation/references/weight-space-surgery.md`), and interactive HTML session viewer (`conversation_viewer.html`).
+- [`cross-domain-wsp/`](./cross-domain-wsp/) — Multi-architecture (`Qwen3.5-2B/4B/9B`, `Ministral-3-8B/14B`) and multi-domain (`GSM8K`, `SciKnowEval`, `BioRED`, `Re-DocRED`, `PHEE`, `Browser TabGroup`) Weight-Space Programming suite and 9-page extended paper.
+
+---
+
+## 6. Repository Structure
 
 ```text
 .
@@ -78,16 +93,25 @@ Each Transformer layer in `Qwen3.5-4B` contains 6 core functional sub-modules (3
 ├── index.html                           # Self-contained interactive dark-theme weight-space dashboard
 ├── weight-space-surgery-r1.csv          # Complete Run-1 metrics table across all 14 models
 ├── weight_space_dossier.json            # Full 32-layer x 248-module QR-SVD & unembedding projection data
+├── gpt-6.1-sol-wsp/                     # [CORE] GPT-6.1-sol WSP scripts, rendered prompts, and diagnosis
+│   ├── build_dossier.py                 # 32-layer x 248-module QR-SVD + Unembedding projection builder
+│   ├── find_single_neurons.py           # Single-neuron newline-vs-comma valve locator (Idea A)
+│   ├── query_sol_xhigh.py               # Exact script querying gpt-6.1-sol (effort=xhigh)
+│   ├── query_sol_max_stream.py          # 248-module streaming query script (effort=max)
+│   ├── rendered_prompt_to_gpt_6_1_sol_xhigh.md      # Rendered prompt text & 32-layer table
+│   ├── rendered_prompt_to_gpt_6_1_sol_248modules.md # Full 248-module rendered prompt
+│   └── sol_weight_diagnosis_response.md # Verbatim 13.7 KB mechanistic diagnosis from gpt-6.1-sol
+├── conversation-and-prompts/            # Full research conversation, system prompts & skills archive
+│   ├── conversation_viewer.html         # Single-file interactive viewer (Dialogue + Prompts + Skills + Sol)
+│   ├── 01-conversation/                 # Clean & full tool-call transcripts
+│   ├── 02-prompts-and-memory/           # Core agent instructions, memory & GPT-6.1-sol prompt/response
+│   └── 03-skills/                       # Distilled on-policy-distillation & weight-space-surgery skills
+├── cross-domain-wsp/                    # Cross-domain (GSM8K, SciKnowEval, BioRED, DocRED, PHEE, TabGroup) WSP
 ├── paper/
 │   ├── main.tex                         # LaTeX source code
 │   ├── main.pdf                         # Compiled PDF
 │   └── figures/                         # High-res PDF & PNG figures (Fig 1 Heatmap, Fig 2 Dual-Valve & F1)
-├── scripts/
-│   ├── run_abc_all.py                   # Single-model weight surgeries (Idea A 64-col valve, Idea B sigma=0, Idea C q_norm)
-│   ├── run_surgical_probe2.py           # 32-layer QR-SVD & RMSNorm-Unembedding projection diagnostic script
-│   ├── launch_surgical_r1.py            # Dual-adapter surgical synthesis (Graft-14/18/22, Rev-Graft-18, SVD-Blend)
-│   ├── train_opsd_astra_4b.py           # On-Policy Self-Distillation (OPSD) trainer
-│   └── train_opd_9b_to_4b.py            # White-Box On-Policy Distillation (OPD) trainer
+├── scripts/                             # Complete collection of anatomy, probe, surgery & evaluation scripts
 └── data/
     ├── abc_full_r1_results.json         # Per-case outputs & exact scores for all 61 evaluation sessions
     └── complete_viz_bundle.json         # Complete neuron polarity spectrum & case diff bundle
